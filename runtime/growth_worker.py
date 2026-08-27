@@ -10,6 +10,8 @@ import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 
+from growth_review import ReviewError, publish_proposal_with_pending_review
+
 ROOT = Path("/home/masataka/projects/butlerx")
 STATE = ROOT / "state"
 QUEUE, DONE, FAILED = STATE / "growth_queue", STATE / "growth_queue/done", STATE / "growth_queue/failed"
@@ -188,9 +190,12 @@ def process(path):
     except ValueError as e: return record_failure(event, "proposal_validation_failure", str(e), False)
     target = event["target"]
     proposal = {"schema_version": 1, "status": "proposal", "proposal_is_not_authority": True, "target": target, "event_id": event["event_id"], "observed_at": inputs["observation"]["observed_at"], "created_at": now(), "risk_classes": sorted(set(inputs["policy"].get("proposal_risk_classes", [])) & RISKS), "analysis": analysis}
-    proposal_path = PROPOSALS / f"{target}.json"; atomic(proposal_path, proposal)
-    atomic(PROPOSALS / "history" / f"{event['event_id']}.json", proposal)
-    result = {"completed_at": now(), "target": target, "event": event, "status": "proposal_saved", "proposal": str(proposal_path.relative_to(ROOT)), "model": MODEL, "phase": "local-observation-to-proposal"}
+    try:
+        review, review_created = publish_proposal_with_pending_review(ROOT, proposal)
+    except ReviewError as e:
+        return record_failure(event, "proposal_review_failure", str(e), False)
+    proposal_path = PROPOSALS / f"{target}.json"
+    result = {"completed_at": now(), "target": target, "event": event, "status": "proposal_saved", "proposal": str(proposal_path.relative_to(ROOT)), "review": f"state/growth_reviews/{review['event_id']}.json", "review_created": review_created, "model": MODEL, "phase": "local-observation-to-pending-review"}
     atomic(RESULTS / f"{event['event_id']}.json", result); atomic(LAST, result)
     MEMORY.mkdir(parents=True, exist_ok=True); (MEMORY / f"{target}.md").write_text(f"# ButlerX growth record: {target}\n\n更新: {now()}\n\n{analysis['summary']}\n", encoding="utf-8")
     return result

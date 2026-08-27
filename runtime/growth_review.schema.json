@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ButlerX growth proposal review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "event_id", "target", "proposal_hash", "status", "created_at", "reviewed_at", "reviewed_by", "reason"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "event_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "target": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "proposal_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "status": {"enum": ["pending", "approved", "rejected"]},
+    "created_at": {"type": "string"},
+    "reviewed_at": {"type": ["string", "null"]},
+    "reviewed_by": {"type": ["string", "null"]},
+    "reason": {"type": ["string", "null"], "maxLength": 2000}
+  }
+}
