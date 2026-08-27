@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
@@ -109,13 +110,21 @@ def atomic(path, data):
     )
     tmp.replace(path)
 
+def capability_fingerprint(target, info):
+    payload = {"target": target, "capability": info}
+    encoded = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
+    return hashlib.sha256(encoded).hexdigest()
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--target", required=True)
+    ap.add_argument("--event-id")
     args = ap.parse_args()
 
     if not re.fullmatch(r"[A-Za-z0-9._-]+", args.target):
         raise SystemExit("invalid target name")
+    if args.event_id and not re.fullmatch(r"[A-Za-z0-9._-]+", args.event_id):
+        raise SystemExit("invalid event id")
 
     caps = load(CAPS)
     info = caps.get("targets", {}).get(args.target)
@@ -139,21 +148,6 @@ def main():
     # 重要:
     # eventやAIからremote commandを受け取らない。
     # 実行内容はこのファイル内のREMOTE_PYだけ。
-    p = subprocess.run(
-        [
-            "/usr/bin/ssh",
-            "-o", "BatchMode=yes",
-            "-o", "ConnectTimeout=8",
-            identity,
-            "python3", "-"
-        ],
-        input=REMOTE_PY,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        timeout=45,
-    )
-
     result = {
         "observed_at": now(),
         "target": args.target,
@@ -161,22 +155,53 @@ def main():
         "trust": info.get("trust"),
         "access": access,
         "probe_kind": "fixed-read-only-linux-v1",
+        "event_id": args.event_id,
+        "capability_fingerprint": capability_fingerprint(args.target, info),
         "ok": False,
     }
 
-    if p.returncode != 0:
-        result["error"] = (
-            p.stderr.strip() or f"ssh rc={p.returncode}"
+    try:
+        p = subprocess.run(
+            [
+                "/usr/bin/ssh",
+                "-o", "BatchMode=yes",
+                "-o", "ConnectTimeout=8",
+                identity,
+                "python3", "-"
+            ],
+            input=REMOTE_PY,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=45,
         )
+    except subprocess.TimeoutExpired:
+        result["failure"] = {
+            "code": "ssh_timeout",
+            "scope": "observation_transport",
+            "detail": "fixed probe timed out; target health is unknown",
+        }
+        OUTDIR.mkdir(parents=True, exist_ok=True)
+        atomic(OUTDIR / f"{args.target}.json", result)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        raise SystemExit(1)
+
+    if p.returncode != 0:
+        result["failure"] = {
+            "code": "ssh_unavailable",
+            "scope": "observation_transport",
+            "detail": (p.stderr.strip() or f"ssh rc={p.returncode}")[:2000],
+        }
     else:
         try:
             result["observation"] = json.loads(p.stdout)
             result["ok"] = True
         except Exception as e:
-            result["error"] = (
-                f"invalid probe output: {e!r}"
-            )
-            result["raw_stdout"] = p.stdout[:4000]
+            result["failure"] = {
+                "code": "malformed_probe_output",
+                "scope": "probe_protocol",
+                "detail": f"invalid fixed-probe output: {type(e).__name__}",
+            }
 
     OUTDIR.mkdir(parents=True, exist_ok=True)
     atomic(

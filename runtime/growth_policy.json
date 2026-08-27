@@ -79,6 +79,10 @@
   "proposal_constraints": {
     "allow_commands": false,
     "allow_implementation_steps": false,
-    "allow_policy_or_registry_mutation": false
+    "allow_policy_or_registry_mutation": false,
+    "approval_required_at_or_above": "medium",
+    "kind_risk_floor": {
+      "restart_policy": "medium"
+    }
   }
 }

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
@@ -36,6 +37,12 @@ def atomic_write(path, data):
         encoding="utf-8",
     )
     tmp.replace(path)
+
+
+def capability_fingerprint(target, info):
+    payload = {"target": target, "capability": info}
+    encoded = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
+    return hashlib.sha256(encoded).hexdigest()
 
 
 def main():
@@ -147,6 +154,7 @@ def main():
         "allowed": current["allowed"],
         "forbidden": current["forbidden"],
         "previous": previous,
+        "capability_fingerprint": capability_fingerprint(args.target, current),
         "reason":
             "新しい管理能力が登録されたため、"
             "対象を理解して安全な運用能力へ変換する。"
@@ -162,7 +170,7 @@ def main():
     # by a local, read-only proposal worker.  Neither subprocess receives
     # event-provided remote commands and neither applies a proposal.
     probe = subprocess.run(
-        [sys.executable, str(PROBE), "--target", args.target],
+        [sys.executable, str(PROBE), "--target", args.target, "--event-id", event["event_id"]],
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -176,7 +184,7 @@ def main():
         print("FIXED_PROBE_OK")
 
     worker = subprocess.run(
-        [sys.executable, str(WORKER), "--once"],
+        [sys.executable, str(WORKER), "--event-id", event["event_id"]],
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
