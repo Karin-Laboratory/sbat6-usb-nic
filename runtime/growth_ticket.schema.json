@@ -13,7 +13,7 @@
     "review_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "created_at": {"type": "string"},
     "created_by": {"type": "string"},
-    "status": {"enum": ["ready", "cancelled"]},
+    "status": {"enum": ["ready", "implemented", "verified", "cancelled"]},
     "selected_proposal_ids": {
       "type": "array",
       "minItems": 1,

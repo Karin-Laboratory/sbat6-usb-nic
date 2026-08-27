@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ButlerX human implementation completion record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "ticket_id", "event_id", "target", "proposal_hash",
+    "review_hash", "approved_item_ids", "status", "implemented", "verification",
+    "cancelled", "implementation_is_human_authorized",
+    "implementation_record_is_not_execution_authority"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "ticket_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "event_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "target": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "proposal_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "review_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "approved_item_ids": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^p-[0-9a-f]{16}$"}
+    },
+    "status": {"enum": ["implemented", "verified", "cancelled"]},
+    "implemented": {"type": ["object", "null"]},
+    "verification": {"type": ["object", "null"]},
+    "cancelled": {"type": ["object", "null"]},
+    "implementation_is_human_authorized": {"const": true},
+    "implementation_record_is_not_execution_authority": {"const": true}
+  }
+}

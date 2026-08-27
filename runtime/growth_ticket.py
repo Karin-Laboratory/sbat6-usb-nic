@@ -28,7 +28,7 @@ def validate_ticket(ticket):
     }
     if not isinstance(ticket, dict) or set(ticket) != required or ticket.get("schema_version") != 1:
         raise TicketError("ticket does not match closed schema")
-    if ticket.get("status") not in {"ready", "cancelled"}:
+    if ticket.get("status") not in {"ready", "implemented", "verified", "cancelled"}:
         raise TicketError("invalid ticket status")
     if ticket.get("implementation_ticket_is_not_execution_authority") is not True or ticket.get("approval_is_not_execution_permission") is not True:
         raise TicketError("ticket authority boundary is missing")
