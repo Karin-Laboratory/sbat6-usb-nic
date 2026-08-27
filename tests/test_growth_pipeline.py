@@ -23,7 +23,7 @@ def event(event_id="event-1"):
     }
 
 
-def proposal(event_id="event-1", risk="low"):
+def proposal(event_id="event-1", risk="low", count=1):
     return {
         "schema_version": 1, "status": "proposal", "proposal_is_not_authority": True,
         "target": "venue", "event_id": event_id, "observed_at": "2026-08-27T00:00:00+09:00",
@@ -32,7 +32,7 @@ def proposal(event_id="event-1", risk="low"):
         "analysis": {"summary": "fixture", "known_facts": [], "knowledge_gaps": [], "proposals": [{
             "kind": "health_check", "name": "fixture", "reason": "fixture", "risk": risk,
             "requires_approval": risk != "low", "validation": ["accepted_by_code"],
-        }]},
+        } for _ in range(count)]},
     }
 
 
@@ -134,38 +134,44 @@ class TicketTests(unittest.TestCase):
     def tearDown(self):
         self.temp.cleanup()
 
-    def prepare(self, risk="low", status="pending"):
-        value = proposal(risk=risk)
+    def prepare(self, risk="low", count=1):
+        value = proposal(risk=risk, count=count)
         publish_proposal_with_pending_review(self.root, value)
-        if status != "pending":
-            transition_review(self.root, "event-1", status, "tester", "fixture decision")
-        return value
+        stored = load_json(self.root / "state/growth_proposals/history/event-1.json")
+        return stored
 
     def test_pending_and_rejected_cannot_create_ticket(self):
-        self.prepare()
+        value = self.prepare(); proposal_id = value["analysis"]["proposals"][0]["proposal_id"]
         with self.assertRaises(TicketError):
-            create_ticket(self.root, "event-1", "tester")
-        transition_review(self.root, "event-1", "rejected", "tester", "reject")
+            create_ticket(self.root, "event-1", "tester", [proposal_id])
+        transition_review(self.root, "event-1", proposal_id, "rejected", "tester", "reject")
         with self.assertRaises(TicketError):
-            create_ticket(self.root, "event-1", "tester")
+            create_ticket(self.root, "event-1", "tester", [proposal_id])
 
     def test_approved_creates_non_executing_ticket(self):
-        value = self.prepare(status="approved")
-        ticket, created = create_ticket(self.root, "event-1", "tester")
+        value = self.prepare(count=3); ids = [item["proposal_id"] for item in value["analysis"]["proposals"]]
+        transition_review(self.root, "event-1", ids[0], "approved", "tester", "approve one")
+        transition_review(self.root, "event-1", ids[1], "rejected", "tester", "reject one")
+        ticket, created = create_ticket(self.root, "event-1", "tester", [ids[0]])
         self.assertTrue(created)
         self.assertEqual(ticket["status"], "ready")
-        self.assertEqual(ticket["approved_proposal_items"], value["analysis"]["proposals"])
+        self.assertEqual(ticket["selected_proposal_ids"], [ids[0]])
+        self.assertEqual(ticket["approved_proposal_items"], [value["analysis"]["proposals"][0]])
+        self.assertNotIn(ids[1], ticket["selected_proposal_ids"]); self.assertNotIn(ids[2], ticket["selected_proposal_ids"])
+        all_ticket, all_created = create_ticket(self.root, "event-1", "tester", all_approved=True)
+        self.assertFalse(all_created); self.assertEqual(all_ticket["selected_proposal_ids"], [ids[0]])
         self.assertTrue(ticket["implementation_ticket_is_not_execution_authority"])
         self.assertNotIn("command", ticket)
 
     def test_prohibited_cannot_create_ticket(self):
-        value = self.prepare(risk="prohibited")
+        value = self.prepare(risk="prohibited"); proposal_id = value["analysis"]["proposals"][0]["proposal_id"]
         review_path = self.root / "state/growth_reviews/event-1.json"
         review = json.loads(review_path.read_text())
-        review.update(status="approved", reviewed_at="2026-08-27T01:00:00+09:00", reviewed_by="tamper", reason="tamper")
+        review["items"][proposal_id].update(status="approved", reviewed_at="2026-08-27T01:00:00+09:00", reviewed_by="tamper", reason="tamper")
+        review["aggregate_status"] = "reviewed"
         review_path.write_text(json.dumps(review))
         with self.assertRaises(TicketError):
-            create_ticket(self.root, "event-1", "tester")
+            create_ticket(self.root, "event-1", "tester", [proposal_id])
 
     def test_ticket_module_has_no_execution_engine(self):
         source = (Path(__file__).parents[1] / "runtime/growth_ticket.py").read_text(encoding="utf-8")

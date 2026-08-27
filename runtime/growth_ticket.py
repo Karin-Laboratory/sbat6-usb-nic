@@ -11,9 +11,8 @@ from growth_review import (
     load_json,
     now,
     object_hash,
-    proposal_is_prohibited,
     read_audit,
-    validate_review,
+    validate_review_binding,
 )
 
 
@@ -24,7 +23,7 @@ class TicketError(RuntimeError):
 def validate_ticket(ticket):
     required = {
         "schema_version", "ticket_id", "event_id", "target", "proposal_hash", "review_hash",
-        "created_at", "created_by", "status", "approved_proposal_items",
+        "created_at", "created_by", "status", "selected_proposal_ids", "approved_proposal_items",
         "implementation_ticket_is_not_execution_authority", "approval_is_not_execution_permission",
     }
     if not isinstance(ticket, dict) or set(ticket) != required or ticket.get("schema_version") != 1:
@@ -33,44 +32,65 @@ def validate_ticket(ticket):
         raise TicketError("invalid ticket status")
     if ticket.get("implementation_ticket_is_not_execution_authority") is not True or ticket.get("approval_is_not_execution_permission") is not True:
         raise TicketError("ticket authority boundary is missing")
-    if not isinstance(ticket.get("approved_proposal_items"), list):
+    selected = ticket.get("selected_proposal_ids")
+    items = ticket.get("approved_proposal_items")
+    if not isinstance(selected, list) or not selected or len(selected) != len(set(selected)):
+        raise TicketError("ticket item selection is invalid")
+    if not isinstance(items, list) or [item.get("proposal_id") for item in items if isinstance(item, dict)] != selected:
         raise TicketError("ticket proposal items are malformed")
+    if any(item.get("risk") == "prohibited" for item in items): raise TicketError("ticket contains prohibited item")
     return ticket
 
 
-def create_ticket(root, event_id, actor):
+def create_ticket(root, event_id, actor, proposal_ids=None, all_approved=False):
     if not isinstance(actor, str) or not actor.strip():
         raise TicketError("ticket creator is required")
     try:
         proposal = load_current_proposal(root, event_id)
-        review = validate_review(load_json(root / "state/growth_reviews" / f"{event_id}.json"))
+        review = validate_review_binding(load_json(root / "state/growth_reviews" / f"{event_id}.json"), proposal)
     except ReviewError as exc:
         raise TicketError(str(exc)) from exc
     proposal_hash = canonical_hash(proposal)
-    if review["event_id"] != event_id or review["target"] != proposal["target"] or review["proposal_hash"] != proposal_hash:
-        raise TicketError("review/proposal binding mismatch")
-    if review["status"] != "approved":
-        raise TicketError("implementation ticket requires an approved review")
-    if proposal_is_prohibited(proposal):
-        raise TicketError("prohibited proposals cannot become implementation tickets")
+    if not isinstance(proposal_ids, (list, tuple, type(None))): raise TicketError("proposal item selection must be a list")
+    proposal_items = {item["proposal_id"]: item for item in proposal["analysis"]["proposals"]}
+    if all_approved and proposal_ids:
+        raise TicketError("choose explicit items or all approved, not both")
+    if all_approved:
+        selected_ids = [item["proposal_id"] for item in proposal["analysis"]["proposals"] if review["items"][item["proposal_id"]]["status"] == "approved"]
+    else:
+        selected_ids = list(dict.fromkeys(proposal_ids or []))
+    if not selected_ids:
+        raise TicketError("select at least one approved proposal item")
+    if any(proposal_id not in proposal_items or proposal_id not in review["items"] for proposal_id in selected_ids):
+        raise TicketError("unknown proposal item selected")
+    for proposal_id in selected_ids:
+        item, decision = proposal_items[proposal_id], review["items"][proposal_id]
+        if decision["item_hash"] != item["item_hash"] or decision["status"] != "approved":
+            raise TicketError("only hash-bound approved items may enter a ticket")
+        if item["risk"] == "prohibited":
+            raise TicketError("prohibited proposal items cannot become implementation tickets")
     try:
-        audited = any(
-            row.get("event_id") == event_id and row.get("proposal_hash") == proposal_hash
-            and row.get("new_status") == "approved" and row.get("actor") == review["reviewed_by"]
-            and row.get("reason") == review["reason"]
-            for row in read_audit(root)
-        )
+        audit = read_audit(root)
     except ReviewError as exc:
         raise TicketError(str(exc)) from exc
-    if not audited:
-        raise TicketError("approved review has no matching valid audit record")
+    for proposal_id in selected_ids:
+        decision, item = review["items"][proposal_id], proposal_items[proposal_id]
+        audited = any(
+            row.get("event_id") == event_id and row.get("proposal_hash") == proposal_hash
+            and row.get("proposal_id") == proposal_id and row.get("item_hash") == item["item_hash"]
+            and row.get("new_status") == "approved" and row.get("actor") == decision["reviewed_by"]
+            and row.get("human_review_reason") == decision["reason"] for row in audit
+        )
+        if not audited: raise TicketError(f"approved item has no matching valid audit record: {proposal_id}")
     review_hash = object_hash(review)
-    ticket_id = f"growth-{event_id}-{proposal_hash[:12]}"
+    selection_hash = object_hash(selected_ids)
+    ticket_id = f"growth-{event_id}-{selection_hash[:12]}"
     ticket = {
         "schema_version": 1, "ticket_id": ticket_id, "event_id": event_id,
         "target": proposal["target"], "proposal_hash": proposal_hash,
         "review_hash": review_hash, "created_at": now(), "created_by": actor.strip(),
-        "status": "ready", "approved_proposal_items": proposal["analysis"]["proposals"],
+        "status": "ready", "selected_proposal_ids": selected_ids,
+        "approved_proposal_items": [proposal_items[proposal_id] for proposal_id in selected_ids],
         "implementation_ticket_is_not_execution_authority": True,
         "approval_is_not_execution_permission": True,
     }

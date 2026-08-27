@@ -128,7 +128,7 @@ def existing_pending_proposal(root, event):
         return None
     if (
         proposal["target"] != event["target"] or review["target"] != event["target"]
-        or review["status"] != "pending" or review["proposal_hash"] != canonical_hash(proposal)
+        or review["aggregate_status"] != "pending" or review["proposal_hash"] != canonical_hash(proposal)
     ):
         return None
     return proposal
