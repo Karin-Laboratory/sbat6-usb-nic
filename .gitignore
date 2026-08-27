@@ -1,0 +1,22 @@
+# Runtime state and operational logs are local, mutable evidence; never commit them.
+state/
+logs/
+inbox/
+outbox/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.bak-*
+
+# Credentials and private key material must remain outside version control.
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.token
+*.secret
+.env
+.env.*
+**/credentials*
+**/session*

@@ -1,0 +1,8 @@
+{
+  "patrol_interval_seconds": 10,
+  "self_inspection_interval_seconds": 60,
+  "codex_enabled": true,
+  "discord_enabled": false,
+  "curiosity_enabled": true,
+  "curiosity_interval_seconds": 10
+}

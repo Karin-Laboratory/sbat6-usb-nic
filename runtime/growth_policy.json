@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "trust_profiles": {
+    "observe-only": {
+      "allowed": [
+        "inspect",
+        "read-logs",
+        "health-check"
+      ],
+      "forbidden": [
+        "edit-config",
+        "restart-services",
+        "network-change",
+        "storage-destructive",
+        "credential-change"
+      ]
+    },
+    "full-maintenance": {
+      "allowed": [
+        "inspect",
+        "read-logs",
+        "backup",
+        "edit-config",
+        "restart-services",
+        "deploy",
+        "health-check",
+        "create-guard"
+      ],
+      "forbidden": [
+        "network-topology-change",
+        "storage-destructive"
+      ]
+    },
+    "restricted-engine-room": {
+      "allowed": [
+        "narrow-approved-observation"
+      ],
+      "forbidden": [
+        "general-root",
+        "unrestricted-ssh",
+        "credential-install",
+        "network-change",
+        "storage-destructive"
+      ]
+    }
+  },
+  "protected_targets": {
+    "z4g4": "restricted-engine-room"
+  },
+  "growth_control": {
+    "mode": "discover-and-propose-only",
+    "ai_direct_remote_access": false,
+    "auto_apply": false,
+    "auto_privilege_expansion": false,
+    "require_explicit_policy_for_actions": true,
+    "fixed_probe_only": true,
+    "proposal_is_not_authority": true,
+    "max_observation_age_seconds": 86400
+  },
+  "proposal_risk_classes": [
+    "informational",
+    "low",
+    "medium",
+    "high",
+    "prohibited"
+  ],
+  "prohibited_proposal_patterns": [
+    "privilege expansion",
+    "new ssh key",
+    "ssh key distribution",
+    "firewall relaxation",
+    "protected target general root",
+    "destructive storage operation",
+    "network topology change",
+    "policy relaxation",
+    "sandbox escape",
+    "sandbox disable"
+  ],
+  "proposal_constraints": {
+    "allow_commands": false,
+    "allow_implementation_steps": false,
+    "allow_policy_or_registry_mutation": false
+  }
+}

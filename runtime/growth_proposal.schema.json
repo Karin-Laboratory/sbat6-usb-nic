@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ButlerX growth proposal model response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["summary", "known_facts", "knowledge_gaps", "proposals"],
+  "properties": {
+    "summary": {"type": "string", "maxLength": 2000},
+    "known_facts": {
+      "type": "array",
+      "maxItems": 30,
+      "items": {"type": "string", "maxLength": 800}
+    },
+    "knowledge_gaps": {
+      "type": "array",
+      "maxItems": 30,
+      "items": {"type": "string", "maxLength": 800}
+    },
+    "proposals": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "name", "reason", "risk", "requires_approval"],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": ["health_check", "guard_gap", "runbook", "estate_record", "observation_gap", "restart_policy", "other"]
+          },
+          "name": {"type": "string", "maxLength": 160},
+          "reason": {"type": "string", "maxLength": 1200},
+          "risk": {"type": "string", "enum": ["informational", "low", "medium", "high", "prohibited"]},
+          "requires_approval": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}
