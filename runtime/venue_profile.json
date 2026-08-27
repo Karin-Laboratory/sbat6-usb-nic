@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "target": "venue",
+  "role": "kitchen-terminal",
+  "profile_is_observation_policy_not_authority": true,
+  "implementation_origin": {
+    "ticket_id": "growth-venue-ops-e2e-20260827-1-af5fca71571f",
+    "approved_proposal_ids": [
+      "p-b1cd2bb27e3b32ba",
+      "p-d9e0e31f748ed346",
+      "p-e6e1448a80412438",
+      "p-c24aa9de6d57a2c7",
+      "p-146e9c16ae7767d5",
+      "p-0529958a9e9bf345"
+    ],
+    "excluded_rejected_proposal_ids": ["p-ea0ed845e918e28b"]
+  },
+  "service_inventory": {
+    "venue-kiosk.service": {
+      "purpose": "Kitchen display session and Chromium kiosk",
+      "expected_listeners": [9222],
+      "dependencies": ["graphical display", "touch input", "audio playback", "nginx.service"]
+    },
+    "venue-latest-tbs-news.service": {
+      "purpose": "Resolve and serve the current TBS News video",
+      "expected_listeners": [8091],
+      "dependencies": ["network", "writable news cache"]
+    },
+    "venue-bgm-manager.service": {
+      "purpose": "BGM catalogue and worker status API",
+      "expected_listeners": [8093],
+      "dependencies": ["network", "writable BGM state"]
+    },
+    "venue-volume-api.service": {
+      "purpose": "Read and manage kiosk audio volume",
+      "expected_listeners": [8092],
+      "dependencies": ["PulseAudio session", "audio playback device"]
+    },
+    "nginx.service": {
+      "purpose": "Serve the kitchen terminal web application",
+      "expected_listeners": [8080, 8082],
+      "dependencies": ["application content"]
+    }
+  },
+  "user_facing_inventory": {
+    "display": "connected DRM display",
+    "touch": "Wacom Finger input",
+    "audio": "at least one ALSA playback PCM",
+    "kiosk_page": "http://127.0.0.1:8080/"
+  },
+  "restart_policy": {
+    "automatic_restart_by_butlerx": false,
+    "policy_is_documentation_not_execution_authority": true,
+    "safe_conditions_to_consider_manual_restart": [
+      "two consecutive guard scans identify the same service-specific failure",
+      "SSH observation succeeded and the failure is not merely an observation error",
+      "the service dependency checks relevant to the failure are healthy",
+      "a human has reviewed current state and explicitly authorized the maintenance action"
+    ],
+    "do_not_restart_when": [
+      "SSH or the fixed probe failed",
+      "a dependency such as display, audio, network, or storage is the likely cause",
+      "multiple services fail in a pattern suggesting a shared dependency",
+      "the consequence or current user activity is uncertain"
+    ],
+    "escalate_when": [
+      "the same failure remains after an explicitly authorized manual restart",
+      "storage corruption, destructive action, privilege expansion, or configuration change is implicated",
+      "the kiosk loses display, touch, and audio together",
+      "the failure cannot be distinguished from an observation failure"
+    ]
+  }
+}
