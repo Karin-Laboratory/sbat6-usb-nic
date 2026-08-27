@@ -4,6 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 import sys
+from unittest import mock
 
 
 sys.path.insert(0, str(Path(__file__).parents[1] / "runtime"))
@@ -16,6 +17,7 @@ from growth_review import (  # noqa: E402
     transition_review,
     validate_review,
 )
+import growth_review  # noqa: E402
 
 
 def proposal(risk="low", event_id="event-1"):
@@ -139,6 +141,31 @@ class ReviewTests(unittest.TestCase):
         old_stored = load_json(self.root / "state/growth_reviews/event-1.json")
         self.assertEqual(old_stored, approved)
         self.assertNotEqual(old_stored["proposal_hash"], new_review["proposal_hash"])
+
+    def test_crash_journal_reconciles_state_and_audit(self):
+        self.prepare()
+        with mock.patch.object(growth_review, "append_audit", side_effect=RuntimeError("simulated crash")):
+            with self.assertRaises(RuntimeError):
+                transition_review(self.root, "event-1", "approved", "tester", "accepted")
+        self.assertTrue((self.root / "state/growth_review_journal/event-1.json").exists())
+        recovered = growth_review.reconcile_review_journals(self.root)
+        self.assertEqual(recovered, ["event-1"])
+        review = load_json(self.root / "state/growth_reviews/event-1.json")
+        self.assertEqual(review["status"], "approved")
+        entries = growth_review.read_audit(self.root)
+        self.assertEqual([entry["new_status"] for entry in entries], ["pending", "approved"])
+
+    def test_audit_hash_chain_detects_tampering(self):
+        self.prepare()
+        transition_review(self.root, "event-1", "approved", "tester", "accepted")
+        path = self.root / "state/growth_review_audit.jsonl"
+        lines = path.read_text(encoding="utf-8").splitlines()
+        entry = json.loads(lines[0])
+        entry["reason"] = "tampered"
+        lines[0] = json.dumps(entry, ensure_ascii=False, separators=(",", ":"))
+        path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        with self.assertRaises(ReviewError):
+            growth_review.read_audit(self.root)
 
 
 if __name__ == "__main__":

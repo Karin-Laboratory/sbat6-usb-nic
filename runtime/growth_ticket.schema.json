@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ButlerX non-executing growth implementation ticket",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "ticket_id", "event_id", "target", "proposal_hash", "review_hash", "created_at", "created_by", "status", "approved_proposal_items", "implementation_ticket_is_not_execution_authority", "approval_is_not_execution_permission"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "ticket_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "event_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "target": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "proposal_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "review_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "created_at": {"type": "string"},
+    "created_by": {"type": "string"},
+    "status": {"enum": ["ready", "cancelled"]},
+    "approved_proposal_items": {"type": "array"},
+    "implementation_ticket_is_not_execution_authority": {"const": true},
+    "approval_is_not_execution_permission": {"const": true}
+  }
+}

@@ -4,7 +4,6 @@ import argparse
 import hashlib
 import json
 import re
-import subprocess
 import sys
 import time
 from datetime import datetime
@@ -12,10 +11,9 @@ from pathlib import Path
 
 ROOT = Path("/home/masataka/projects/butlerx")
 REGISTRY = ROOT / "state/capabilities.json"
-QUEUE = ROOT / "state/growth_queue"
 POLICY = ROOT / "runtime/growth_policy.json"
-PROBE = ROOT / "runtime/growth_probe.py"
-WORKER = ROOT / "runtime/growth_worker.py"
+sys.path.insert(0, str(ROOT / "runtime"))
+from growth_pipeline import register_event  # noqa: E402
 
 
 def now():
@@ -137,8 +135,6 @@ def main():
     registry["updated_at"] = now()
     atomic_write(REGISTRY, registry)
 
-    QUEUE.mkdir(parents=True, exist_ok=True)
-
     event = {
         "event_id": f"{time.time_ns()}-{args.target}",
         "event_type": (
@@ -160,43 +156,12 @@ def main():
             "対象を理解して安全な運用能力へ変換する。"
     }
 
-    path = QUEUE / f"{event['event_id']}.json"
-    atomic_write(path, event)
+    path = register_event(ROOT, event)
 
     print(f"REGISTERED {args.target}")
     print(f"QUEUED {path}")
 
-    # Automatic discovery is deliberately a fixed, code-owned probe followed
-    # by a local, read-only proposal worker.  Neither subprocess receives
-    # event-provided remote commands and neither applies a proposal.
-    probe = subprocess.run(
-        [sys.executable, str(PROBE), "--target", args.target, "--event-id", event["event_id"]],
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        timeout=60,
-    )
-    if probe.returncode:
-        print("FIXED_PROBE_FAILED: queued event will be recorded as probe_failed")
-        if probe.stderr.strip():
-            print(probe.stderr.strip(), file=sys.stderr)
-    else:
-        print("FIXED_PROBE_OK")
-
-    worker = subprocess.run(
-        [sys.executable, str(WORKER), "--event-id", event["event_id"]],
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        timeout=330,
-    )
-    if worker.stdout.strip():
-        print(worker.stdout.strip())
-    if worker.returncode:
-        print("GROWTH_WORKER_FAILED", file=sys.stderr)
-        if worker.stderr.strip():
-            print(worker.stderr.strip(), file=sys.stderr)
-        raise SystemExit(worker.returncode)
+    print("GROWTH_REGISTERED: growthd will run the fixed probe and analysis asynchronously")
 
 
 if __name__ == "__main__":

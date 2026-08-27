@@ -204,6 +204,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--once", action="store_true")
     ap.add_argument("--event-id")
+    ap.add_argument("--keep-event", action="store_true", help="leave queue ownership to growthd")
     args = ap.parse_args()
     QUEUE.mkdir(parents=True, exist_ok=True)
     with LOCK.open("w") as lock:
@@ -220,7 +221,8 @@ def main():
         for path in jobs[:1 if args.once or args.event_id else len(jobs)]:
             result = process(path); dest = DONE if result["status"] == "proposal_saved" else FAILED
             if result["status"] != "proposal_saved": exit_code = 1
-            dest.mkdir(parents=True, exist_ok=True); path.replace(dest / path.name)
+            if not args.keep_event:
+                dest.mkdir(parents=True, exist_ok=True); path.replace(dest / path.name)
             log(f"{result['status'].upper()} {path.name} target={result.get('target')}"); print(json.dumps(result, ensure_ascii=False, indent=2))
         return exit_code
 if __name__ == "__main__": raise SystemExit(main())

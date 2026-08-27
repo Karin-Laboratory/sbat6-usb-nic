@@ -1,0 +1,17 @@
+[Unit]
+Description=ButlerX Growth Discovery and Proposal Daemon
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=masataka
+WorkingDirectory=/home/masataka/projects/butlerx
+ExecStart=/usr/bin/python3 /home/masataka/projects/butlerx/runtime/growthd.py
+Restart=always
+RestartSec=10
+Environment=PYTHONUNBUFFERED=1
+Environment="HOME=/home/masataka"
+
+[Install]
+WantedBy=multi-user.target

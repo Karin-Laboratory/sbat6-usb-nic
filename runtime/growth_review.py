@@ -30,6 +30,11 @@ def canonical_hash(proposal):
     return hashlib.sha256(encoded).hexdigest()
 
 
+def object_hash(value):
+    encoded = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
+    return hashlib.sha256(encoded).hexdigest()
+
+
 def load_json(path):
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
@@ -84,25 +89,60 @@ def validate_review(review):
     return review
 
 
+def read_audit(root):
+    path = root / "state/growth_review_audit.jsonl"
+    if not path.exists():
+        return []
+    entries = []
+    previous_hash = None
+    for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        try:
+            entry = json.loads(line)
+        except json.JSONDecodeError as exc:
+            raise ReviewError(f"malformed review audit line {number}") from exc
+        if not isinstance(entry, dict):
+            raise ReviewError(f"invalid review audit line {number}")
+        if "entry_hash" in entry:
+            supplied = entry["entry_hash"]
+            payload = {key: value for key, value in entry.items() if key != "entry_hash"}
+            if entry.get("previous_hash") != previous_hash or supplied != object_hash(payload):
+                raise ReviewError(f"review audit hash chain mismatch at line {number}")
+            previous_hash = supplied
+        else:
+            # Pre-chain records remain valid as an explicit legacy anchor.
+            previous_hash = object_hash(entry)
+        entries.append(entry)
+    return entries
+
+
 def append_audit(root, entry):
     path = root / "state/growth_review_audit.jsonl"
     path.parent.mkdir(parents=True, exist_ok=True)
-    line = json.dumps(entry, ensure_ascii=False, separators=(",", ":")) + "\n"
+    existing = read_audit(root)
+    if any(row.get("audit_id") == entry["audit_id"] for row in existing):
+        return False
+    previous_hash = (existing[-1].get("entry_hash") or object_hash(existing[-1])) if existing else None
+    chained = dict(entry, sequence=len(existing) + 1, previous_hash=previous_hash)
+    chained["entry_hash"] = object_hash(chained)
+    line = json.dumps(chained, ensure_ascii=False, separators=(",", ":")) + "\n"
     fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
     try:
         os.write(fd, line.encode())
         os.fsync(fd)
     finally:
         os.close(fd)
+    return True
 
 
 def audit_entry(event_id, target, proposal_hash, old_status, new_status, actor, reason):
-    return {
+    entry = {
         "timestamp": now(), "event_id": event_id, "target": target,
         "proposal_hash": proposal_hash, "old_status": old_status,
         "new_status": new_status, "actor": actor, "reason": reason,
         "approval_is_not_execution_permission": True,
     }
+    entry["audit_id"] = object_hash(entry)
+    return entry
 
 
 def with_lock(root):
@@ -111,6 +151,43 @@ def with_lock(root):
     handle = path.open("a+")
     fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
     return handle
+
+
+def _journal_path(root, event_id):
+    return root / "state/growth_review_journal" / f"{event_id}.json"
+
+
+def _commit_review_change_locked(root, updated_review, entry):
+    review_path = root / "state/growth_reviews" / f"{updated_review['event_id']}.json"
+    journal_path = _journal_path(root, updated_review["event_id"])
+    journal = {"schema_version": 1, "review": updated_review, "audit": entry}
+    atomic_json(journal_path, journal)
+    atomic_json(review_path, updated_review)
+    append_audit(root, entry)
+    journal_path.unlink()
+
+
+def _reconcile_locked(root):
+    recovered = []
+    journal_dir = root / "state/growth_review_journal"
+    for path in sorted(journal_dir.glob("*.json")):
+        journal = load_json(path)
+        if journal.get("schema_version") != 1 or not isinstance(journal.get("audit"), dict):
+            raise ReviewError(f"invalid review journal: {path}")
+        review = validate_review(journal.get("review"))
+        if path.stem != review["event_id"]:
+            raise ReviewError(f"review journal event mismatch: {path}")
+        atomic_json(root / "state/growth_reviews" / f"{review['event_id']}.json", review)
+        append_audit(root, journal["audit"])
+        path.unlink()
+        recovered.append(review["event_id"])
+    read_audit(root)
+    return recovered
+
+
+def reconcile_review_journals(root):
+    with with_lock(root):
+        return _reconcile_locked(root)
 
 
 def pending_review(proposal):
@@ -127,13 +204,14 @@ def ensure_pending_review(root, proposal):
     expected = pending_review(proposal)
     path = root / "state/growth_reviews" / f"{expected['event_id']}.json"
     with with_lock(root):
+        _reconcile_locked(root)
         if path.exists():
             existing = validate_review(load_json(path))
             if existing["target"] != expected["target"] or existing["proposal_hash"] != expected["proposal_hash"]:
                 raise ReviewError("existing review is bound to different proposal content")
             return existing, False
-        atomic_json(path, expected)
-        append_audit(root, audit_entry(expected["event_id"], expected["target"], expected["proposal_hash"], None, "pending", "growth_worker", "validated proposal created"))
+        entry = audit_entry(expected["event_id"], expected["target"], expected["proposal_hash"], None, "pending", "growth_worker", "validated proposal created")
+        _commit_review_change_locked(root, expected, entry)
         return expected, True
 
 
@@ -144,6 +222,7 @@ def publish_proposal_with_pending_review(root, proposal):
     latest_path = root / "state/growth_proposals" / f"{expected['target']}.json"
     history_path = root / "state/growth_proposals/history" / f"{expected['event_id']}.json"
     with with_lock(root):
+        _reconcile_locked(root)
         if review_path.exists():
             existing = validate_review(load_json(review_path))
             if existing["target"] != expected["target"] or existing["proposal_hash"] != expected["proposal_hash"]:
@@ -155,8 +234,8 @@ def publish_proposal_with_pending_review(root, proposal):
         atomic_json(latest_path, proposal)
         atomic_json(history_path, proposal)
         if created:
-            atomic_json(review_path, expected)
-            append_audit(root, audit_entry(expected["event_id"], expected["target"], expected["proposal_hash"], None, "pending", "growth_worker", "validated proposal created"))
+            entry = audit_entry(expected["event_id"], expected["target"], expected["proposal_hash"], None, "pending", "growth_worker", "validated proposal created")
+            _commit_review_change_locked(root, expected, entry)
         return existing, created
 
 
@@ -183,6 +262,7 @@ def transition_review(root, event_id, new_status, actor, reason):
         raise ReviewError("reason is required and must be at most 2000 characters")
     path = root / "state/growth_reviews" / f"{event_id}.json"
     with with_lock(root):
+        _reconcile_locked(root)
         proposal = load_current_proposal(root, event_id)
         proposal_hash = canonical_hash(proposal)
         review = validate_review(load_json(path))
@@ -197,6 +277,6 @@ def transition_review(root, event_id, new_status, actor, reason):
         updated = dict(review)
         updated.update(status=new_status, reviewed_at=now(), reviewed_by=actor.strip(), reason=reason.strip())
         validate_review(updated)
-        atomic_json(path, updated)
-        append_audit(root, audit_entry(event_id, proposal["target"], proposal_hash, "pending", new_status, actor.strip(), reason.strip()))
+        entry = audit_entry(event_id, proposal["target"], proposal_hash, "pending", new_status, actor.strip(), reason.strip())
+        _commit_review_change_locked(root, updated, entry)
         return updated, True
