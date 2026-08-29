@@ -24,3 +24,6 @@ class Zen3PatrolTests(unittest.TestCase):
         self.assertEqual(result["reach"], 252)
         self.assertAlmostEqual(result["offset"], .195)
         self.assertTrue(result["internet_ntp_healthy"])
+        self.assertEqual(result["selected_source"], "internet")
+        self.assertEqual(result["expected_primary"], "ZEN3")
+        self.assertTrue(result["unexpected_fallback"])

@@ -4,6 +4,10 @@ status: ACTIVE
 owner: ButlerX
 target: Zen3 GNSS time source on raspi2
 
+Policy: expected primary is ZEN3; Internet NTP is monitored backup. The
+patrol records `expected_primary=ZEN3` and flags an Internet-selected source as
+unexpected fallback while Zen3 is usable.
+
 Implementation: `tools/zen3_gnss_patrol.py`; bounded history is kept in
 `state/zen3_gnss_history.jsonl` (500 records) and state in
 `state/zen3_gnss_patrol.json`. The existing `butlerx-patrol.service` invokes it

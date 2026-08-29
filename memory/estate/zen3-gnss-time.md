@@ -7,11 +7,14 @@ approximately 0.3-second error is acceptable because the goal is an independent
 auxiliary GNSS time source. Do not mark ZEN3 unsuitable merely for that expected
 error; monitor expansion beyond the measured baseline instead.
 
-## Role
+## Role and household policy (2026-08-30)
 
-Zen3 (ASUS_Z012DA) is an auxiliary GNSS status/time source for raspi2.
-Internet NTP remains the authoritative fallback and must remain healthy when
-Zen3 is absent or rejected.
+Zen3 (ASUS_Z012DA) is raspi2's PRIMARY time source. Internet NTP remains
+configured, monitored, usable, and is the BACKUP selected only when Zen3 is
+unavailable. The household intentionally accepts approximately 0.3-0.8 s of
+Zen3 error; Internet NTP must not be preferred merely because it is more
+precise. This policy must not be changed back to the usual precision-first
+selection rule.
 
 ## Identity and data path
 
@@ -42,9 +45,15 @@ build was installed and started. The source additionally needed GPS epoch to
 Unix UTC conversion and a fallback to GPS provider `Location.getTime()` because
 this Zenfone firmware registers no usable GNSS measurements callback.
 
-Packets are now accepted. Internet NTP remains the preferred/main source.
-ZEN3 is configured as a trusted auxiliary source without `prefer`; it must not
-cause large clock steps.
+Packets are now accepted. Zen3 is configured with `trust prefer` so it is the
+preferred source while healthy and is not rejected solely for the accepted
+household offset. Internet NTP remains configured as the fallback.
+
+The live fallback test exposed a chrony 4.6.1/SHM behavior: invalidating the
+SHM sample made Reach zero, but the currently selected trusted refclock could
+remain `*` until chrony was restarted. The feeder now invalidates stale SHM
+data after 10 seconds, but automatic sender-stop fallback is not yet proven
+without a chrony restart; do not report this as complete until resolved.
 
 ## 2026-08-30 baseline
 

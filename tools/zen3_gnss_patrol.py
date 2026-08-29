@@ -35,7 +35,7 @@ def parse_snapshot(raw: str) -> dict:
     match = re.search(r"([+-]\d+)(ms|us|ns)\[", source)
     if match: current = float(match.group(1)) / {"ms": 1e3, "us": 1e6, "ns": 1e9}[match.group(2)]
     state = re.search(r"#([+x~?\-])\s+ZEN3\s+\S+\s+(\d+)\s+(\d+)\s+(\d+)", source)
-    selected = re.search(r"\^\*\s+([^\s]+)", raw)
+    selected = re.search(r"(?:\^|#)\*\s+([^\s]+)", raw)
     last = rows[-1] if rows else None
     return {"timestamp": time.time(), "usb_present": "0b05:4dae" in raw,
             "adb_present": "GCAZCY05P824JAW\\tdevice" in raw,
@@ -47,7 +47,10 @@ def parse_snapshot(raw: str) -> dict:
             "chrony_state": state.group(1) if state else "?",
             "reach": int(state.group(3)) if state else 0, "last_rx": int(state.group(4)) if state else None,
             "offset": current, "internet_ntp_healthy": bool(re.search(r"\^\*|\^\+", raw)),
-            "selected_source": selected.group(1) if selected else None}
+            "selected_source": selected.group(1) if selected else None,
+            "expected_primary": "ZEN3",
+            "unexpected_fallback": bool(selected and selected.group(1) != "ZEN3"),
+            "zen3_usable": bool(state and state.group(1) in "*+~" and int(state.group(3)) > 0)}
 
 def next_state(observation: dict, previous: dict | None = None) -> dict:
     previous = previous or {}; offset = observation.get("offset")
@@ -73,7 +76,7 @@ def notify(current: dict) -> None:
     if not current.get("notify"): return
     offset = current.get("offset")
     if current["classification"] == "normal":
-        message = f"旦那さま、Zen3 GNSS時刻の誤差は通常範囲へ戻りました。現在offset {offset:+.2f}秒です。Internet NTPは主系のままです。"
+        message = f"旦那さま、Zen3 GNSS時刻源が通常状態へ戻り、主時刻源へ復帰しました。現在offset {offset:+.2f}秒です。"
     else:
         message = (f"旦那さま、Zen3 GNSS時刻の誤差が通常範囲を超えています。"
                    f"現在offset {offset:+.2f}秒、判定は{current['classification'].upper()}です。"
