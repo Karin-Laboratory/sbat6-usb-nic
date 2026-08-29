@@ -1,0 +1,15 @@
+[Unit]
+Description=ButlerX Daily Estate Discovery (read-only)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=masataka
+WorkingDirectory=/home/masataka/projects/butlerx
+ExecStart=/usr/bin/python3 /home/masataka/projects/butlerx/runtime/estate_discovery.py --once
+Environment=PYTHONUNBUFFERED=1
+Environment="HOME=/home/masataka"
+NoNewPrivileges=true
+PrivateTmp=true
+
