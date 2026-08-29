@@ -162,7 +162,14 @@ def reconcile_review_journals(root):
     with with_lock(root): return _reconcile_locked(root)
 
 def publish_proposal_with_pending_review(root, proposal):
-    enriched = assign_item_identities(proposal); expected = pending_review(enriched)
+    # Admission is a separate design gate.  It records evidence before the
+    # human item review and never changes authority.  Empty fixture roots from
+    # pre-admission history remain readable; real growth roots have a registry.
+    from capability_admission import write_reviews
+    enriched = assign_item_identities(proposal)
+    if (root / "state/capabilities.json").exists():
+        write_reviews(root, enriched)
+    expected = pending_review(enriched)
     review_path = root / "state/growth_reviews" / f"{expected['event_id']}.json"
     with with_lock(root):
         _reconcile_locked(root)

@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["review_id", "created_at", "capability_name", "target", "purpose", "requested_access", "credentials", "read_write_class", "remote_input", "destructive_actions", "approval_required", "rollback", "rate_limits", "audit_plan", "policy_conflicts", "risks", "mitigations", "evidence", "result", "reviewed_by", "linked_growth_proposal", "linked_ticket"],
+  "properties": {"result": {"enum": ["PASS_READ_ONLY", "PASS_WITH_HUMAN_APPROVAL", "REVISE", "REJECT", "UNKNOWN"]}, "credentials": {"type": "object"}, "approval_required": {"type": "boolean"}}
+}

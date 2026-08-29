@@ -109,10 +109,22 @@ def notify_discord(root, event, proposal, runner=subprocess.run):
     items = proposal["analysis"]["proposals"]
     risks = [item["risk"] for item in items if item.get("risk") in RISK_RANK]
     maximum = max(risks, key=RISK_RANK.get) if risks else "informational"
+    admission = []
+    for path in sorted((root / "state/capability_reviews").glob("*.json")):
+        try:
+            value = load_json(path)
+            if value.get("linked_growth_proposal") == event["event_id"]:
+                admission.append(value)
+        except (OSError, ValueError, TypeError):
+            continue
+    admission_line = ""
+    if admission:
+        results = ", ".join(f"{row['capability_name']}: {row['result']}" for row in admission[:3])
+        admission_line = f"\nAdmission Review: {results}"
     message = (
         f"旦那さま、新しく{event['target']}を調べました。\n"
         f"成長提案を{len(items)}件作成しました。\n"
-        f"最大risk: {maximum}\n未承認です。"
+        f"最大risk: {maximum}{admission_line}\n未承認です。"
     )
     return runner(
         [sys.executable, str(root / "tools/discord_say.py"), message],

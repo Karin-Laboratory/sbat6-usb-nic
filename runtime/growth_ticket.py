@@ -51,6 +51,20 @@ def create_ticket(root, event_id, actor, proposal_ids=None, all_approved=False):
     except ReviewError as exc:
         raise TicketError(str(exc)) from exc
     proposal_hash = canonical_hash(proposal)
+    # Admission is a design gate, not execution permission.  Legacy roots
+    # without admission records remain migratable; once records exist every
+    # selected candidate must have passed the fixed gate.
+    admission_dir = root / "state/capability_reviews"
+    admission = []
+    if admission_dir.exists():
+        from capability_admission import validate
+        for path in admission_dir.glob("*.json"):
+            try:
+                record = validate(load_json(path))
+            except (ValueError, OSError):
+                continue
+            if record.get("linked_growth_proposal") == event_id:
+                admission.append(record)
     if not isinstance(proposal_ids, (list, tuple, type(None))): raise TicketError("proposal item selection must be a list")
     proposal_items = {item["proposal_id"]: item for item in proposal["analysis"]["proposals"]}
     if all_approved and proposal_ids:
@@ -69,6 +83,10 @@ def create_ticket(root, event_id, actor, proposal_ids=None, all_approved=False):
             raise TicketError("only hash-bound approved items may enter a ticket")
         if item["risk"] == "prohibited":
             raise TicketError("prohibited proposal items cannot become implementation tickets")
+        if admission:
+            matching = [row for row in admission if row.get("evidence", {}).get("item_hash") == item["item_hash"]]
+            if len(matching) != 1 or matching[0]["result"] not in {"PASS_READ_ONLY", "PASS_WITH_HUMAN_APPROVAL"}:
+                raise TicketError("capability admission did not pass; no ticket may be created")
     try:
         audit = read_audit(root)
     except ReviewError as exc:
