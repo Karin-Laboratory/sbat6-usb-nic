@@ -63,6 +63,13 @@ class EstateDiscoveryTests(unittest.TestCase):
         self.assertEqual(ok["hosts"][0]["registry"]["status"], "approved")
         self.assertEqual(wrong["hosts"][0]["registry"]["status"], "unknown")
 
+    def test_read_only_dhcp_target_can_follow_ip_by_hostname(self):
+        with patch.object(ed, "CAPS", self.root / "caps.json"), patch.object(ed, "ESTATE_REGISTRY", self.root / "estate.json"), patch.object(ed, "local_identity", lambda: {"ips": [], "macs": []}):
+            (self.root / "caps.json").write_text(json.dumps({"targets": {"justnottoday": {"trust": "read-only-observation", "allowed": ["inspect"]}}}))
+            (self.root / "estate.json").write_text(json.dumps({"targets": {"justnottoday": {"hostname": "OpenWrt-Desktop", "known_ips": ["192.168.1.42"]}}}))
+            out = ed.registry_status({"ip": "192.168.1.43", "mac": "", "hostname": "OpenWrt-Desktop"}, json.loads((self.root / "caps.json").read_text()), json.loads((self.root / "estate.json").read_text()), {"ips": [], "macs": []})
+        self.assertEqual(out["status"], "approved")
+
     def test_self_raspi2_is_known_but_not_approved(self):
         with patch.object(ed, "CAPS", self.root / "caps.json"), patch.object(ed, "ESTATE_REGISTRY", self.root / "estate.json"), patch.object(ed, "local_identity", lambda: {"ips": ["192.168.0.26"], "macs": ["cc:e1:d5:3e:10:7a"]}):
             (self.root / "caps.json").write_text(json.dumps({"targets": {}}))

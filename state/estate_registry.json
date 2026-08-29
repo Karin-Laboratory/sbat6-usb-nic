@@ -28,6 +28,17 @@
       "hostname": "z4g4",
       "policy": "restricted-engine-room",
       "presence_ip": null
+    },
+    "justnottoday": {
+      "registered_target": "justnottoday",
+      "hostname": "OpenWrt-Desktop",
+      "known_ips": ["192.168.1.42"],
+      "role": "L2 switch + Wi-Fi AP",
+      "hardware": "ELECOM WRC-2533GHBK-I",
+      "soc": "MediaTek MT7621",
+      "management": "network.lan DHCP client",
+      "identity_notes": "DHCP address is not permanent; prefer hostname, MAC, SSH host key, and estate registry when available",
+      "approved_read_only": true
     }
   }
 }

@@ -231,7 +231,15 @@ def registry_status(host, registry, estate_registry=None, self_info=None):
         # present in the observation must agree. This prevents IP reuse from
         # becoming an approval.
         identity_match = bool(matched) and (not ips or host_ip in ips) and (not macs or host_mac in macs)
-        if identity_match and (len(matched) >= 2 or target == "z4g4" and host_ip in ips):
+        # DHCP addresses may change.  For an explicitly approved read-only
+        # target, a registered hostname can retain identity when no
+        # conflicting MAC is observed; a MAC conflict still fails closed.
+        hostname_only_binding = (
+            hostname in names and host_ip not in ips
+            and not (host_mac and macs and host_mac not in macs)
+            and entry.get("trust") == "read-only-observation"
+        )
+        if (identity_match and (len(matched) >= 2 or target == "z4g4" and host_ip in ips)) or hostname_only_binding:
             trust = entry.get("trust", "unknown")
             if target == "z4g4" or trust == "restricted-engine-room":
                 return {"target": target, "status": "known-restricted", "trust": trust, "capabilities": entry.get("allowed", []), "binding": matched}

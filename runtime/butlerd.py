@@ -333,6 +333,21 @@ def run_zen3_patrol():
         logging.warning("Zen3 patrol unavailable: %s", exc)
 
 
+def run_openwrt_patrol():
+    """Run the fixed, forced-command OpenWrt observation; never repair."""
+    try:
+        result = subprocess.run(
+            ["/usr/bin/python3", str(ROOT / "runtime/openwrt_guard.py"), "--once"],
+            cwd=str(ROOT), text=True, capture_output=True, timeout=35, check=False,
+        )
+        if result.returncode:
+            logging.warning("OpenWrt patrol failed: %s", result.stderr.strip()[-500:])
+        elif result.stdout.strip():
+            logging.info("OpenWrt patrol: %s", result.stdout.strip()[-1000:])
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        logging.warning("OpenWrt patrol unavailable: %s", exc)
+
+
 def handle_signal(signum, frame):
     global RUNNING
     logging.info("signal received: %s", signum)
@@ -360,11 +375,13 @@ def main():
     patrol_interval = int(config.get("patrol_interval_seconds", 60))
     inspect_interval = int(config.get("self_inspection_interval_seconds", 300))
     curiosity_interval = int(config.get("curiosity_interval_seconds", 900))
+    openwrt_interval = int(config.get("openwrt_patrol_interval_seconds", 300))
 
     started_at = now_iso()
     patrol_count = 0
     last_inspection = 0.0
     last_zen3_patrol = 0.0
+    last_openwrt_patrol = 0.0
     # 起動直後から探索を始める。
     # thinkerが処理中ならqueue側で重複を防止する。
     last_curiosity_activity = 0.0
@@ -396,6 +413,10 @@ def main():
         if current - last_zen3_patrol >= 300:
             run_zen3_patrol()
             last_zen3_patrol = current
+
+        if current - last_openwrt_patrol >= openwrt_interval:
+            run_openwrt_patrol()
+            last_openwrt_patrol = current
 
         if current - last_inspection >= inspect_interval:
             snapshot = inspect_self()
