@@ -27,13 +27,15 @@ LATEST = STATE / "latest.json"
 HISTORY = STATE / "history"
 CHANGES = STATE / "changes"
 CAPS = ROOT / "state" / "capabilities.json"
+ESTATE_REGISTRY = ROOT / "state" / "estate_registry.json"
 CONFIG = ROOT / "runtime" / "config.json"
 NETWORK = ipaddress.ip_network("192.168.0.0/22")
 PORTS = (22, 23, 53, 80, 81, 443, 445, 548, 631, 1883, 3000, 5000,
          5001, 8000, 8008, 8009, 8080, 8081, 8082, 8090, 8091, 8123,
-         8443, 8883, 9000, 9090, 9100, 9443)
+         8092, 8093, 8443, 8883, 9000, 9090, 9100, 9222, 9443)
 WEB_PORTS = {80, 81, 443, 3000, 5000, 5001, 8000, 8008, 8009, 8080,
-             8081, 8082, 8090, 8091, 8123, 8443, 9000, 9090, 9443}
+             8081, 8082, 8090, 8091, 8092, 8093, 8123, 8443, 9000,
+             9090, 9222, 9443}
 HISTORY_LIMIT = 30
 CHANGE_LIMIT = 500
 
@@ -96,6 +98,24 @@ def discover_ports(ip, connector=socket.create_connection):
     with ThreadPoolExecutor(max_workers=8) as pool:
         results = pool.map(lambda p: tcp_probe(ip, p, connector=connector), PORTS)
         return [port for port, open_ in zip(PORTS, results) if open_]
+
+
+def local_identity():
+    """Return addresses owned by this scanner, without probing other hosts."""
+    try:
+        data = json.loads(subprocess.run(["ip", "-j", "addr", "show"], capture_output=True,
+                                         text=True, timeout=5, check=False).stdout)
+    except (OSError, json.JSONDecodeError, subprocess.TimeoutExpired):
+        return {"ips": [], "macs": []}
+    ips, macs = [], []
+    for iface in data if isinstance(data, list) else []:
+        mac = str(iface.get("address", "")).lower()
+        if re.fullmatch(r"[0-9a-f]{2}(:[0-9a-f]{2}){5}", mac):
+            macs.append(mac)
+        for addr in iface.get("addr_info", []):
+            if addr.get("family") == "inet" and ip_in_scope(addr.get("local", "")):
+                ips.append(addr["local"])
+    return {"ips": sorted(set(ips)), "macs": sorted(set(macs))}
 
 
 def _response_fingerprint(status, headers, body):
@@ -168,17 +188,55 @@ def stable_id(host):
     return "ip:" + host["ip"]
 
 
-def registry_status(host, registry):
+def _values(entry, *keys):
+    values = []
+    for key in keys:
+        value = entry.get(key, [])
+        values.extend(value if isinstance(value, list) else [value])
+    return {str(v).strip().lower() for v in values if str(v).strip()}
+
+
+def registry_status(host, registry, estate_registry=None, self_info=None):
+    estate_registry = estate_registry or {}
+    host_ip = str(host.get("ip", "")).lower()
+    host_mac = str(host.get("mac", "")).lower()
+    hostname = str(host.get("hostname") or "").lower()
+    if self_info and host_ip in self_info.get("ips", []) and host_mac in self_info.get("macs", []):
+        return {"target": "raspi2", "status": "known", "trust": "local-observer",
+                "capabilities": [], "binding": ["self-interface"]}
+    # raspi2 is also an explicitly registered discovery host.  When the
+    # service is run from agent-101-vm it is a known remote estate member,
+    # not a self-interface; either way it must not be reported as unknown.
+    raspi = estate_registry.get("targets", {}).get("raspi2", {})
+    if isinstance(raspi, dict):
+        ips = _values(raspi, "ip", "known_ip", "known_ips")
+        macs = _values(raspi, "mac", "known_mac", "known_macs")
+        if host_ip in ips and host_mac in macs:
+            return {"target": "raspi2", "status": "known", "trust": "local-observer",
+                    "capabilities": [], "binding": ["known-ip", "mac"]}
     for target, entry in registry.get("targets", {}).items():
         if not isinstance(entry, dict):
             continue
-        identifiers = {str(entry.get(k, "")) for k in ("ip", "target", "hostname", "host")}
-        if host["ip"] in identifiers or host.get("hostname") in identifiers:
+        identity = estate_registry.get("targets", {}).get(target, {})
+        if not isinstance(identity, dict):
+            identity = {}
+        ips = _values(entry, "ip", "known_ip", "known_ips") | _values(identity, "ip", "known_ip", "known_ips")
+        macs = _values(entry, "mac", "known_mac", "known_macs") | _values(identity, "mac", "known_mac", "known_macs")
+        names = _values(entry, "hostname", "host", "registered_target", "target") | _values(identity, "hostname", "host", "registered_target", "target")
+        matched = []
+        if host_ip in ips: matched.append("known-ip")
+        if host_mac and host_mac in macs: matched.append("mac")
+        if hostname and hostname in names: matched.append("hostname")
+        # When multiple authoritative identity facts are recorded, all facts
+        # present in the observation must agree. This prevents IP reuse from
+        # becoming an approval.
+        identity_match = bool(matched) and (not ips or host_ip in ips) and (not macs or host_mac in macs)
+        if identity_match and (len(matched) >= 2 or target == "z4g4" and host_ip in ips):
             trust = entry.get("trust", "unknown")
             if target == "z4g4" or trust == "restricted-engine-room":
-                return {"target": target, "status": "approved-restricted", "trust": trust, "capabilities": entry.get("allowed", [])}
-            return {"target": target, "status": "approved", "trust": trust, "capabilities": entry.get("allowed", [])}
-    return {"target": None, "status": "discovered-unapproved", "trust": "unknown", "capabilities": []}
+                return {"target": target, "status": "known-restricted", "trust": trust, "capabilities": entry.get("allowed", []), "binding": matched}
+            return {"target": target, "status": "approved", "trust": trust, "capabilities": entry.get("allowed", []), "binding": matched}
+    return {"target": None, "status": "unknown", "trust": "unknown", "capabilities": [], "binding": []}
 
 
 def meaningful_changes(previous, current):
@@ -206,6 +264,8 @@ def meaningful_changes(previous, current):
 
 def build_snapshot(hosts, previous=None, clock=now_iso, neighbour_reader=None, port_scanner=discover_ports, web_observer=observe_web, ssh_observer=observe_ssh):
     registry = read_json(CAPS, {})
+    estate_registry = read_json(ESTATE_REGISTRY, {})
+    self_info = local_identity()
     old_by_id = {h.get("stable_id"): h for h in (previous or {}).get("hosts", [])}
     result = []
     for base in hosts:
@@ -222,7 +282,13 @@ def build_snapshot(hosts, previous=None, clock=now_iso, neighbour_reader=None, p
         h["stable_id"] = stable_id(h)
         old = old_by_id.get(h["stable_id"], {})
         h["first_seen"] = old.get("first_seen", clock()); h["previous_seen"] = old.get("last_seen"); h["last_seen"] = clock()
-        h["registry"] = registry_status(h, registry); h["observation_source"] = ["kernel-neighbour-cache", "tcp-connect", "http-get", "ssh-banner-only"]
+        h["registry"] = registry_status(h, registry, estate_registry, self_info)
+        h["self"] = "self-interface" in h["registry"].get("binding", [])
+        h["web_surface"] = [x for x in h["web"] if isinstance(x.get("status"), int)]
+        known = estate_registry.get("targets", {}).get(h["registry"].get("target"), {})
+        if known.get("known_services"):
+            h["known_services"] = known["known_services"]
+        h["observation_source"] = ["kernel-neighbour-cache", "tcp-connect", "http-get", "ssh-banner-only"]
         result.append(h)
     current_ids = {h["stable_id"] for h in result}
     for sid, old in old_by_id.items():

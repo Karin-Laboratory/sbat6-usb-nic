@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "targets": {
+    "venue": {
+      "registered_target": "venue",
+      "hostname": "venue.home.arpa",
+      "known_ips": ["192.168.1.35"],
+      "known_macs": ["6c:0b:84:6f:91:fc"],
+      "ssh_identity": "codex@venue",
+      "known_services": {
+        "8080": {"exposure": "localhost-only", "known": true},
+        "8082": {"exposure": "localhost-only", "known": true},
+        "8091": {"exposure": "localhost-only", "known": true},
+        "8092": {"exposure": "localhost-only", "known": true},
+        "8093": {"exposure": "localhost-only", "known": true},
+        "9222": {"exposure": "localhost-only", "known": true}
+      }
+    },
+    "raspi2": {
+      "registered_target": "raspi2",
+      "hostname": "raspi2",
+      "known_ips": ["192.168.0.22", "192.168.0.26"],
+      "known_macs": ["b8:27:eb:62:dd:bb", "cc:e1:d5:3e:10:7a"],
+      "role": "discovery-host"
+    },
+    "z4g4": {
+      "registered_target": "z4g4",
+      "hostname": "z4g4",
+      "policy": "restricted-engine-room",
+      "presence_ip": null
+    }
+  }
+}
