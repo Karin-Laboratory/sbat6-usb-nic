@@ -1,0 +1,7 @@
+[Unit]
+Description=ButlerX Zen3 GNSS patrol
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/projects/butlerx
+ExecStart=/usr/bin/python3 %h/projects/butlerx/tools/zen3_gnss_patrol.py

@@ -6,6 +6,7 @@ import os
 import shutil
 import signal
 import socket
+import subprocess
 import time
 from datetime import datetime
 from pathlib import Path
@@ -317,6 +318,21 @@ def write_runtime_state(started_at, patrol_count):
     )
 
 
+def run_zen3_patrol():
+    """Run the bounded, read-only Zen3 patrol; alerts are transition-only."""
+    try:
+        result = subprocess.run(
+            ["/usr/bin/python3", str(ROOT / "tools/zen3_gnss_patrol.py")],
+            cwd=str(ROOT), text=True, capture_output=True, timeout=45, check=False,
+        )
+        if result.returncode:
+            logging.warning("Zen3 patrol failed: %s", result.stderr.strip()[-500:])
+        elif result.stdout.strip():
+            logging.info("Zen3 patrol transition: %s", result.stdout.strip()[-1000:])
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        logging.warning("Zen3 patrol unavailable: %s", exc)
+
+
 def handle_signal(signum, frame):
     global RUNNING
     logging.info("signal received: %s", signum)
@@ -348,6 +364,7 @@ def main():
     started_at = now_iso()
     patrol_count = 0
     last_inspection = 0.0
+    last_zen3_patrol = 0.0
     # 起動直後から探索を始める。
     # thinkerが処理中ならqueue側で重複を防止する。
     last_curiosity_activity = 0.0
@@ -375,6 +392,10 @@ def main():
         write_runtime_state(started_at, patrol_count)
 
         current = time.monotonic()
+
+        if current - last_zen3_patrol >= 300:
+            run_zen3_patrol()
+            last_zen3_patrol = current
 
         if current - last_inspection >= inspect_interval:
             snapshot = inspect_self()
