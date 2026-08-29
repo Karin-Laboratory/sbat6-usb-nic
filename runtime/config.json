@@ -4,5 +4,5 @@
   "codex_enabled": true,
   "discord_enabled": false,
   "curiosity_enabled": true,
-  "curiosity_interval_seconds": 10
+  "curiosity_interval_seconds": 21600
 }
