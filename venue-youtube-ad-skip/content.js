@@ -11,6 +11,7 @@
   let restoreTimer = 0;
   let lastUrl = location.href;
   let seekTimer = 0;
+  let cleanBaseline = null;
 
   function log(event, extra = {}) {
     const entry = { event, url: location.href, ...extra };
@@ -42,7 +43,9 @@
   function startAd(v) {
     if (state?.video === v) return;
     if (state) restore("new-ad");
-    state = { video: v, rate: v.playbackRate || 1, muted: v.muted, startedAt: performance.now(), fallback: false };
+    const baseline = cleanBaseline?.video === v ? cleanBaseline : v;
+    state = { video: v, rate: baseline.rate || 1, muted: Boolean(baseline.muted),
+      startedAt: performance.now(), seekAt: 0, fallback: false };
     log("ad-detected", { rate: state.rate, muted: state.muted, duration: v.duration });
     // duration is often 0/Infinity for the first few polls of an ad.  The
     // retry in tick() is intentional: a one-shot seek is race-prone on SPA
@@ -54,6 +57,7 @@
     if (!Number.isFinite(v.duration) || v.duration <= 0) return;
     try {
       v.currentTime = Math.max(0, v.duration - SEEK_EPSILON);
+      if (state?.video === v) state.seekAt = performance.now();
       v.dispatchEvent(new Event("timeupdate"));
       log("seek-to-end", { duration: v.duration, position: v.currentTime });
     } catch (error) {
@@ -98,6 +102,9 @@
     }
     const v = video();
     const ad = v && isAd(v);
+    if (v && !ad && !state) {
+      cleanBaseline = { video: v, rate: v.playbackRate || 1, muted: v.muted };
+    }
     if (ad) {
       startAd(v);
       cancelRestore();
@@ -109,7 +116,8 @@
       }
       if (state && performance.now() - state.startedAt >= FALLBACK_AFTER_MS) {
         const nearEnd = Number.isFinite(v.duration) && v.currentTime >= v.duration - 0.2;
-        if (!nearEnd || v.ended === false && v.currentTime < 0.1) fallback(v);
+        const seekStalled = state.seekAt > 0 && performance.now() - state.seekAt >= 900;
+        if (!nearEnd || seekStalled || v.ended === false && v.currentTime < 0.1) fallback(v);
       }
     } else if (state) {
       // The ad marker briefly disappears while YouTube swaps player DOM.
