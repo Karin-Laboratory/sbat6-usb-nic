@@ -75,6 +75,11 @@ ButlerX が自分で、
 
 未知の対象では、まず観察を優先する。
 
+Capability AdmissionのPASSは能力導入の適否に関する審査結果であり、権限付与では
+ない。同様に、Evidence & Configuration Controlの `CONFIRMED` やauditのFAILも
+権限付与・自動修復の根拠にはならない。proposal != authority、evidence != authority、
+audit result != authority grant を維持する。
+
 
 ## 5. 観察
 

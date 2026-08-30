@@ -1,0 +1,85 @@
+{
+  "case_id": "zen3-gnss-2026-08-30-ecc-backfill",
+  "case_kind": "historical_backfill",
+  "backfilled_at": "2026-08-30T23:55:00+09:00",
+  "collected_by": "ButlerX Evidence & Configuration Control backfill",
+  "scope_note": "No Zen3 code, live host, or deployment was changed. Unavailable historical hashes remain unknown.",
+  "checkpoint": {
+    "commit": "4850a70279804bc8c6de7741b8e00441fb9a3a8f",
+    "subject": "Fix Zen3 GNSS sender lifecycle and watchdog",
+    "timestamp": "2026-08-30T16:15:48+09:00"
+  },
+  "artifacts": [
+    {
+      "audited_host": "agent-101-vm", "asset": "repository Java GnssService", "source_type": "repository",
+      "path": "zen3-gnss-helper/src/org/karinlab/zen3gnss/GnssService.java",
+      "sha256": "0dfa01dd2cc40ddb5fad14414f1961594c5c14a46725bb32647eb964f9de1d18",
+      "git_commit": "4850a70279804bc8c6de7741b8e00441fb9a3a8f", "mtime": "2026-08-30T16:07:16+09:00",
+      "exec_start": null, "evidence_timestamp": "2026-08-30T23:55:00+09:00", "collected_by": "ButlerX",
+      "reachability": "reachable", "collection_status": "COLLECTED", "notes": ["Working tree content matches checkpoint 4850a70 for this artifact"]
+    },
+    {
+      "audited_host": "Zen3", "asset": "Android deployed APK", "source_type": "live", "path": null,
+      "sha256": null, "git_commit": null, "mtime": null, "exec_start": null,
+      "evidence_timestamp": "2026-08-30T23:55:00+09:00", "collected_by": "historical backfill",
+      "reachability": "not_recontacted", "collection_status": "UNKNOWN",
+      "notes": ["Historical deployment was reported, but APK path/hash/versionCode were not preserved in the available evidence", "Must not infer equality with repository Java"]
+    },
+    {
+      "audited_host": "agent-101-vm", "asset": "repository feeder", "source_type": "repository",
+      "path": "zen3-gnss-feeder.py", "sha256": "0325b9303cb72a2cac058f7030dd2122776f7c44f5be05c8bf4814963a780f0f",
+      "git_commit": null, "mtime": "2026-08-30T08:36:15+09:00", "exec_start": null,
+      "evidence_timestamp": "2026-08-30T23:55:00+09:00", "collected_by": "ButlerX", "reachability": "reachable",
+      "collection_status": "COLLECTED", "notes": ["Working-tree artifact; not asserted to equal checkpoint or live deployment"]
+    },
+    {
+      "audited_host": "raspi2", "asset": "live feeder", "source_type": "live", "path": null,
+      "sha256": null, "git_commit": null, "mtime": null, "exec_start": null,
+      "evidence_timestamp": "2026-08-30T23:55:00+09:00", "collected_by": "historical backfill",
+      "reachability": "not_recontacted", "collection_status": "UNKNOWN", "notes": ["Live identity was not preserved; current live verdict is UNKNOWN"]
+    },
+    {
+      "audited_host": "agent-101-vm", "asset": "repository failover controller", "source_type": "repository",
+      "path": "tools/zen3_chrony_failover.py", "sha256": "8284157aa9d0c50b155c3ca3d7242841e10e603454184b95c10be6324fa972bb",
+      "git_commit": null, "mtime": "2026-08-30T08:36:54+09:00", "exec_start": null,
+      "evidence_timestamp": "2026-08-30T23:55:00+09:00", "collected_by": "ButlerX", "reachability": "reachable",
+      "collection_status": "COLLECTED", "notes": ["Repository copy involved in the original wrong-target audit conclusion"]
+    },
+    {
+      "audited_host": "raspi2", "asset": "live failover controller", "source_type": "live",
+      "path": "/home/codex/zen3-ntp/zen3_chrony_failover.py", "sha256": null, "git_commit": null, "mtime": null,
+      "exec_start": "/usr/bin/python3 /home/codex/zen3-ntp/zen3_chrony_failover.py",
+      "evidence_timestamp": "2026-08-30T23:55:00+09:00", "collected_by": "technical review backfill",
+      "reachability": "historically_observed", "collection_status": "UNKNOWN",
+      "notes": ["Technical review established that repository and live controller were different versions", "Exact live hash was not preserved"]
+    },
+    {
+      "audited_host": "agent-101-vm", "asset": "repository systemd unit for failover controller", "source_type": "repository",
+      "path": "systemd/zen3-chrony-failover.service", "sha256": "d050bbc7345be46ed034419c2dd645e51a09cf09bab1f36d198605d944a2b215",
+      "git_commit": null, "mtime": "2026-08-30T08:36:54+09:00",
+      "exec_start": "/usr/bin/python3 /home/codex/zen3-ntp/zen3_chrony_failover.py",
+      "evidence_timestamp": "2026-08-30T23:55:00+09:00", "collected_by": "ButlerX", "reachability": "repository_only",
+      "collection_status": "COLLECTED", "notes": ["Repository unit copy records expected ExecStart; live unit must be independently recollected"]
+    }
+  ],
+  "identity_relations": [
+    {"repository_asset": "repository Java GnssService", "deployed_asset": "Android deployed APK", "live_asset": "Android deployed APK", "status": "UNKNOWN", "reason": "deployed APK hash/version identity unavailable"},
+    {"repository_asset": "repository feeder", "deployed_asset": "live feeder", "live_asset": "live feeder", "status": "UNKNOWN", "reason": "raspi2 live feeder hash unavailable"},
+    {"repository_asset": "repository failover controller", "deployed_asset": "live failover controller", "live_asset": "live failover controller", "status": "CONFIGURATION_DRIFT", "reason": "technical review confirmed different versions; exact live hash was not retained"},
+    {"repository_asset": "repository systemd unit for failover controller", "deployed_asset": "live failover controller", "live_asset": "live failover controller", "status": "PARTIALLY_CONFIRMED", "reason": "Expected ExecStart path is recorded, but live unit and artifact hash were not recollected during backfill"}
+  ],
+  "reviewed_findings": [
+    {"claim": "sender thread/socket race", "claim_validation": "CONFIRMED"},
+    {"claim": "notification real source was not verified", "claim_validation": "CONFIRMED"},
+    {"claim": "listener duplication in current version", "claim_validation": "STALE_EVIDENCE"},
+    {"claim": "live controller lacks restart tolerance", "claim_validation": "WRONG_TARGET"},
+    {"claim": "old chrony fallback failure proves current failure", "claim_validation": "STALE_EVIDENCE"},
+    {"claim": "feeder 10 seconds and controller 20 seconds is a defect", "claim_validation": "REFUTED", "reason": "intentional hysteresis"}
+  ],
+  "system_readiness": "UNKNOWN",
+  "authority_granted": false,
+  "implementation_action_started": false,
+  "unreachable_or_unidentified": ["Zen3 deployed APK identity", "raspi2 live feeder hash", "raspi2 live controller hash", "raspi2 live systemd unit identity"],
+  "dynamic_tests_performed": [],
+  "dynamic_tests_not_performed": ["APK/source identity check", "live feeder/repository hash comparison", "live controller/repository hash comparison", "controller restart test against confirmed live artifact"]
+}

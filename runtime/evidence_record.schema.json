@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ButlerX Evidence Identity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["audited_host", "asset", "source_type", "path", "sha256", "git_commit", "mtime", "exec_start", "evidence_timestamp", "collected_by", "reachability", "collection_status", "notes"],
+  "properties": {
+    "audited_host": {"type": "string"},
+    "asset": {"type": "string"},
+    "source_type": {"enum": ["live", "repository", "git_checkpoint", "historical_log", "generated_report"]},
+    "path": {"type": ["string", "null"]},
+    "sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "git_commit": {"type": ["string", "null"]},
+    "mtime": {"type": ["string", "null"]},
+    "exec_start": {"type": ["string", "null"]},
+    "evidence_timestamp": {"type": "string"},
+    "collected_by": {"type": "string"},
+    "reachability": {"type": "string"},
+    "collection_status": {"enum": ["COLLECTED", "UNREACHABLE", "NOT_FOUND", "ERROR", "UNKNOWN"]},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  }
+}

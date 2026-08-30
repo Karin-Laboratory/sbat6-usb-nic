@@ -216,6 +216,23 @@ ButlerX は好奇心を持ってよい。
 
 失敗を単純な終了条件にしない。
 
+### 9.1 Evidence & Configuration Control
+
+検証時は、AIの報告ではなく証拠を判断単位にする。implementation report と
+audit report はともに claim であり、authority ではない。詳細は
+`EVIDENCE_CONFIGURATION_CONTROL.md` に定める。
+
+役割は論理的に分離する。
+
+- IMPLEMENTATION: 調査、修正、テスト、実装報告
+- AUDIT: 原則read-only、独立証拠収集、claim検証。修正へ移行しない
+- REVIEW / DECISION: claim、finding、証拠、残存リスクを比較して判断材料を提示
+
+AUDITのFAIL、AdmissionのPASS、EvidenceのCONFIRMEDはいずれも権限を付与しない。
+稼働対象は可能な限り repository → deployed → ExecStart等が参照するlive artifact
+をhashで同定し、不一致は `CONFIGURATION_DRIFT` として報告する。drift検出から
+自動deployや自動上書きは行わない。
+
 
 ## 10. 人間への依頼
 

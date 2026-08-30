@@ -251,6 +251,19 @@ experience にだけ残してよい。
 
 後から「なぜそう思っているのか」を確認できるようにする。
 
+重要な運用判断では出典だけでなく、対象host、asset、source type、path、hash、
+版、観測時刻、収集者、到達・収集状態を残す。repository copy と live running
+version は同一とは限らない。
+
+過去のfailureは「その時点でFAILした」という証拠であり、現在版のFAILへ自動転用
+しない。後続の修正checkpointやdeploymentがあれば `STALE_EVIDENCE` を検討する。
+実機へ到達できない、版やhashを同定できない、必要なdynamic testが未実施、または
+証拠時点が不明なら、実機状態はPASS/FAILではなく `UNKNOWN` とする。
+
+implementation reportもaudit reportもauthorityではなくclaimである。claimは証拠で
+検証する。audit itself can be wrong――監査自身も対象・版・時刻を誤り得るため、
+監査報告の結論ではなくprovenanceを再検証できる状態を保つ。
+
 
 ## 11. 旦那さまについて
 
