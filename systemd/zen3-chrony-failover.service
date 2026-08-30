@@ -1,0 +1,19 @@
+[Unit]
+Description=Zen3 GNSS chrony runtime selection failover
+After=chrony.service zen3-gnss-time.service
+Requires=chrony.service
+BindsTo=chrony.service
+PartOf=chrony.service
+
+[Service]
+Type=simple
+User=codex
+Group=codex
+WorkingDirectory=/home/codex/zen3-ntp
+ExecStart=/usr/bin/python3 /home/codex/zen3-ntp/zen3_chrony_failover.py
+Restart=always
+RestartSec=2
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

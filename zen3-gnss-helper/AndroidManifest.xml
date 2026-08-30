@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.karinlab.zen3gnss" android:versionCode="2" android:versionName="0.2.0">
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+  <uses-permission android:name="android.permission.INTERNET"/>
+  <application android:theme="@android:style/Theme.Material.Light.NoActionBar" android:label="Zen3 GNSS Helper" android:allowBackup="false">
+    <activity android:name=".MainActivity" android:exported="true">
+      <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
+    </activity>
+    <service android:name=".GnssService" android:foregroundServiceType="location" android:exported="false"/>
+  </application>
+</manifest>

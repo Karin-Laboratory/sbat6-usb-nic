@@ -41,8 +41,7 @@ public final class GnssService extends Service {
   private LocationListener locationListener;
   private GnssStatus.Callback statusCallback;
   private GnssMeasurementsEvent.Callback measurementsCallback;
-  private DatagramSocket socket;
-  private Thread senderThread;
+  private SenderSession sender;
   private ScheduledExecutorService watchdog;
   private volatile boolean destroying;
   private volatile long lastFixElapsed;
@@ -53,6 +52,24 @@ public final class GnssService extends Service {
   private volatile long nextRecoveryElapsed;
   private volatile int recoveryCount;
   private volatile int sentPackets;
+  private volatile int consecutiveSuccessfulSends;
+  private volatile long lastRecoveryElapsed;
+  private static final int SUCCESSFUL_SENDS_TO_RESET = 30;
+  private static final long STABLE_NORMAL_MS = 120000;
+
+  /** The session, its thread, and its socket form one ownership unit. */
+  private final class SenderSession {
+    final Thread thread;
+    volatile DatagramSocket socket;
+    volatile boolean stopRequested;
+    SenderSession() { thread = new Thread(() -> sendLoop(this), "gnss-sender"); }
+    void requestStop() {
+      stopRequested = true;
+      thread.interrupt();
+      DatagramSocket s = socket;
+      if (s != null) s.close();
+    }
+  }
 
   public static void start(Context c) {
     Intent i = new Intent(c, GnssService.class);
@@ -68,7 +85,7 @@ public final class GnssService extends Service {
     lm = (LocationManager)getSystemService(LOCATION_SERVICE);
     if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) { logE("location permission missing", null); return; }
     registerCallbacks();
-    synchronized (lock) { startSenderLocked("service-create"); }
+    startSender("service-create");
     watchdog = Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "gnss-watchdog"));
     watchdog.scheduleWithFixedDelay(this::watchdog, 5000, 5000, TimeUnit.MILLISECONDS);
   }
@@ -101,45 +118,59 @@ public final class GnssService extends Service {
     locationListener=null; statusCallback=null; measurementsCallback=null;
   }
 
-  private void startSenderLocked(String reason) {
-    if (destroying) return;
-    if (senderThread != null && senderThread.isAlive()) { logI("duplicate-start suppression: sender alive"); return; }
-    senderThread = new Thread(this::sendLoop, "gnss-sender"); senderThread.start(); logI("sender start reason="+reason);
+  private void startSender(String reason) {
+    synchronized (lock) {
+      if (destroying) return;
+      if (sender != null && sender.thread.isAlive()) { logI("duplicate-start suppression: sender alive"); return; }
+      sender = new SenderSession(); sender.thread.start(); logI("sender start reason="+reason);
+    }
   }
-  private void stopSenderLocked() {
-    Thread t=senderThread; senderThread=null; if (t!=null) { t.interrupt(); logI("sender thread stop"); }
-    if (socket!=null) { socket.close(); socket=null; logI("UDP socket close"); }
+  private void stopSenderAndWait(String reason) {
+    SenderSession old;
+    synchronized (lock) { old=sender; sender=null; }
+    if (old == null) return;
+    old.requestStop();
+    if (Thread.currentThread() != old.thread) try { old.thread.join(); }
+    catch (InterruptedException e) { Thread.currentThread().interrupt(); logE("sender join interrupted", e); }
+    logI("sender thread stopped reason="+reason+" alive="+old.thread.isAlive());
   }
+  private void restartSender(String reason) { stopSenderAndWait(reason); startSender(reason); }
 
-  private void sendLoop() {
+  private void sendLoop(SenderSession session) {
+    DatagramSocket s=null;
     try {
-      DatagramSocket s=new DatagramSocket(); synchronized(lock) { if (destroying) { s.close(); return; } socket=s; }
+      s=new DatagramSocket(); session.socket=s;
+      synchronized(lock) { if (destroying || session.stopRequested || sender != session) return; }
       s.setBroadcast(true); InetAddress dst=InetAddress.getByName(BROADCAST); logI("UDP socket open destination="+BROADCAST+":"+PORT);
-      while (!Thread.currentThread().isInterrupted() && !destroying) {
+      while (!Thread.currentThread().isInterrupted() && !destroying && !session.stopRequested) {
         long now=SystemClock.elapsedRealtime(); double age=lastFixElapsed==0?9999:(SystemClock.elapsedRealtimeNanos()-lastFixElapsed)/1e9;
         boolean valid=utcSeconds>1700000000 && age<10 && satellites>=4;
         String msg=String.format(Locale.US,"{\"marker\":\"%s\",\"v\":1,\"valid\":%s,\"utc_unix_s\":%.9f,\"fix_age_s\":%.3f,\"satellites\":%d,\"mean_cn0\":%.1f}",MARKER,valid,utcSeconds,age,satellites,meanCn0);
-        byte[] data=msg.getBytes(StandardCharsets.US_ASCII); s.send(new DatagramPacket(data,data.length,dst,PORT)); lastSendElapsed=now; sentPackets++;
+        byte[] data=msg.getBytes(StandardCharsets.US_ASCII); s.send(new DatagramPacket(data,data.length,dst,PORT)); lastSendElapsed=now; sentPackets++; consecutiveSuccessfulSends++;
         logD("UDP send success destination="+BROADCAST+":"+PORT+" count="+sentPackets);
         if (sentPackets%15==0) logI(String.format(Locale.US,"health fix_age=%.1f satellites=%d last_send_age=0 recovery_count=%d",age,satellites,recoveryCount));
         Thread.sleep(2000);
       }
     } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
     catch (Exception e) { logE("UDP send failure", e); }
-    finally { synchronized(lock) { if (socket!=null) { socket.close(); socket=null; logI("UDP socket close"); } } }
+    finally { if (s!=null) { s.close(); session.socket=null; logI("UDP socket close owner="+session.thread.getName()); } }
   }
 
   private void watchdog() {
-    if (destroying) return; long now=SystemClock.elapsedRealtime(); long fixAge=lastFixElapsed==0?Long.MAX_VALUE:now-lastFixElapsed/1000000L; long sendAge=lastSendElapsed==0?Long.MAX_VALUE:now-lastSendElapsed;
-    if (fixAge<10000 && sendAge>SEND_STALE_MS && now>=nextRecoveryElapsed) synchronized(lock) {
-      if (destroying) return;
+    if (destroying) return; long now=SystemClock.elapsedRealtime(); long fixAge=lastFixElapsed==0?Long.MAX_VALUE:(SystemClock.elapsedRealtimeNanos()-lastFixElapsed)/1000000L; long sendAge=lastSendElapsed==0?Long.MAX_VALUE:now-lastSendElapsed;
+    if (recoveryCount>0 && (consecutiveSuccessfulSends>=SUCCESSFUL_SENDS_TO_RESET || now-lastRecoveryElapsed>=STABLE_NORMAL_MS)) {
+      logI("watchdog backoff reset reason=" + (consecutiveSuccessfulSends>=SUCCESSFUL_SENDS_TO_RESET ? "stable-successful-udp-sends" : "stable-normal-period"));
+      recoveryCount=0; nextRecoveryElapsed=0; consecutiveSuccessfulSends=0;
+    }
+    if (fixAge<10000 && sendAge>SEND_STALE_MS && now>=nextRecoveryElapsed) {
       recoveryCount++; long backoff=Math.min(600000L,60000L<<Math.min(recoveryCount-1,3)); nextRecoveryElapsed=now+backoff;
-      logI("watchdog recovery count="+recoveryCount+" fix_age_ms="+fixAge+" send_age_ms="+sendAge); stopSenderLocked(); startSenderLocked("watchdog");
+      lastRecoveryElapsed=now; consecutiveSuccessfulSends=0;
+      logI("watchdog recovery count="+recoveryCount+" fix_age_ms="+fixAge+" send_age_ms="+sendAge); restartSender("watchdog");
     }
   }
 
-  @Override public int onStartCommand(Intent i,int flags,int id) { logI("service start id="+id); registerCallbacks(); synchronized(lock) { startSenderLocked("start-command"); } return START_STICKY; }
-  @Override public void onDestroy() { destroying=true; logI("service destroy"); if (watchdog!=null) watchdog.shutdownNow(); synchronized(lock) { unregisterCallbacksLocked(); stopSenderLocked(); } super.onDestroy(); }
+  @Override public int onStartCommand(Intent i,int flags,int id) { logI("service start id="+id); registerCallbacks(); startSender("start-command"); return START_STICKY; }
+  @Override public void onDestroy() { destroying=true; logI("service destroy"); if (watchdog!=null) watchdog.shutdownNow(); synchronized(lock) { unregisterCallbacksLocked(); } stopSenderAndWait("destroy"); super.onDestroy(); }
   @Override public IBinder onBind(Intent i) { return null; }
   private static void logI(String s) { android.util.Log.i(TAG,s); }
   private static void logD(String s) { android.util.Log.d(TAG,s); }
