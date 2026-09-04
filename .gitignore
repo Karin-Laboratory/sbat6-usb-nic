@@ -1,0 +1,14 @@
+# Generated kernel-module build output
+*.o
+*.ko
+*.mod
+*.mod.c
+*.cmd
+modules.order
+Module.symvers
+
+# Local captures and scratch output
+*.pcap
+*.pcapng
+/build/
+/tmp/
