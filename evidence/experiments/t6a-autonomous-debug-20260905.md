@@ -67,3 +67,37 @@ or corrected.
 No same-condition retry. T6A was left in vendor state. Candidate replacement,
 forced unload, unknown role/GPIO operations, Windows connection, and iperf were
 not performed.
+
+## ATTEMPT-02 — absolute-link live retry
+
+- Start: 2026-09-05 08:29 JST
+- Candidate and telemetry hashes were verified on T6A before use:
+  `f07600aa9d8bbec0edc1e05d9ac0ab000d98a353d2a79f89db6242a75d487ce4` and
+  `94b157ad17cbe678f2484d058b2e5f8231e5ed6de6fe33f8349ee1588ca6ebf5`.
+- Change from ATTEMPT-01: absolute function target, `ln -s` (not `ln -sf`),
+  explicit absence/readability gate for `dev_addr`, `host_addr`, `qmult`, and
+  `ifname` before link creation.
+- The remote command began vendor provider release, loaded telemetry and the
+  candidate, then lost the T6A management path before a result log could be
+  collected. The initiating SSH command returned without usable stdout; a
+  30-second retry and subsequent retries found ARP/SSH unreachable or no route.
+- No evidence is available that Windows enumeration, UDC bind success, `ncm0`,
+  or a kernel Oops occurred. They are all `NOT_VERIFIED`.
+- Because the target became unreachable during candidate ConfigFS operations,
+  same-condition retry is prohibited. Recovery cannot be completed over the
+  approved SSH path at this time; ADB and unknown out-of-band operations were
+  not attempted.
+
+### Current blocker
+
+```text
+T6A management path lost during ATTEMPT-02 candidate ConfigFS sequence
+USB_NCM_VISIBLE_FROM_WINDOWS = NOT_REACHED
+T6A final module/config state = UNVERIFIED
+pstore = UNRECOVERABLE_WHILE_OFFLINE
+```
+
+The next safe action, once T6A management returns or the owner performs the
+minimum approved recovery action, is pstore-first collection followed by vendor
+baseline verification. Do not repeat the candidate until that evidence is
+collected.
