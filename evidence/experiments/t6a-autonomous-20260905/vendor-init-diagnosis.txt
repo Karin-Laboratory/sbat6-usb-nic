@@ -1,0 +1,123 @@
+---gadget
+drwxr-xr-x    6 root     root             0 Sep  5 08:18 .
+drwxr-xr-x    3 root     root             0 Sep  5 08:09 ..
+-rw-r--r--    1 root     root          4096 Sep  5 08:09 UDC
+-rw-r--r--    1 root     root          4096 Sep  5 08:19 bDeviceClass
+-rw-r--r--    1 root     root          4096 Sep  5 08:19 bDeviceProtocol
+-rw-r--r--    1 root     root          4096 Sep  5 08:19 bDeviceSubClass
+-rw-r--r--    1 root     root          4096 Sep  5 08:19 bMaxPacketSize0
+-rw-r--r--    1 root     root          4096 Sep  5 08:09 bcdDevice
+-rw-r--r--    1 root     root          4096 Sep  5 08:09 bcdUSB
+drwxr-xr-x    3 root     root             0 Sep  5 08:09 configs
+-rw-r--r--    1 root     root          4096 Sep  5 08:19 driver_match_existing_only
+drwxr-xr-x   10 root     root             0 Sep  5 08:09 functions
+-rw-r--r--    1 root     root          4096 Sep  5 08:18 idProduct
+-rw-r--r--    1 root     root          4096 Sep  5 08:09 idVendor
+drwxr-xr-x    2 root     root             0 Sep  5 08:09 os_desc
+drwxr-xr-x    3 root     root             0 Sep  5 08:09 strings
+drwxr-xr-x    3 root     root             0 Sep  5 08:09 .
+drwxr-xr-x    6 root     root             0 Sep  5 08:19 ..
+drwxr-xr-x    3 root     root             0 Sep  5 08:12 b.1
+drwxr-xr-x    3 root     root             0 Sep  5 08:12 .
+drwxr-xr-x    3 root     root             0 Sep  5 08:09 ..
+-rw-r--r--    1 root     root          4096 Sep  5 08:09 MaxPower
+-rw-r--r--    1 root     root          4096 Sep  5 08:19 bmAttributes
+lrwxrwxrwx    1 root     root             0 Sep  5 08:09 f1 -> ../../../../usb_gadget/g1/functions/acm.gs2
+lrwxrwxrwx    1 root     root             0 Sep  5 08:09 f2 -> ../../../../usb_gadget/g1/functions/ffs.adb
+lrwxrwxrwx    1 root     root             0 Sep  5 08:09 f3 -> ../../../../usb_gadget/g1/functions/acm.gs0
+lrwxrwxrwx    1 root     root             0 Sep  5 08:09 f4 -> ../../../../usb_gadget/g1/functions/acm.gs1
+drwxr-xr-x    3 root     root             0 Sep  5 08:09 strings
+drwxr-xr-x   10 root     root             0 Sep  5 08:09 .
+drwxr-xr-x    6 root     root             0 Sep  5 08:19 ..
+drwxr-xr-x    2 root     root             0 Sep  5 08:09 acm.gs0
+drwxr-xr-x    2 root     root             0 Sep  5 08:09 acm.gs1
+drwxr-xr-x    2 root     root             0 Sep  5 08:09 acm.gs2
+drwxr-xr-x    2 root     root             0 Sep  5 08:09 ecm.gs8
+drwxr-xr-x    2 root     root             0 Sep  5 08:09 ffs.adb
+drwxr-xr-x    3 root     root             0 Sep  5 08:09 mass_storage.usb0
+drwxr-xr-x    3 root     root             0 Sep  5 08:09 ncm.gs8
+drwxr-xr-x    3 root     root             0 Sep  5 08:09 rndis.gs4
+---types
+lrwxrwxrwx    1 root     root             0 Sep  5 08:09 /config/usb_gadget/g1/configs/b.1/f1 -> ../../../../usb_gadget/g1/functions/acm.gs2
+../../../../usb_gadget/g1/functions/acm.gs2
+/config/usb_gadget/g1/functions/acm.gs2
+lrwxrwxrwx    1 root     root             0 Sep  5 08:09 /config/usb_gadget/g1/configs/b.1/f2 -> ../../../../usb_gadget/g1/functions/ffs.adb
+../../../../usb_gadget/g1/functions/ffs.adb
+/config/usb_gadget/g1/functions/ffs.adb
+lrwxrwxrwx    1 root     root             0 Sep  5 08:09 /config/usb_gadget/g1/configs/b.1/f3 -> ../../../../usb_gadget/g1/functions/acm.gs0
+../../../../usb_gadget/g1/functions/acm.gs0
+/config/usb_gadget/g1/functions/acm.gs0
+lrwxrwxrwx    1 root     root             0 Sep  5 08:09 /config/usb_gadget/g1/configs/b.1/f4 -> ../../../../usb_gadget/g1/functions/acm.gs1
+../../../../usb_gadget/g1/functions/acm.gs1
+/config/usb_gadget/g1/functions/acm.gs1
+---udc
+11201000.usb
+configured
+---net
+lo               UNKNOWN        00:00:00:00:00:00 <LOOPBACK,UP,LOWER_UP> 
+ccmni0           DOWN           2a:18:ce:a2:a8:82 <BROADCAST,MULTICAST,NOARP> 
+ccmni1           UNKNOWN        ea:d9:61:8d:1b:ce <BROADCAST,MULTICAST,NOARP,UP,LOWER_UP> 
+ccmni2           DOWN           82:0c:69:ad:1b:c6 <BROADCAST,MULTICAST,NOARP> 
+ccmni3           DOWN           72:2b:1e:d9:59:f9 <BROADCAST,MULTICAST,NOARP> 
+ccmni4           DOWN           0e:d4:fc:4f:28:db <BROADCAST,MULTICAST,NOARP> 
+ccmni5           DOWN           7e:af:48:04:ee:c7 <BROADCAST,MULTICAST,NOARP> 
+ccmni6           DOWN           5e:38:3f:70:7f:16 <BROADCAST,MULTICAST,NOARP> 
+ccmni7           DOWN           0a:28:20:ff:da:86 <BROADCAST,MULTICAST,NOARP> 
+ccmni8           DOWN           d6:90:1d:82:ee:01 <BROADCAST,MULTICAST,NOARP> 
+ccmni9           DOWN           6a:a8:3a:8f:1d:4d <BROADCAST,MULTICAST,NOARP> 
+ccmni10          DOWN           0a:80:aa:ce:b4:63 <BROADCAST,MULTICAST,NOARP> 
+ccmni11          DOWN           16:ac:70:8e:80:fc <BROADCAST,MULTICAST,NOARP> 
+ccmni12          DOWN           46:be:f8:29:03:e1 <BROADCAST,MULTICAST,NOARP> 
+ccmni13          DOWN           96:de:25:43:26:ef <BROADCAST,MULTICAST,NOARP> 
+ccmni14          DOWN           72:a9:d4:4f:8e:98 <BROADCAST,MULTICAST,NOARP> 
+ccmni15          DOWN           b2:ca:20:e3:75:2a <BROADCAST,MULTICAST,NOARP> 
+ccmni16          DOWN           7a:5e:11:87:c9:0f <BROADCAST,MULTICAST,NOARP> 
+ccmni17          DOWN           d2:8b:10:4a:af:0f <BROADCAST,MULTICAST,NOARP> 
+ccmni18          DOWN           8e:f5:83:15:35:c2 <BROADCAST,MULTICAST,NOARP> 
+ccmni19          DOWN           be:af:42:1b:3d:32 <BROADCAST,MULTICAST,NOARP> 
+ccmni20          DOWN           7a:be:0a:f5:92:38 <BROADCAST,MULTICAST,NOARP> 
+eth0             UP             d2:5c:79:f9:ec:c7 <BROADCAST,MULTICAST,UP,LOWER_UP> 
+eth1             DOWN           ae:ee:5f:48:08:46 <BROADCAST,MULTICAST> 
+tunl0@NONE       DOWN           0.0.0.0 <NOARP> 
+ip_vti0@NONE     DOWN           0.0.0.0 <NOARP> 
+ip6tnl0@NONE     DOWN           :: <NOARP> 
+gre0@NONE        DOWN           0.0.0.0 <NOARP> 
+gretap0@NONE     DOWN           00:00:00:00:00:00 <BROADCAST,MULTICAST> 
+erspan0@NONE     DOWN           00:00:00:00:00:00 <BROADCAST,MULTICAST> 
+ip6gre0@NONE     DOWN           :: <NOARP> 
+ra0              UP             18:2c:a9:7b:cb:f2 <BROADCAST,MULTICAST,UP,LOWER_UP> 
+rai0             UP             18:2c:a9:7b:cb:f4 <BROADCAST,MULTICAST,UP,LOWER_UP> 
+rax0             UP             18:2c:a9:7b:cb:f6 <BROADCAST,MULTICAST,UP,LOWER_UP> 
+br-lan           UP             18:2c:a9:7b:cb:f0 <BROADCAST,MULTICAST,UP,LOWER_UP> 
+eth0.1@eth0      UP             18:2c:a9:8b:cb:f0 <BROADCAST,MULTICAST,UP,LOWER_UP> 
+eth0.2@eth0      UP             18:2c:a9:9b:cb:f0 <BROADCAST,MULTICAST,UP,LOWER_UP> 
+apcli0           DOWN           1e:2c:a9:7b:cb:f2 <NO-CARRIER,BROADCAST,MULTICAST,UP> 
+ra1              DOWN           18:2c:a9:7b:cb:f3 <BROADCAST,MULTICAST> 
+ra2              UNKNOWN        1a:2c:a9:6b:cb:f2 <BROADCAST,MULTICAST,UP,LOWER_UP> 
+apclii0          DOWN           1e:2c:a9:7b:cb:f4 <NO-CARRIER,BROADCAST,MULTICAST,UP> 
+rai1             DOWN           18:2c:a9:7b:cb:f5 <BROADCAST,MULTICAST> 
+rai2             UNKNOWN        1a:2c:a9:6b:cb:f4 <BROADCAST,MULTICAST,UP,LOWER_UP> 
+apclix0          DOWN           1e:2c:a9:7b:cb:f6 <NO-CARRIER,BROADCAST,MULTICAST,UP> 
+rax1             DOWN           18:2c:a9:7b:cb:f7 <BROADCAST,MULTICAST> 
+rax2             UNKNOWN        1a:2c:a9:6b:cb:f6 <BROADCAST,MULTICAST,UP,LOWER_UP> 
+---dmesg
+[  604.421682] ====Band2 Enable = 1====
+[  604.421690] Channel Busy Time = 11519
+[  604.421693] Primary Channel Busy Time = 46
+[  604.421696] OBSS Air Time = 0
+[  604.421699] My Tx Air Time = 11200
+[  604.421702] My Rx Air Time = 0
+[  604.421705] EDCCA Time = 38
+[  604.421708] PD count = 0
+[  604.421711] MDRDY Count = 0
+[  604.421714] Rx Cck Mdry Time = 0
+[  604.421717] Rx Ofdm Lg Mixed Mdry Time = 0
+[  604.421720] Rx Ofdm Green Mdry Time = 0
+[  604.421727] My MAC2PHY Tx Time = 11472
+[  604.421730] after ajust, my tx airtime = 11472
+[  604.421733] after ajust, my rx airtime = 0
+[  604.421735] after ajust, obss airtime = 0
+[  604.421738] after ajust, MibBss0CtrlFrameCntTime = 0
+[  604.421741] after ajust, MibCntAmpduTime = 0
+---modules
+usb_net 77824 6 - Live 0xffffffc0097cc000
