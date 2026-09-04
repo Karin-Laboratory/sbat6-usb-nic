@@ -47,6 +47,15 @@ else
   pass 'performance changes absent'
 fi
 
-if [ -f "$VENDOR_MAP" ]; then pass 'vendor ABI map present'; else fail 'vendor ABI map present'; fi
+if [ -f "$VENDOR_MAP" ]; then
+  pass 'vendor ABI map present'
+  if [ -f "$ROOT/candidate/20260904/static/modversions.c.txt" ] && awk -v map="$VENDOR_MAP" '
+      BEGIN { while ((getline l < map) > 0) { n=split(l,a,/[[:space:]]+/); if (n >= 2) { c=a[1]; sub(/^0x0+/,"0x",c); v[a[2]]=tolower(c) } } close(map) }
+      /\{ 0x[0-9a-f]+, "/ { line=$0; sub(/^.*\{ /,"",line); split(line,a,/[, ]+/); c=tolower(a[1]); sub(/^0x0+/,"0x",c); split($0,q,/"/); if (!(q[2] in v) || c != v[q[2]]) bad=1 }
+      END { exit bad ? 1 : 0 }
+    ' "$ROOT/candidate/20260904/static/modversions.c.txt"; then pass 'required symbol CRCs match recorded maps'; else fail 'required symbol CRCs match recorded maps'; fi
+else
+  fail 'vendor ABI map present'
+fi
 printf 'RESULT=%s\n' "$([ "$fail" -eq 0 ] && echo PASS || echo FAIL)"
 exit "$fail"
