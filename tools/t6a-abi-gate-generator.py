@@ -16,7 +16,8 @@ def main() -> int:
     manifest = json.loads(args.manifest.read_text())
     unknown: list[str] = []
     gates: list[dict[str, object]] = []
-    for row in manifest.get("fields", []):
+    rows = manifest.get("field_records") or manifest.get("fields", [])
+    for row in rows:
         if row.get("CANDIDATE_DIRECT_ACCESS") != "yes":
             continue
         name = f"{row.get('STRUCT')}::{row.get('FIELD')}"
@@ -33,6 +34,13 @@ def main() -> int:
     print(f"UNKNOWN_VENDOR_OFFSET_COUNT={len(unknown)}")
     for item in unknown:
         print(f"UNKNOWN_VENDOR_OFFSET={item}")
+    for group_name, group in manifest.get("unknown_groups", {}).items():
+        print(f"{group_name}={group.get('struct', '')}")
+        for field in group.get("fields", []):
+            print(
+                "FIELD_DETAIL="
+                + json.dumps({"group": group_name, **field}, ensure_ascii=False, sort_keys=True)
+            )
     if unknown:
         return 2
     if args.tu_header:

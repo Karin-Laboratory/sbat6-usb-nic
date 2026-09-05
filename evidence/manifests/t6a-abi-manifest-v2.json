@@ -103,6 +103,101 @@
       "GATE_STATUS": "BLOCKED_CANDIDATE_BANNED"
     }
   ],
+  "unknown_groups": {
+    "UNKNOWN_GROUP_1": {
+      "struct": "struct net_device",
+      "fields": [
+        {
+          "FIELD": "addr_assign_type",
+          "SOURCE_DIRECT_ACCESS": "yes",
+          "ACCESS_TYPE": "write",
+          "CURRENT_TU_OFFSET": "0x24f",
+          "VENDOR_OFFSET": "UNKNOWN",
+          "WHY_UNKNOWN": "vendor producer direct store not found",
+          "DECISION": "B",
+          "CAN_ELIMINATE_ACCESS": "yes, only after moving address-provenance semantics to verified helper/allocation path",
+          "CAN_PROVE_FROM_VENDOR_BINARY": "no"
+        },
+        {
+          "FIELD": "min_mtu",
+          "SOURCE_DIRECT_ACCESS": "yes",
+          "ACCESS_TYPE": "write",
+          "CURRENT_TU_OFFSET": "0x21c",
+          "VENDOR_OFFSET": "0x22c",
+          "WHY_UNKNOWN": "vendor store is visible, but current candidate provenance and TU gate are not canonical",
+          "DECISION": "B",
+          "CAN_ELIMINATE_ACCESS": "conditional; preserve equivalent ndo_change_mtu validation",
+          "CAN_PROVE_FROM_VENDOR_BINARY": "yes"
+        },
+        {
+          "FIELD": "max_mtu",
+          "SOURCE_DIRECT_ACCESS": "yes",
+          "ACCESS_TYPE": "write",
+          "CURRENT_TU_OFFSET": "0x220",
+          "VENDOR_OFFSET": "0x230",
+          "WHY_UNKNOWN": "vendor store is visible, but current candidate provenance and TU gate are not canonical",
+          "DECISION": "B",
+          "CAN_ELIMINATE_ACCESS": "conditional; preserve equivalent ndo_change_mtu validation",
+          "CAN_PROVE_FROM_VENDOR_BINARY": "yes"
+        },
+        {
+          "FIELD": "name",
+          "SOURCE_DIRECT_ACCESS": "yes",
+          "ACCESS_TYPE": "write",
+          "CURRENT_TU_OFFSET": "0x000",
+          "VENDOR_OFFSET": "0x000",
+          "WHY_UNKNOWN": "offset is structurally obvious, but direct write is not needed if allocation naming API is used",
+          "DECISION": "B",
+          "CAN_ELIMINATE_ACCESS": "yes, via verified allocation-time name pattern/API",
+          "CAN_PROVE_FROM_VENDOR_BINARY": "yes"
+        },
+        {
+          "FIELD": "mtu",
+          "SOURCE_DIRECT_ACCESS": "yes",
+          "ACCESS_TYPE": "read",
+          "CURRENT_TU_OFFSET": "0x218",
+          "VENDOR_OFFSET": "UNKNOWN",
+          "WHY_UNKNOWN": "current source reads net->mtu; no vendor consumer/producer offset proof retained",
+          "DECISION": "C",
+          "CAN_ELIMINATE_ACCESS": "conditional; only if minimal path removes this read and equivalent size source is proven",
+          "CAN_PROVE_FROM_VENDOR_BINARY": "not yet"
+        },
+        {
+          "FIELD": "stats",
+          "SOURCE_DIRECT_ACCESS": "yes",
+          "ACCESS_TYPE": "read/write",
+          "CURRENT_TU_OFFSET": "UNKNOWN",
+          "VENDOR_OFFSET": "UNKNOWN",
+          "WHY_UNKNOWN": "macro-expanded per-cpu stats layout is not vendor-proven",
+          "DECISION": "B",
+          "CAN_ELIMINATE_ACCESS": "yes, with module-owned counters and ndo_get_stats64",
+          "CAN_PROVE_FROM_VENDOR_BINARY": "no"
+        }
+      ]
+    },
+    "UNKNOWN_GROUP_2": {
+      "struct": "struct eth_dev",
+      "fields": [
+        {"FIELD": "net/gadget/lock/req_lock/rx_reqs/tx_reqs/rx_frames/tx_qlen/port_usb/qmult/header_len/host_mac/dev_mac/no_skb_reserve/wrap/unwrap/work/todo/zlp", "SOURCE_DIRECT_ACCESS": "yes", "ACCESS_TYPE": "read/write/address/callback", "CURRENT_TU_OFFSET": "candidate-owned; exact records required", "VENDOR_OFFSET": "not applicable", "WHY_UNKNOWN": "vendor-private member matching is not required if candidate owns the complete private object", "DECISION": "C", "CAN_ELIMINATE_ACCESS": "yes as vendor-ABI requirement; no as candidate self-layout audit", "CAN_PROVE_FROM_VENDOR_BINARY": "not required"}
+      ]
+    }
+  },
+  "piecewise_required_regions": [
+    {"region": "callback installation", "fields": ["netdev_ops", "ethtool_ops"], "status": "vendor offsets proven 0x1f8/0x200; candidate gate pending"},
+    {"region": "address and MTU setup", "fields": ["addr_assign_type", "dev_addr", "min_mtu", "max_mtu"], "status": "dev_addr and MTU vendor stores observed; addr_assign_type unresolved"},
+    {"region": "embedded device parent", "fields": ["dev"], "status": "vendor/candidate anchor 0x510; active consumer mapping unproven"},
+    {"region": "candidate private base", "fields": ["netdev_priv_base"], "status": "vendor target 0x8c0; final candidate audit required"}
+  ],
+  "minimal_candidate_abi_surface": [
+    {"ITEM": "netdev_ops slot", "PROVEN": "yes", "GATED": "no", "FINAL_ELF_AUDITABLE": "yes"},
+    {"ITEM": "ethtool_ops slot", "PROVEN": "yes", "GATED": "no", "FINAL_ELF_AUDITABLE": "yes"},
+    {"ITEM": "dev_addr slot", "PROVEN": "yes", "GATED": "yes for bbd228 only", "FINAL_ELF_AUDITABLE": "yes"},
+    {"ITEM": "embedded dev base", "PROVEN": "yes", "GATED": "yes for bbd228 only", "FINAL_ELF_AUDITABLE": "yes"},
+    {"ITEM": "netdev_priv base", "PROVEN": "yes as vendor anchor", "GATED": "no", "FINAL_ELF_AUDITABLE": "yes"},
+    {"ITEM": "addr_assign_type/min_mtu/max_mtu/mtu/name/stats", "PROVEN": "no", "GATED": "no", "FINAL_ELF_AUDITABLE": "yes after elimination or exact offsets"},
+    {"ITEM": "eth_dev private object", "PROVEN": "candidate-owned only", "GATED": "no", "FINAL_ELF_AUDITABLE": "yes"},
+    {"ITEM": "usb_function_instance callbacks", "PROVEN": "yes", "GATED": "yes for bbd228 only", "FINAL_ELF_AUDITABLE": "yes"}
+  ],
   "hard_gates": {
     "ABI_MANIFEST_SYSTEM": "IN_PROGRESS_FAIL_CLOSED", "SOURCE_MANIFEST_COVERAGE": "100%", "UNGATED_DIRECT_ACCESS_COUNT": "0",
     "ACTIVE_IMAGE_IDENTITY": "PARTIALLY_PROVEN", "VA_IMAGE_MAPPING": "FAIL", "PIECEWISE_NET_DEVICE_MAP": "INSUFFICIENT",
