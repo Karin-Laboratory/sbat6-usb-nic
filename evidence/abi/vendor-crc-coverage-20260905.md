@@ -31,7 +31,7 @@ found in the saved workspace.
 ## T6A read-only SSH attempt
 
 The documented management path was used: agent host -> `raspi2` ->
-`test-net.3.1`. From raspi2, read-only SSH attempts to T6A ports 22 and 2222
+`T6A-MGMT-IP`. From raspi2, read-only SSH attempts to T6A ports 22 and 2222
 timed out for both `root` and `codex`. No WebUI/RCE fallback was used because
 the requested management path was LAN/SSH only.
 

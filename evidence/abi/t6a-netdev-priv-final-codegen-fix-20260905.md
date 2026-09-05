@@ -29,13 +29,13 @@ sequence itself has not yet been run; the candidate remains offline.
 ## Artifact and provenance
 
 ```text
-candidate repo: <local-build-root>/user/projects/sbat6-usb-nic
+candidate repo: ../local-projects/sbat6-usb-nic
 candidate root: candidate/20260905-netdev-priv-final
 final ELF:     candidate/20260905-netdev-priv-final/usb_f_ncm.ko
 source TU:     candidate/20260905-netdev-priv-final/source/u_ether.c
 linked TU:     candidate/20260905-netdev-priv-final/source/f_ncm.c
 srctree:       /tmp/linux-5.4.238-netdev-abi-probe.uMrajx
-objtree:       <local-build-root>/user/projects/sbat6-usbnet/tmp-kernel-out.vendorcrc-20260905
+objtree:       ./tmp-kernel-out.vendorcrc-20260905
 ARCH:          arm64
 CROSS_COMPILE: aarch64-linux-gnu-
 KCFLAGS:       -DCONFIG_WIRELESS_EXT=1 -DCONFIG_T6A_VENDOR_NETDEV_COMPAT=1

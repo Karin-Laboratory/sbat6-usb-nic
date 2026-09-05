@@ -18,9 +18,9 @@ BBD228_MTIME=2026-09-05 09:37:24.360449019 +0900
 Matching copies found (all byte-identical by SHA256):
 
 ```text
-<local-build-root>/user/projects/sbat6-usb-nic/candidate/20260905-module-layout-provenance-v2/source/usb_f_ncm.ko
-<local-build-root>/user/projects/sbat6-usb-nic/candidate/20260905-module-layout-provenance-v2/usb_f_ncm.ko
-<local-build-root>/user/projects/sbat6-usb-nic/evidence/butlerx-live-evidence-20260905/staging/usb_f_ncm.ko
+./candidate/20260905-module-layout-provenance-v2/source/usb_f_ncm.ko
+./candidate/20260905-module-layout-provenance-v2/usb_f_ncm.ko
+./evidence/butlerx-live-evidence-20260905/staging/usb_f_ncm.ko
 ```
 
 The canonical audit path is the candidate-root copy:

@@ -14,7 +14,7 @@ The 2026-09-04 loaded candidate is reproducibly identified by:
 The recorded 2026-09-04 command used:
 
 ```text
-O=<local-build-root>/user/projects/sbat6-usbnet/tmp-kernel-out.yf9KMT
+O=./tmp-kernel-out.yf9KMT
 ```
 
 That output directory exists. Before this audit, the following were observed

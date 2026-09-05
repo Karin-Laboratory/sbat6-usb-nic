@@ -17,7 +17,7 @@ The original 74-entry map was not modified.
 The authoritative saved vendor module set is:
 
 ```text
-<local-build-root>/user/projects/sbair6-rce/work/terminal6-kmods/all-complete/*.ko
+../vendor-workspace/work/terminal6-kmods/all-complete/*.ko
 ```
 
 It contains 157 `.ko` files. The retained `README-driver-build.md` identifies

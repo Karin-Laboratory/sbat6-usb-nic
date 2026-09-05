@@ -24,7 +24,7 @@ All 74 ELF imports match `candidate/20260904/abi/vendor-kimage.Module.symvers`.
 ## Reproduction gate
 
 The existing output at
-`<local-build-root>/user/projects/sbat6-usbnet/tmp-kernel-out.yf9KMT` was checked first.
+`./tmp-kernel-out.yf9KMT` was checked first.
 Its `Module.symvers` SHA256 is:
 
 ```text

@@ -12,7 +12,7 @@ The rebuild used:
 ```text
 vendor map: candidate/20260905-mtk-fi-compat/abi/vendor-kimage-extended.Module.symvers
 vendor map SHA256: b259e638ada0a638c3b0142e1bb7ee604b9e5d718dd944615175f2c9d74a041a
-telemetry map: <local-build-root>/user/projects/butlerx/research/t6a-ncm-telemetry/Module.symvers
+telemetry map: ./research/t6a-ncm-telemetry/Module.symvers
 isolated O=: .tmp-netdev-kernel-out-rebuild
 vmlinux: absent from isolated O= during modpost
 ```
