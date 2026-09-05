@@ -1,32 +1,40 @@
-# ButlerX / T6A USB NIC status
+# T6A current truth
 
-| Item | Status |
-|---|---|
-| Current proven baseline | Exact existing bbd228 artifact re-audited offline: `dev_addr` final ELF codegen is `0x318`; full direct-access ABI audit is FAIL because private/netdev_priv codegen remains generic. |
-| Current T6A state | Recovered after automatic reboot: vendor `usb_net` refcount 6, f1-f4 maintained, f5 absent, candidate/telemetry absent, UDC not attached. |
-| Solved questions | Vendor evidence places `f` at `+0xa0`, `set_inst_name` at `+0xa8`, and `free_func_inst` at `+0xb0`; old candidate used `+0xa8` for `ncm_free_inst`. |
-| Current leading root cause | Unproven. The retained `gether_register_netdev+0x2c/0x8c` NULL dereference is not proven to be a post-dev_addr `register_netdevice` deep fault. |
-| Blocked experiments | Candidate functional network test is stopped by kernel Oops during UDC bind. Same-condition retry is prohibited pending diagnosis. Windows enumeration, ping, and iperf were not run. |
-| Safety bans | No global `composite.h` patch; no performance changes; no live target operations. |
-| Next candidate | None. No new candidate or live deployment until direct-access ABI audit passes. |
-| Last experiment | `evidence/experiments/t6a-mtk-ncm-functional-iperf-20260905.md` — candidate insmod/configfs/f5 PASS; UDC bind Oops; vendor restore PASS. |
-| Last updated | 2026-09-05 |
+Updated 2026-09-05 (RESET STONE 1 complete).
 
-The current exact artifact under audit is SHA256
-`bbd228debf2c49a55a68729b1a09eff3e8bba34bb6bb0cb7c085b0158ae88e3c`.
-Its exact-ELF static gate passes and its `dev_addr` codegen gate passes, but
-the required direct-access ABI audit fails because final ELF private accesses
-use the generic `netdev_priv` base. The exact audit is recorded in
-`evidence/abi/t6a-bbd228-exact-elf-provenance-reaudit-20260905.md`.
+```text
+CURRENT_PHASE=RESET_STONE_1_COMPLETE
+CURRENT_ARCHITECTURE=vendor lineage reconstruction + staged minimal implementation
+CURRENT_CANONICAL_CANDIDATE=none
+LIVE_TEST_READY=no
+LAST_LIVE_CANDIDATE=052318dea82970df24dfdb7a47942e79f99b35781f791c48d6bbb2ff7b2cdc1f
+LAST_LIVE_RESULT=UDC bind FAIL
+LAST_FAULT=register_netdevice+0xb4
 
-Current candidate SHA: `bbd228debf2c49a55a68729b1a09eff3e8bba34bb6bb0cb7c085b0158ae88e3c`.
-Latest proven static gate: exact ELF import/version/CRC/vermagic and
-`dev_addr=0x318` PASS; direct-access ABI gate FAIL.
-Latest live fault: retained pstore `gether_register_netdev+0x2c/0x8c` NULL
-dereference; provenance UNPROVEN.
-Fault provenance: not established as `register_netdevice+0xb4` deep fault.
-Current blocker: vendor-correct private/netdev_priv codegen and complete
-direct-access ABI audit.
-Live allowed: no.
-The functional test did not reach Windows or iperf. The Oops pstore is retained
-under `evidence/pstore/20260905/functional-oops-20260905/`.
+PROVEN:
+- usb_function_instance compatibility and ConfigFS instance live
+- bbd228 dev_addr final ELF 0x318
+- bbd228 exact ELF static/import gate
+- candidate 052318 static ABI gate and pre-UDC gate
+- netdev_priv codegen mismatch (bbd228 0x880; vendor-required base 0x8c0)
+- netdev_ops mismatch (candidate +0x218; vendor expected +0x1f8)
+- RESET STONE 1 Sol audit PASS
+
+UNPROVEN:
+- complete vendor struct net_device layout
+- exact causal interpretation of register_netdevice+0xb4
+- candidate suitable for another live attempt
+
+RETRACTED:
+- bbd228 ABI fully fixed
+- register_netdevice+0xb4 proves deeper kernel fault
+```
+
+The `052318...` candidate passed static admission and the pre-UDC stage, but
+the controlled UDC bind caused a NULL dereference, WDT, and reboot. It is
+live-banned. The device was returned to the vendor baseline; no candidate is
+approved for live testing. Windows enumeration and throughput tests were not
+run. Same-condition retry is prohibited.
+
+Evidence index: see [README.md](README.md#current-evidence) and
+[docs/T6A_AUTONOMOUS_LOOP_V1.md](docs/T6A_AUTONOMOUS_LOOP_V1.md).

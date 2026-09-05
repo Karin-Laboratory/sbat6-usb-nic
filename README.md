@@ -58,7 +58,25 @@ GitHubがこのプロジェクトのSystem of Recordです。成功、失敗、N
 
 ## Status
 
-Telemetry sinkはsourceから再ビルド可能なcandidateですが、vendor NCM data pathへの統合は未完了です。2026-09-04のcandidate ConfigFS再構成では管理経路を失い、Windows再列挙・iperf・telemetry測定は未実施でした。詳細は`evidence/experiments/`を参照してください。
+The single current truth is [STATUS.md](STATUS.md). The project is at
+`RESET_STONE_1_COMPLETE`: vendor lineage reconstruction plus staged minimal
+implementation. No candidate is approved for live testing.
+
+## Current evidence
+
+The public summaries below are the authoritative route through the current
+investigation. Sol prompt/response text, credentials, and private runtime
+state are intentionally excluded.
+
+- [function_instance ABI](candidate/20260905-mtk-fi-compat/ABI-REVIEW.md)
+- [net_device static gate and mismatch](evidence/abi/t6a-net-device-static-gate-reaudit-20260905.md)
+- [bbd228 exact ELF re-audit](evidence/abi/t6a-bbd228-exact-elf-provenance-reaudit-20260905.md)
+- [netdev_priv final codegen audit](evidence/abi/t6a-netdev-priv-final-codegen-fix-20260905.md)
+- [netdev_ops / register_netdevice analysis](evidence/abi/t6a-net-device-complete-reconstruction-20260905.md)
+- [active Image text correlation](evidence/abi/t6a-actual-kernel-text-register-netdevice-20260905.md)
+- [052318 live Oops](evidence/experiments/t6a-netdev-final-live-oops-20260905.md)
+- [RESET STONE 1 Sol audit](evidence/abi/t6a-reset-stone-1-sol-audit-20260905.md)
+- [autonomous loop v1](docs/T6A_AUTONOMOUS_LOOP_V1.md)
 
 ## License
 
