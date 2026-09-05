@@ -74,6 +74,7 @@ state are intentionally excluded.
 - [netdev_priv final codegen audit](evidence/abi/t6a-netdev-priv-final-codegen-fix-20260905.md)
 - [netdev_ops / register_netdevice analysis](evidence/abi/t6a-net-device-complete-reconstruction-20260905.md)
 - [active Image text correlation](evidence/abi/t6a-actual-kernel-text-register-netdevice-20260905.md)
+- [active kernel identity manifest](evidence/manifests/t6a-active-kernel-identity-20260905.json)
 - [052318 live Oops](evidence/experiments/t6a-netdev-final-live-oops-20260905.md)
 - [RESET STONE 1 Sol audit](evidence/abi/t6a-reset-stone-1-sol-audit-20260905.md)
 - [autonomous loop v1](docs/T6A_AUTONOMOUS_LOOP_V1.md)
