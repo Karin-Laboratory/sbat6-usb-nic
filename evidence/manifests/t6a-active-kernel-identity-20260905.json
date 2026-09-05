@@ -31,7 +31,7 @@
   },
   "evidence": {
     "primary": "evidence/abi/t6a-actual-kernel-text-register-netdevice-20260905.md",
-    "primary_sha256": "823934a55b6929e0bd4574b5d447963e205d3e4bb9cd47a4a020bb1c996c54ea"
+    "primary_sha256": "4bf16c9c55a9372c970b26acc2bbad51c56ef390ea3b4acea4e43a0bb2b1e73b"
   },
   "gates": {
     "active_image_identity": "PARTIALLY_PROVEN",
