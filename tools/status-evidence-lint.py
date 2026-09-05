@@ -17,6 +17,9 @@ VERDICTS = {"PROVEN", "OBSERVED", "CORROBORATED", "HYPOTHESIS", "UNPROVEN", "RET
 BAD = {"UNPROVEN", "RETRACTED", "FAIL", "NOT_PROVEN", "NOT_RUN"}
 LINK_RE = re.compile(r"\[[^]]+\]\(([^)]+)\)")
 VERDICT_RE = re.compile(r"^EVIDENCE_STATUS\s*=\s*([A-Z_]+)\s*$", re.M)
+# A status document is a snapshot, not a time-series log. Use scoped key names
+# when two scopes need different verdicts.
+KEY_RE = re.compile(r"^\s*([A-Z][A-Z0-9_]+)\s*=\s*(.*?)\s*$")
 
 
 def evidence_status(path: Path) -> str | None:
@@ -36,8 +39,13 @@ def main() -> int:
     in_proven = False
     errors: list[str] = []
     checks: list[dict[str, object]] = []
+    key_values: dict[str, list[tuple[int, str]]] = {}
     for number, line in enumerate(lines, 1):
         stripped = line.strip()
+        key_match = KEY_RE.match(line)
+        if key_match:
+            key, value = key_match.groups()
+            key_values.setdefault(key, []).append((number, value))
         if re.match(r"^#{1,6}\s+PROVEN\s*:?.*$", stripped, re.I):
             in_proven = True
             continue
@@ -69,7 +77,20 @@ def main() -> int:
         if any(token in line.upper() for token in BAD):
             errors.append(f"line {number}: PROVEN entry contains contradictory verdict token")
         checks.append(record)
-    result = {"STATUS_EVIDENCE_SYNC": "PASS" if not errors else "FAIL", "errors": errors, "checks": checks}
+    conflicts = {
+        key: records for key, records in key_values.items()
+        if len({value for _, value in records}) > 1
+    }
+    for key, records in sorted(conflicts.items()):
+        rendered = ", ".join(f"line {line}={value!r}" for line, value in records)
+        errors.append(f"DUPLICATE_KEY_CONFLICT: {key}: {rendered}")
+    result = {
+        "STATUS_INTERNAL_CONSISTENCY": "PASS" if not conflicts else "FAIL",
+        "STATUS_EVIDENCE_SYNC": "PASS" if not errors else "FAIL",
+        "duplicate_key_conflicts": conflicts,
+        "errors": errors,
+        "checks": checks,
+    }
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if not errors else 1
 
