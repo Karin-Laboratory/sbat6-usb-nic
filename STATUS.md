@@ -1,17 +1,18 @@
 # ButlerX current truth — T6A custom NCM
 
-Updated 2026-09-05 17:10 JST.
+Updated 2026-09-05 18:10 JST.
 
 ## Immediate evidence correction
 
-The active-kernel consumer text and root cause are not proven. The highest
-priority blocker is `ACTIVE_KERNEL_VA_TO_IMAGE_MAPPING`, not `struct module`.
+The active Image mapping and register_netdevice consumer are proven in
+relative coordinates. Absolute KASLR slide and complete replacement ABI
+remain closed gates.
 
 ```text
 ACTUAL_VENDOR_KERNEL_TEXT=UNPROVEN
 REGISTER_NETDEVICE_EXACT_FAULT=UNPROVEN
-ROOT_CAUSE=UNPROVEN
-VA_IMAGE_MAPPING=FAIL
+ROOT_CAUSE=PROVEN_CANDIDATE
+VA_IMAGE_MAPPING=PASS
 CURRENT_BOOT_KASLR_SLIDE=UNPROVEN
 CRASH_BOOT_KASLR_SLIDE=0x80000
 STRUCT_MODULE_PRIORITY=SECONDARY
@@ -22,6 +23,7 @@ STRUCT_MODULE_LIVE_GATE=RETAINED
 
 - recovered active `boot_b` Image SHA256 — [active-image identity evidence](evidence/abi/t6a-proven-active-identity-20260905.md)
 - current `/proc/kallsyms` capture is preserved and hash-pinned — [active-image identity evidence](evidence/abi/t6a-proven-active-identity-20260905.md)
+- relative VA-to-Image mapping and register_netdevice provenance — [checkpoint evidence](evidence/abi/t6a-checkpoint-mapping-and-register-netdevice-20260905.md)
 
 The values `netdev_ops=0x1f8`, `ethtool_ops=0x200`, `min_mtu=0x22c`, and
 `max_mtu=0x230` are deliberately not PROVEN from lineage alone; they are
@@ -53,7 +55,7 @@ LOADER_OFFSET_MAP_PROMOTED=NO (VA_IMAGE_MAPPING=FAIL; data-flow unproven)
 052318_MODVERSIONS_REPRODUCIBILITY=RESOLVED_CONTRADICTION_ONLY
 PROCESS_FAILURE_PROVEN=known direct-access fields existed in the inventory but were not mechanically required by candidate admission
 SELECTED_ARCHITECTURE=B vendor source lineage, validated incrementally using E
-ACTIVE_IMAGE_MAPPING=UNPROVEN
+ACTIVE_IMAGE_MAPPING=PROVEN_RELATIVE
 SOL_USAGE_METRICS_AVAILABLE=no
 ABI_MANIFEST_SYSTEM=IN_PROGRESS_FAIL_CLOSED
 SOURCE_MANIFEST_COVERAGE=100% (lexical field set; actual TU/codegen pending)
@@ -85,8 +87,8 @@ CURRENT_PROVEN_FACTS=vendor baseline recovered; custom candidates live-banned; S
 CURRENT_HYPOTHESES=hybrid private ABI is malformed; vendor source lineage is best route; active Image mapping may resolve register_netdevice consumer
 RETRACTED_CLAIMS=CRC proves private ABI; static PASS proves live safety; anonymous 32-byte insertion is complete; active Image +0xb4 field is proven
 LATEST_LIVE_RESULT=052318 UDC bind Oops/WDT/reboot, then vendor recovery
-CURRENT_BLOCKER=ACTIVE_KERNEL_VA_TO_IMAGE_MAPPING
-NEXT_ACTION=resolve current-boot VA-to-Image mapping, then reanalyse register_netdevice
+CURRENT_BLOCKER=COMPLETE_VENDOR_NET_DEVICE_ABI_AND_HOSTILE_SOL_REVIEW
+NEXT_ACTION=offline corrected layout candidate and full ELF/static gates; no live admission
 
 Zzzzz external AX88179A report checkpoint 2026-09-05:
 
@@ -131,8 +133,8 @@ CANDIDATE_LIVE_READY=NO
 The read-only identity consolidation is recorded in
 `evidence/manifests/t6a-active-kernel-identity-20260905.json`. An independent
 raw kallsyms capture is now hash-pinned at
-`evidence/manifests/t6a-kallsyms-raw-20260905.txt`; multi-symbol VA-to-Image
-byte proof is still missing. The V2 single-source manifest is
+`evidence/manifests/t6a-kallsyms-raw-20260905.txt`; the multi-symbol VA-to-Image
+proof is recorded in the checkpoint evidence. The V2 single-source manifest is
 `evidence/manifests/t6a-abi-manifest-v2.json`.
 
 The mapping audit is recorded in
@@ -141,15 +143,29 @@ with machine-readable [mapping model](evidence/abi/t6a-va-image-mapping-model-20
 
 ```text
 STATUS_EVIDENCE_SYNC=PASS (tools/status-evidence-lint.py)
-VA_IMAGE_MAPPING_SAMPLE_COUNT=0
+INDEPENDENT_MAPPING_CROSSCHECK_COUNT=2
+VA_IMAGE_MAPPING_SAMPLE_COUNT=13
 VA_IMAGE_MAPPING_CONFLICT_COUNT=0
-REGISTER_NETDEVICE_EXACT_FAULT=UNPROVEN
-NETDEV_OPS_0X1F8_STATUS=OBSERVED
+SYMBOL_DISTANCE_MATCH_COUNT=13
+BRANCH_EDGE_MATCH_COUNT=1
+HEAD_BRANCH_STEXT_OFFSET=PROVEN (0xd80000; independent decoder + objdump)
+STEXT_PRESERVE_BOOT_ARGS_CROSSCHECK=PASS
+_STEXT_RELATIVE_CROSSCHECK=PASS
+HEAD_RELATIVE_MAPPING_CROSSCHECK=PASS
+VA_IMAGE_MAPPING_CANDIDATE=STEXT_RELATIVE_PROVEN
+REGISTER_NETDEVICE_B4_OPCODE_PROVEN=yes
+ENTRY_X0_IS_DEV=PROVEN
+DEV_BASE_REGISTER=x19
+SOURCE_FIELD_OFFSET=0x1f8
+NETDEV_OPS_0X1F8_STATUS=PROVEN
+REGISTER_NETDEVICE_EXACT_FAULT=PROVEN
+ROOT_CAUSE=PROVEN_CANDIDATE
+SOL_NETDEVICE_ROOT_CAUSE_READY=no (no callable Sol provider in this environment)
 STRUCT_MODULE_ABI_STATUS=SECONDARY / LIVE_GATE_RETAINED
 GPL_EXACT_SOURCE_STATUS=NOT_FOUND
 GITHUB_UPDATED=YES_BRANCH_ONLY
 GITHUB_BRANCH=butlerx-status-correction-20260905
-GITHUB_COMMIT=d2d09ee
+GITHUB_COMMIT=b9181f0
 GITHUB_MAIN_MERGE=NOT_DONE (remote main diverged)
 NEXT_LIVE_TEST_READY=NO
 ```

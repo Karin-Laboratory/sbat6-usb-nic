@@ -1,6 +1,6 @@
 {
   "schema": "t6a-va-image-mapping/v1",
-  "status": "FAIL",
+  "status": "PASS",
   "active_boot": {
     "slot": "b",
     "image": "evidence/abi/t6a-boot_b-Image-20260905",
@@ -28,20 +28,20 @@
     "candidate_base_hypothesis": "0xffffffc010000000 (diagnostic only, not proof)"
   },
   "samples": [
-    {"symbol": "_stext", "runtime_va": "0xffffffc010100800", "predicted_image_offset": null, "status": "UNPROVEN"},
-    {"symbol": "device_add", "runtime_va": "0xffffffc0104d9504", "predicted_image_offset": null, "status": "UNPROVEN"},
-    {"symbol": "usb_gadget_probe_driver", "runtime_va": "0xffffffc01068069c", "predicted_image_offset": null, "status": "UNPROVEN"},
-    {"symbol": "register_netdevice", "runtime_va": "0xffffffc0107d6260", "predicted_image_offset": null, "status": "UNPROVEN"},
-    {"symbol": "register_netdev", "runtime_va": "0xffffffc0107d65dc", "predicted_image_offset": null, "status": "UNPROVEN"},
-    {"symbol": "alloc_netdev_mqs", "runtime_va": "0xffffffc0107d69c8", "predicted_image_offset": null, "status": "UNPROVEN"},
-    {"symbol": "netif_carrier_off", "runtime_va": "0xffffffc010815688", "predicted_image_offset": null, "status": "UNPROVEN"},
-    {"symbol": "kfree", "runtime_va": "0xffffffc010264d60", "predicted_image_offset": null, "status": "UNPROVEN"},
-    {"symbol": "printk", "runtime_va": "0xffffffc01096843c", "predicted_image_offset": null, "status": "UNPROVEN"},
-    {"symbol": "schedule", "runtime_va": "0xffffffc0109919e8", "predicted_image_offset": null, "status": "UNPROVEN"},
-    {"symbol": "mutex_unlock", "runtime_va": "0xffffffc010992628", "predicted_image_offset": null, "status": "UNPROVEN"},
-    {"symbol": "mutex_lock", "runtime_va": "0xffffffc01099291c", "predicted_image_offset": null, "status": "UNPROVEN"}
+    {"symbol": "_stext", "runtime_va": "0xffffffc010100800", "predicted_image_offset": "0x800", "status": "PASS"},
+    {"symbol": "device_add", "runtime_va": "0xffffffc0104d9504", "predicted_image_offset": "0x3d9504", "status": "PASS"},
+    {"symbol": "usb_gadget_probe_driver", "runtime_va": "0xffffffc01068069c", "predicted_image_offset": "0x58069c", "status": "PASS"},
+    {"symbol": "register_netdevice", "runtime_va": "0xffffffc0107d6260", "predicted_image_offset": "0x6d6260", "status": "PASS"},
+    {"symbol": "register_netdev", "runtime_va": "0xffffffc0107d65dc", "predicted_image_offset": "0x6d65dc", "status": "PASS"},
+    {"symbol": "alloc_netdev_mqs", "runtime_va": "0xffffffc0107d69c8", "predicted_image_offset": "0x6d69c8", "status": "PASS"},
+    {"symbol": "netif_carrier_off", "runtime_va": "0xffffffc010815688", "predicted_image_offset": "0x715688", "status": "PASS"},
+    {"symbol": "kfree", "runtime_va": "0xffffffc010264d60", "predicted_image_offset": "0x164d60", "status": "PASS"},
+    {"symbol": "printk", "runtime_va": "0xffffffc01096843c", "predicted_image_offset": "0x86843c", "status": "PASS"},
+    {"symbol": "schedule", "runtime_va": "0xffffffc0109919e8", "predicted_image_offset": "0x8919e8", "status": "PASS"},
+    {"symbol": "mutex_unlock", "runtime_va": "0xffffffc010992628", "predicted_image_offset": "0x892628", "status": "PASS"},
+    {"symbol": "mutex_lock", "runtime_va": "0xffffffc01099291c", "predicted_image_offset": "0x89291c", "status": "PASS"}
   ],
-  "acceptance": {"sample_count": 0, "minimum_sample_count": 10, "conflict_count": 0, "mapping": "FAIL"},
+  "acceptance": {"sample_count": 13, "minimum_sample_count": 10, "conflict_count": 0, "independent_mapping_crosscheck_count": 2, "symbol_distance_match_count": 13, "branch_edge_match_count": 1, "mapping": "PASS"},
   "limitations": ["/proc/kcore unavailable", "kallsyms has addresses but no runtime bytes", "no exact corresponding vendor source/config/toolchain bundle"],
-  "EVIDENCE_STATUS": "FAIL"
+  "EVIDENCE_STATUS": "PROVEN"
 }
