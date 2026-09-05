@@ -1,0 +1,116 @@
+{
+  "schema": "t6a-abi-manifest-v2",
+  "status": "offline-reconstruction-in-progress",
+  "candidate_build_authorized": false,
+  "linked_translation_units": [
+    "/home/masataka/projects/sbat6-usb-nic/candidate/20260905-netdev-priv-final/source/u_ether.c",
+    "/home/masataka/projects/sbat6-usb-nic/candidate/20260905-netdev-priv-final/source/f_ncm.c"
+  ],
+  "source_coverage": {
+    "source_direct_access_count": 10,
+    "manifest_direct_access_count": 33,
+    "special_direct_access_count": 37,
+    "ungated_direct_access_count": 0,
+    "coverage_percent": 100.0,
+    "coverage_gate": "PASS_FOR_LEXICAL_FIELD_SET",
+    "limitations": "Macro-expanded and type-sensitive accesses still require actual TU and final ELF gates."
+  },
+  "identity": {
+    "active_image_manifest": "evidence/manifests/t6a-active-kernel-identity-20260905.json",
+    "active_image_sha256": "de3a1bee91314be0a65bd79f60a954d928f2c31cc4861d41f2e90b948d650082",
+    "active_slot": "b",
+    "uname": "Linux T6A 5.4.238 #0 SMP Mon Apr 17 13:15:36 2023 aarch64 GNU/Linux",
+    "raw_kallsyms": {
+      "path": "evidence/manifests/t6a-kallsyms-raw-20260905.txt",
+      "sha256": "992040c1b0c8a94bf1b2eac4def82098219af9b77683712bfa74aa86bfb5ada1",
+      "size_bytes": 2735602,
+      "line_count": 65769,
+      "capture": "read-only via agent-101-vm -> raspi2 -> T6A"
+    }
+  },
+  "fields": [
+    {
+      "STRUCT": "struct net_device", "FIELD": "netdev_ops",
+      "CANDIDATE_DIRECT_ACCESS": "yes", "KERNEL_CONSUMED": "yes", "VENDOR_PRODUCER_ACCESS": "yes",
+      "SOURCE_LOCATION": "u_ether.c gether_setup_name; f_ncm.c", "GENERIC_OFFSET": "0x218", "VENDOR_OFFSET": "0x1f8",
+      "VENDOR_EVIDENCE": "usb_net paired callback store; active consumer byte mapping unproven", "CONFIDENCE": "medium",
+      "ACTUAL_TU_OFFSET": null, "TU_ASSERTION_REQUIRED": "yes", "TU_ASSERTION_PRESENT": "yes",
+      "FINAL_ELF_EXPECTED": "store at 0x1f8", "FINAL_ELF_OBSERVED": "052318 store at 0x218", "FINAL_ELF_GATE": "FAIL",
+      "GATE_REQUIRED": "yes", "GATE_STATUS": "BLOCKED_ACTIVE_IMAGE_MAPPING"
+    },
+    {
+      "STRUCT": "struct net_device", "FIELD": "ethtool_ops",
+      "CANDIDATE_DIRECT_ACCESS": "yes", "KERNEL_CONSUMED": "unknown", "VENDOR_PRODUCER_ACCESS": "yes",
+      "SOURCE_LOCATION": "u_ether.c gether_setup_name", "GENERIC_OFFSET": "0x220", "VENDOR_OFFSET": "0x200",
+      "VENDOR_EVIDENCE": "paired usb_net callback store", "CONFIDENCE": "medium",
+      "ACTUAL_TU_OFFSET": null, "TU_ASSERTION_REQUIRED": "yes", "TU_ASSERTION_PRESENT": "yes",
+      "FINAL_ELF_EXPECTED": "store at 0x200", "FINAL_ELF_OBSERVED": "052318 store at 0x220", "FINAL_ELF_GATE": "FAIL",
+      "GATE_REQUIRED": "yes", "GATE_STATUS": "BLOCKED_ACTIVE_IMAGE_MAPPING"
+    },
+    {
+      "STRUCT": "struct net_device", "FIELD": "dev_addr",
+      "CANDIDATE_DIRECT_ACCESS": "yes", "KERNEL_CONSUMED": "yes", "VENDOR_PRODUCER_ACCESS": "yes",
+      "SOURCE_LOCATION": "u_ether.c explicit helper", "GENERIC_OFFSET": "0x2e8", "VENDOR_OFFSET": "0x318",
+      "VENDOR_EVIDENCE": "exact bbd228 ELF and vendor analysis", "CONFIDENCE": "high",
+      "ACTUAL_TU_OFFSET": "0x318", "TU_ASSERTION_REQUIRED": "yes", "TU_ASSERTION_PRESENT": "yes",
+      "FINAL_ELF_EXPECTED": "six-byte access at 0x318", "FINAL_ELF_OBSERVED": "bbd228 0x318; 052318 not promoted", "FINAL_ELF_GATE": "PASS_FOR_BBD228_ONLY",
+      "GATE_REQUIRED": "yes", "GATE_STATUS": "BLOCKED_CANDIDATE_BANNED"
+    },
+    {
+      "STRUCT": "struct net_device", "FIELD": "dev",
+      "CANDIDATE_DIRECT_ACCESS": "yes", "KERNEL_CONSUMED": "yes", "VENDOR_PRODUCER_ACCESS": "yes",
+      "SOURCE_LOCATION": "u_ether.c SET_NETDEV_DEV", "GENERIC_OFFSET": "0x4d0", "VENDOR_OFFSET": "0x510",
+      "VENDOR_EVIDENCE": "exact bbd228 ELF parent codegen; active consumer mapping incomplete", "CONFIDENCE": "medium",
+      "ACTUAL_TU_OFFSET": "0x510", "TU_ASSERTION_REQUIRED": "yes", "TU_ASSERTION_PRESENT": "yes",
+      "FINAL_ELF_EXPECTED": "base 0x510", "FINAL_ELF_OBSERVED": "bbd228 0x510", "FINAL_ELF_GATE": "PASS_FOR_BBD228_ONLY",
+      "GATE_REQUIRED": "yes", "GATE_STATUS": "BLOCKED_ACTIVE_IMAGE_MAPPING"
+    },
+    {
+      "STRUCT": "struct net_device", "FIELD": "addr_assign_type/min_mtu/max_mtu/name/mtu/stats",
+      "CANDIDATE_DIRECT_ACCESS": "yes", "KERNEL_CONSUMED": "unknown", "VENDOR_PRODUCER_ACCESS": "yes",
+      "SOURCE_LOCATION": "u_ether.c", "GENERIC_OFFSET": null, "VENDOR_OFFSET": null,
+      "VENDOR_EVIDENCE": null, "CONFIDENCE": "unknown", "ACTUAL_TU_OFFSET": null,
+      "TU_ASSERTION_REQUIRED": "yes", "TU_ASSERTION_PRESENT": "yes", "FINAL_ELF_EXPECTED": null,
+      "FINAL_ELF_OBSERVED": null, "FINAL_ELF_GATE": "NOT_RUN", "GATE_REQUIRED": "yes",
+      "GATE_STATUS": "BLOCKED_UNKNOWN_VENDOR_OFFSET"
+    },
+    {
+      "STRUCT": "struct net_device", "FIELD": "netdev_priv_base",
+      "CANDIDATE_DIRECT_ACCESS": "yes", "KERNEL_CONSUMED": "no", "VENDOR_PRODUCER_ACCESS": "yes",
+      "SOURCE_LOCATION": "u_ether.c netdev_priv()", "GENERIC_OFFSET": "0x880", "VENDOR_OFFSET": "0x8c0",
+      "VENDOR_EVIDENCE": "vendor probe 0x8c0; bbd228 final ELF retains 0x880", "CONFIDENCE": "high",
+      "ACTUAL_TU_OFFSET": null, "TU_ASSERTION_REQUIRED": "yes", "TU_ASSERTION_PRESENT": "no",
+      "FINAL_ELF_EXPECTED": "all derivations from 0x8c0", "FINAL_ELF_OBSERVED": "bbd228 retains 0x880", "FINAL_ELF_GATE": "FAIL",
+      "GATE_REQUIRED": "yes", "GATE_STATUS": "BLOCKED_FINAL_ELF_CODEGEN"
+    },
+    {
+      "STRUCT": "struct eth_dev", "FIELD": "net/gadget/lock/req_lock/rx_reqs/tx_reqs/rx_frames/tx_qlen/port_usb/qmult/header_len/host_mac/dev_mac/no_skb_reserve/wrap/unwrap/work/todo/zlp",
+      "CANDIDATE_DIRECT_ACCESS": "yes", "KERNEL_CONSUMED": "no", "VENDOR_PRODUCER_ACCESS": "yes",
+      "SOURCE_LOCATION": "u_ether.c", "GENERIC_OFFSET": null, "VENDOR_OFFSET": null,
+      "VENDOR_EVIDENCE": "candidate assertions only; vendor private layout incomplete", "CONFIDENCE": "low",
+      "ACTUAL_TU_OFFSET": null, "TU_ASSERTION_REQUIRED": "yes", "TU_ASSERTION_PRESENT": "partial",
+      "FINAL_ELF_EXPECTED": "all actual accesses proven", "FINAL_ELF_OBSERVED": null, "FINAL_ELF_GATE": "NOT_RUN",
+      "GATE_REQUIRED": "yes", "GATE_STATUS": "BLOCKED_UNKNOWN_VENDOR_OFFSET"
+    },
+    {
+      "STRUCT": "usb_function_instance", "FIELD": "f/set_inst_name/free_func_inst",
+      "CANDIDATE_DIRECT_ACCESS": "yes", "KERNEL_CONSUMED": "yes", "VENDOR_PRODUCER_ACCESS": "unknown",
+      "SOURCE_LOCATION": "f_ncm.c/u_ncm.h", "GENERIC_OFFSET": "0xa0/0xa8/0xb0", "VENDOR_OFFSET": "0xa0/0xa8/0xb0",
+      "VENDOR_EVIDENCE": "existing compatibility assertions", "CONFIDENCE": "high", "ACTUAL_TU_OFFSET": null,
+      "TU_ASSERTION_REQUIRED": "yes", "TU_ASSERTION_PRESENT": "yes", "FINAL_ELF_EXPECTED": "assertions pass",
+      "FINAL_ELF_OBSERVED": "bbd228 pass", "FINAL_ELF_GATE": "PASS_FOR_BBD228_ONLY", "GATE_REQUIRED": "yes",
+      "GATE_STATUS": "BLOCKED_CANDIDATE_BANNED"
+    }
+  ],
+  "hard_gates": {
+    "ABI_MANIFEST_SYSTEM": "IN_PROGRESS", "SOURCE_MANIFEST_COVERAGE": "NOT_RUN", "UNGATED_DIRECT_ACCESS_COUNT": "NOT_RUN",
+    "ACTIVE_IMAGE_IDENTITY": "PARTIALLY_PROVEN", "VA_IMAGE_MAPPING": "FAIL", "PIECEWISE_NET_DEVICE_MAP": "INSUFFICIENT",
+    "VENDOR_LINEAGE_RECONSTRUCTION": "INCOMPLETE", "052318_MODVERSIONS_CONTRADICTION": "RESOLVED_CASE_B",
+    "LOADER_GATE_REPRODUCIBLE": "NO", "RESET_STONE_2_READY": "no"
+  },
+  "external_audit_findings": {
+    "A_known_but_ungated_fields": "OPEN_PROCESS_FAILURE",
+    "B_modversions_claim_vs_saved_modcrc": "OPEN",
+    "C_nonuniform_offsets": "OPEN_PIECEWISE_RECONSTRUCTION"
+  }
+}
