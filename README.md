@@ -2,6 +2,41 @@
 
 SoftBank Air Terminal 6 / SBA6Dを、USB CDC-NCM gadgetとしてWindows/Linuxへ直結し、USB NICとして利用するための実機一次資料、再現手順、telemetry、kernel driver実験の記録です。
 
+## Current status (2026-09-05)
+
+The USB NCM driver investigation is still in progress. The `net_device` ABI is
+substantially characterized and the USB function-instance path has live
+evidence, but the vendor `struct module` / module-loader ABI is **not proven**.
+There is currently no approved custom module and no live module test.
+
+Vendor `__this_module` corpus observations:
+
+```text
+Linux 5.4.238 / aarch64 target
+157 vendor modules scanned
+156 valid .gnu.linkonce.this_module samples
+sizeof-like section size  0x340
+module name offset        0x18 (156/156)
+init relocation           0x150
+cleanup relocation        0x328
+```
+
+Upstream Linux 5.4.238 predicts `.this_module = 0x280`; a MediaTek Android
+lineage candidate predicts `0x2c0` or otherwise has incompatible offsets.
+Neither reproduces the T6A vendor ABI. Only two useful relocation anchors
+were recovered, so the vendor-specific opaque regions remain unproven.
+
+Runtime collection confirmed the `.gnu.linkonce.this_module` section address
+for 157 loaded modules. BTF and `/proc/kcore` were unavailable, so raw runtime
+`struct module` bytes could not be obtained.
+
+The investigation is fail-closed: a candidate is not loaded merely because
+size/init/cleanup happen to match. Live testing is allowed only after
+independent ABI evidence converges. Therefore there is no guessed padding, ELF
+patching, or live custom-module test at this checkpoint. See
+[the current research status](docs/research/current-status.md) and the
+[`struct module` ABI note](docs/research/struct-module-abi.md).
+
 ## Confirmed result
 
 Vendor純正NCMの現在の実機baselineは次のとおりです。
@@ -45,7 +80,7 @@ Windows test-net.77.2/24
 
 GitHubがこのプロジェクトのSystem of Recordです。成功、失敗、NO_IMPROVEMENT、rollback、未検証事項を同じ粒度で記録します。性能変更は原則として1 commit / 1 variableとし、commit・benchmark・evidence・rollbackを対応させます。
 
-管理LAN（`test-net.3.0/24`）はUSB data planeと分離します。ADB、force rmmod、不可逆なeFuse/security設定は本プロジェクトの通常手順に含めません。
+管理LANはUSB data planeと分離します。ADB、force rmmod、不可逆なeFuse/security設定は本プロジェクトの通常手順に含めません。
 
 ## Layout
 
