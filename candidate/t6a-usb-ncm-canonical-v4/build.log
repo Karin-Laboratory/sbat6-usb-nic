@@ -1,0 +1,12 @@
+make: Entering directory '/home/masataka/projects/butlerx/candidate/t6a-ncm-diagnostic-v3'
+make -C /home/masataka/projects/sbair6-rce/work/src/linux-5.4.238-ax88179 O=/home/masataka/projects/butlerx/work/t6a-runtime-kernel-out M=/home/masataka/projects/butlerx/candidate/t6a-ncm-diagnostic-v3 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- KBUILD_EXTRA_SYMBOLS=/home/masataka/projects/butlerx/compat/t6a-vendor-Module.symvers modules
+make[1]: Entering directory '/home/masataka/projects/sbair6-rce/work/src/linux-5.4.238-ax88179'
+  CC [M]  /home/masataka/projects/butlerx/candidate/t6a-ncm-diagnostic-v3/u_ether.o
+  CC [M]  /home/masataka/projects/butlerx/candidate/t6a-ncm-diagnostic-v3/f_ncm.o
+  LD [M]  /home/masataka/projects/butlerx/candidate/t6a-ncm-diagnostic-v3/t6a_ncm_diagnostic_v3.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC [M]  /home/masataka/projects/butlerx/candidate/t6a-ncm-diagnostic-v3/t6a_ncm_diagnostic_v3.mod.o
+  LD [M]  /home/masataka/projects/butlerx/candidate/t6a-ncm-diagnostic-v3/t6a_ncm_diagnostic_v3.ko
+make[1]: Leaving directory '/home/masataka/projects/sbair6-rce/work/src/linux-5.4.238-ax88179'
+make: Leaving directory '/home/masataka/projects/butlerx/candidate/t6a-ncm-diagnostic-v3'
