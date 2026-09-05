@@ -1,6 +1,32 @@
 # ButlerX current truth — T6A custom NCM
 
-Updated 2026-09-05 16:50 JST.
+Updated 2026-09-05 17:10 JST.
+
+## Immediate evidence correction
+
+The active-kernel consumer text and root cause are not proven. The highest
+priority blocker is `ACTIVE_KERNEL_VA_TO_IMAGE_MAPPING`, not `struct module`.
+
+```text
+ACTUAL_VENDOR_KERNEL_TEXT=UNPROVEN
+REGISTER_NETDEVICE_EXACT_FAULT=UNPROVEN
+ROOT_CAUSE=UNPROVEN
+VA_IMAGE_MAPPING=FAIL
+CURRENT_BOOT_KASLR_SLIDE=UNPROVEN
+CRASH_BOOT_KASLR_SLIDE=0x80000
+STRUCT_MODULE_PRIORITY=SECONDARY
+STRUCT_MODULE_LIVE_GATE=RETAINED
+```
+
+### PROVEN
+
+- recovered active `boot_b` Image SHA256 — [active-image identity evidence](evidence/abi/t6a-proven-active-identity-20260905.md)
+- current `/proc/kallsyms` capture is preserved and hash-pinned — [active-image identity evidence](evidence/abi/t6a-proven-active-identity-20260905.md)
+
+The values `netdev_ops=0x1f8`, `ethtool_ops=0x200`, `min_mtu=0x22c`, and
+`max_mtu=0x230` are deliberately not PROVEN from lineage alone; they are
+classified as OBSERVED/CORROBORATED vendor-producer anchors in
+[the current research status](docs/research/current-status.md).
 
 ```text
 STATIC_ABI=RETRACTED for candidate 052318dea82970df24dfdb7a47942e79f99b35781f791c48d6bbb2ff7b2cdc1f (full admission coverage incomplete)
@@ -18,6 +44,8 @@ SOL_LIVE_TEST_READY=no
 SOL_RESET_REVIEW_1=COMPLETE
 SOL_RECOMMENDED_LOOP_V1=T6A_AUTONOMOUS_LOOP_V1.md
 AUTONOMOUS_LOOP_V2=DESIGNED_OFFLINE (docs/T6A_AUTONOMOUS_LOOP_V2.md)
+LOADER_OFFSET_MAP_GENERATED=YES (704 diagnostic records, 39 displacements)
+LOADER_OFFSET_MAP_PROMOTED=NO (VA_IMAGE_MAPPING=FAIL; data-flow unproven)
 052318_FULL_STATIC_ADMISSION=RETRACTED
 052318_KNOWN_ABI_GATES=PASS
 052318_DIRECT_ACCESS_COVERAGE=INCOMPLETE
@@ -57,8 +85,33 @@ CURRENT_PROVEN_FACTS=vendor baseline recovered; custom candidates live-banned; S
 CURRENT_HYPOTHESES=hybrid private ABI is malformed; vendor source lineage is best route; active Image mapping may resolve register_netdevice consumer
 RETRACTED_CLAIMS=CRC proves private ABI; static PASS proves live safety; anonymous 32-byte insertion is complete; active Image +0xb4 field is proven
 LATEST_LIVE_RESULT=052318 UDC bind Oops/WDT/reboot, then vendor recovery
-CURRENT_BLOCKER=complete vendor ABI and active Image mapping are not proven
-NEXT_ACTION=offline runtime-text evidence redesign plus piecewise vendor source-lineage audit
+CURRENT_BLOCKER=ACTIVE_KERNEL_VA_TO_IMAGE_MAPPING
+NEXT_ACTION=resolve current-boot VA-to-Image mapping, then reanalyse register_netdevice
+
+Zzzzz external AX88179A report checkpoint 2026-09-05:
+
+```text
+EXTERNAL_REPORT_CANONICALIZED=yes
+UPSTREAM_5_4_238_ORACLE=PASS
+ZZZZZ_LAYOUT_MODEL_COMPILED=PASS
+WEXT_PRE_NETDEV_OPS_DELTA=0x10
+KNOWN_VENDOR_ANCHOR_COUNT=7
+MATCH_COUNT=7
+MISMATCH_COUNT=0
+NETDEV_PRIV_BLIND_PREDICTION=PASS (0x8c0)
+HOLDOUT_PREDICTION_PASS=3/3
+T6A_CONFIG_WIRELESS_EXT_PROVEN=yes (direct /proc/config.gz; SHA256 pinned)
+T6A_CONFIG_HW_NAT_PROVEN=yes (direct /proc/config.gz; runtime module loaded)
+ZZZZZ_MODEL_OFFLINE_CONFIDENCE=NOT_HIGH
+STRUCTURAL_LAYOUT_PROVEN=no
+CANDIDATE_GATE_GENERATION=FAIL
+LIVE_TEST_READY=no
+```
+
+The matching oracle is a compiler-backed hypothesis test, not direct T6A
+runtime proof. The report and oracle output are in
+`evidence/abi/t6a-zzzzz-external-field-report-20260905.md` and
+`evidence/abi/t6a-zzzzz-layout-oracle-20260905.json`.
 
 Continuation review 2026-09-05:
 
@@ -81,3 +134,20 @@ raw kallsyms capture is now hash-pinned at
 `evidence/manifests/t6a-kallsyms-raw-20260905.txt`; multi-symbol VA-to-Image
 byte proof is still missing. The V2 single-source manifest is
 `evidence/manifests/t6a-abi-manifest-v2.json`.
+
+The mapping audit is recorded in
+[t6a-va-image-mapping-audit-20260905.md](evidence/abi/t6a-va-image-mapping-audit-20260905.md),
+with machine-readable [mapping model](evidence/abi/t6a-va-image-mapping-model-20260905.json).
+
+```text
+STATUS_EVIDENCE_SYNC=PASS (tools/status-evidence-lint.py)
+VA_IMAGE_MAPPING_SAMPLE_COUNT=0
+VA_IMAGE_MAPPING_CONFLICT_COUNT=0
+REGISTER_NETDEVICE_EXACT_FAULT=UNPROVEN
+NETDEV_OPS_0X1F8_STATUS=OBSERVED
+STRUCT_MODULE_ABI_STATUS=SECONDARY / LIVE_GATE_RETAINED
+GPL_EXACT_SOURCE_STATUS=NOT_FOUND
+GITHUB_UPDATED=NO
+GITHUB_COMMIT=NOT_CREATED
+NEXT_LIVE_TEST_READY=NO
+```

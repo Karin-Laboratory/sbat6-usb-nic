@@ -1,0 +1,47 @@
+{
+  "schema": "t6a-va-image-mapping/v1",
+  "status": "FAIL",
+  "active_boot": {
+    "slot": "b",
+    "image": "evidence/abi/t6a-boot_b-Image-20260905",
+    "image_sha256": "de3a1bee91314be0a65bd79f60a954d928f2c31cc4861d41f2e90b948d650082",
+    "header": {
+      "code0": "0x14360000",
+      "text_offset": "0x80000",
+      "image_size": "0x1b69000",
+      "flags": "0xa",
+      "magic": "ARMd"
+    }
+  },
+  "boot_generation_separation": {
+    "current_boot_kaslr_slide": null,
+    "current_boot_kaslr_status": "UNPROVEN",
+    "crash_boot_kaslr_slide": "0x80000",
+    "crash_boot_source": "pstore Kernel Offset: 0x80000",
+    "mixing_forbidden": true
+  },
+  "address_spaces": {
+    "runtime_va": "from current /proc/kallsyms",
+    "current_kaslr_slide": "unknown until exact T6A 5.4 arm64 layout/source is established",
+    "static_link_va": "unknown",
+    "raw_image_file_offset": "unknown; Image header text_offset is not itself a symbol offset",
+    "candidate_base_hypothesis": "0xffffffc010000000 (diagnostic only, not proof)"
+  },
+  "samples": [
+    {"symbol": "_stext", "runtime_va": "0xffffffc010100800", "predicted_image_offset": null, "status": "UNPROVEN"},
+    {"symbol": "device_add", "runtime_va": "0xffffffc0104d9504", "predicted_image_offset": null, "status": "UNPROVEN"},
+    {"symbol": "usb_gadget_probe_driver", "runtime_va": "0xffffffc01068069c", "predicted_image_offset": null, "status": "UNPROVEN"},
+    {"symbol": "register_netdevice", "runtime_va": "0xffffffc0107d6260", "predicted_image_offset": null, "status": "UNPROVEN"},
+    {"symbol": "register_netdev", "runtime_va": "0xffffffc0107d65dc", "predicted_image_offset": null, "status": "UNPROVEN"},
+    {"symbol": "alloc_netdev_mqs", "runtime_va": "0xffffffc0107d69c8", "predicted_image_offset": null, "status": "UNPROVEN"},
+    {"symbol": "netif_carrier_off", "runtime_va": "0xffffffc010815688", "predicted_image_offset": null, "status": "UNPROVEN"},
+    {"symbol": "kfree", "runtime_va": "0xffffffc010264d60", "predicted_image_offset": null, "status": "UNPROVEN"},
+    {"symbol": "printk", "runtime_va": "0xffffffc01096843c", "predicted_image_offset": null, "status": "UNPROVEN"},
+    {"symbol": "schedule", "runtime_va": "0xffffffc0109919e8", "predicted_image_offset": null, "status": "UNPROVEN"},
+    {"symbol": "mutex_unlock", "runtime_va": "0xffffffc010992628", "predicted_image_offset": null, "status": "UNPROVEN"},
+    {"symbol": "mutex_lock", "runtime_va": "0xffffffc01099291c", "predicted_image_offset": null, "status": "UNPROVEN"}
+  ],
+  "acceptance": {"sample_count": 0, "minimum_sample_count": 10, "conflict_count": 0, "mapping": "FAIL"},
+  "limitations": ["/proc/kcore unavailable", "kallsyms has addresses but no runtime bytes", "no exact corresponding vendor source/config/toolchain bundle"],
+  "EVIDENCE_STATUS": "FAIL"
+}
