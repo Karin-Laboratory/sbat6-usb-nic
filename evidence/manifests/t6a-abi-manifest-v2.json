@@ -68,8 +68,9 @@
     {
       "STRUCT": "struct net_device", "FIELD": "addr_assign_type/min_mtu/max_mtu/name/mtu/stats",
       "CANDIDATE_DIRECT_ACCESS": "yes", "KERNEL_CONSUMED": "unknown", "VENDOR_PRODUCER_ACCESS": "yes",
-      "SOURCE_LOCATION": "u_ether.c", "GENERIC_OFFSET": null, "VENDOR_OFFSET": null,
-      "VENDOR_EVIDENCE": null, "CONFIDENCE": "unknown", "ACTUAL_TU_OFFSET": null,
+      "SOURCE_LOCATION": "u_ether.c", "GENERIC_OFFSET": "0x24f", "VENDOR_OFFSET": null,
+      "VENDOR_EVIDENCE": "t6a-addr-assign-type-vendor-offset-20260905.md: vendor producer store not found; UNKNOWN",
+      "CONFIDENCE": "not-proven", "ACTUAL_TU_OFFSET": "0x24f",
       "TU_ASSERTION_REQUIRED": "yes", "TU_ASSERTION_PRESENT": "yes", "FINAL_ELF_EXPECTED": null,
       "FINAL_ELF_OBSERVED": null, "FINAL_ELF_GATE": "NOT_RUN", "GATE_REQUIRED": "yes",
       "GATE_STATUS": "BLOCKED_UNKNOWN_VENDOR_OFFSET"
@@ -103,14 +104,14 @@
     }
   ],
   "hard_gates": {
-    "ABI_MANIFEST_SYSTEM": "IN_PROGRESS", "SOURCE_MANIFEST_COVERAGE": "NOT_RUN", "UNGATED_DIRECT_ACCESS_COUNT": "NOT_RUN",
+    "ABI_MANIFEST_SYSTEM": "IN_PROGRESS_FAIL_CLOSED", "SOURCE_MANIFEST_COVERAGE": "100%", "UNGATED_DIRECT_ACCESS_COUNT": "0",
     "ACTIVE_IMAGE_IDENTITY": "PARTIALLY_PROVEN", "VA_IMAGE_MAPPING": "FAIL", "PIECEWISE_NET_DEVICE_MAP": "INSUFFICIENT",
     "VENDOR_LINEAGE_RECONSTRUCTION": "INCOMPLETE", "052318_MODVERSIONS_CONTRADICTION": "RESOLVED_CASE_B",
-    "LOADER_GATE_REPRODUCIBLE": "NO", "RESET_STONE_2_READY": "no"
+    "LOADER_GATE_REPRODUCIBLE": "PASS_FOR_REPRODUCED_SOURCE_CONFIG", "RESET_STONE_2_READY": "no"
   },
   "external_audit_findings": {
     "A_known_but_ungated_fields": "OPEN_PROCESS_FAILURE",
-    "B_modversions_claim_vs_saved_modcrc": "OPEN",
+    "B_modversions_claim_vs_saved_modcrc": "RESOLVED_CASE_B",
     "C_nonuniform_offsets": "OPEN_PIECEWISE_RECONSTRUCTION"
   }
 }
