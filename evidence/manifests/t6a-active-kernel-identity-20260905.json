@@ -1,0 +1,48 @@
+{
+  "manifest_schema": "t6a-active-kernel-identity/v1",
+  "collection_date": "2026-09-05",
+  "collection_mode": "read-only evidence consolidation",
+  "identity_status": "PARTIALLY_PROVEN",
+  "active_boot_slot": "b",
+  "boot_partition": {
+    "device": "/dev/mmcblk0p38",
+    "partlabel": "boot_b",
+    "size_bytes": 33554432,
+    "sha256": "1316aed38c40ea43a105b7e389efda4aa4f1d9569dbeda2b53580c2dce3f5398"
+  },
+  "kernel_command_line": "root=/dev/mmcblk0p39 bootslot=b",
+  "kernel_partition": {
+    "device": "/dev/mmcblk0p39",
+    "partlabel": "rootfs_b"
+  },
+  "image": {
+    "format": "Linux kernel ARM64 boot executable Image, little-endian, 4K pages",
+    "size_bytes": 17408008,
+    "sha256": "de3a1bee91314be0a65bd79f60a954d928f2c31cc4861d41f2e90b948d650082",
+    "compressed_payload_size_bytes": 6313752,
+    "compressed_payload_sha256": "97d2406111477250fd1a75878b8c4bdd018e5e62632f5839c62b158ca3a329b0"
+  },
+  "uname": "Linux T6A 5.4.238 #0 SMP Mon Apr 17 13:15:36 2023 aarch64 GNU/Linux",
+  "kallsyms": {
+    "source": "/proc/kallsyms",
+    "register_netdevice_runtime_va": "ffffffc0107d6260",
+    "independent_raw_capture": "NOT_SAVED",
+    "mapping_status": "UNPROVEN"
+  },
+  "evidence": {
+    "primary": "evidence/abi/t6a-actual-kernel-text-register-netdevice-20260905.md",
+    "primary_sha256": "823934a55b6929e0bd4574b5d447963e205d3e4bb9cd47a4a020bb1c996c54ea"
+  },
+  "gates": {
+    "active_image_identity": "PARTIALLY_PROVEN",
+    "va_image_mapping": "FAIL",
+    "register_netdevice_b4_dataflow": "NOT_PROVEN",
+    "live_test_ready": "no"
+  },
+  "limitations": [
+    "/proc/kcore is absent on the observed runtime",
+    "an independent raw kallsyms capture is not preserved",
+    "multiple-symbol VA-to-Image correlation is incomplete",
+    "this manifest does not authorize candidate creation or live testing"
+  ]
+}
