@@ -27,6 +27,9 @@ for other hosts or kernels.
 The source bundle is complete and its file hashes are in the source
 directories. The module name, source constants, build inputs, and final ELF
 hash were cross-checked against the recorded build and runtime provenance.
+The corresponding source is available, but a clean build producing this exact
+published SHA has not yet been reproduced; this is reproducibility status B,
+not status A. See [the reproducibility record](REPRODUCIBILITY-STATUS-65532.md).
 
 ## v6 baseline comparison
 

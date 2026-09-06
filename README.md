@@ -9,11 +9,14 @@
 - [復旧とrollback](docs/RECOVERY.md)
 - [性能と測定方向](docs/PERFORMANCE.md)
 - [65532 v1 release notes](RELEASE-NOTES-65532.md)
+- [65532 v1 reproducibility status](REPRODUCIBILITY-STATUS-65532.md)
 - [ビルドと検証](driver/t6a-ncm-65532-ntb-candidate-v1/BUILD.md)
 
 ## 推奨版と状態
 
 推奨版は、実機で稼働・疎通・性能確認済みの `t6a-ncm-65532-ntb-candidate-v1` です。対応バイナリは [`artifacts/t6a_usb_ncm_65532_candidate_v1.ko`](artifacts/t6a_usb_ncm_65532_candidate_v1.ko)、SHA256 は `7f0e5f3ec197a5f80f23195a3945a2d700bca9d97b8c04eadbacb02c247523c1`。
+
+対応ソースは公開済みですが、公開SHAをclean buildから再現する検証は未了です（判定B）。詳細は [再現性ステータス](REPRODUCIBILITY-STATUS-65532.md)を参照してください。
 
 canonical v6 は再現 baseline として保持しています。v6 は 16 KiB NTB / 32 datagrams / 300 us、v1 は 65532-byte NTB / 64 datagrams / 80 us です。instrumented v5 は runtime 未検証の experimental であり、推奨インストール対象ではありません。
 
