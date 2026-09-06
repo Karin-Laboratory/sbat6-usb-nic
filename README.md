@@ -1,106 +1,52 @@
 # sbat6-usb-nic
 
-SoftBank Air Terminal 6 / SBA6Dを、USB CDC-NCM gadgetとしてWindows/Linuxへ直結し、USB NICとして利用するための実機一次資料、再現手順、telemetry、kernel driver実験の記録です。
+公開済みの SoftBank Air Terminal 6 / SBA6D 向け USB CDC-NCM gadget の再現資料です。対象は T6A の vendor Linux 5.4.238 / ARM64 です。
 
-## Current status (2026-09-06)
+## まず読む場所
 
-The custom external CDC-NCM driver is functional on the stock T6A Linux
-5.4.238 kernel. UDC bind, Windows UsbNcm.sys enumeration, and bidirectional
-IPv4 traffic are proven.
+- [安全方針](docs/SAFETY.md)
+- [導入・ConfigFS・疎通](docs/USB-GADGET-NCM.md)
+- [復旧とrollback](docs/RECOVERY.md)
+- [性能と測定方向](docs/PERFORMANCE.md)
+- [65532 v1 release notes](RELEASE-NOTES-65532.md)
+- [ビルドと検証](driver/t6a-ncm-65532-ntb-candidate-v1/BUILD.md)
 
-The immutable reproducibility baseline is
-[`candidate/t6a-usb-ncm-canonical-v6`](candidate/t6a-usb-ncm-canonical-v6/).
+## 推奨版と状態
 
-Performance work has progressed beyond that baseline. A separate 65532-byte
-NTB candidate has reached approximately 1.49 Gbit/s T6A -> Windows P1, while
-RPS CPU pipeline separation has raised Windows -> T6A to a best observed
-1.999 Gbit/s with P10.
+推奨版は、実機で稼働・疎通・性能確認済みの `t6a-ncm-65532-ntb-candidate-v1` です。対応バイナリは [`artifacts/t6a_usb_ncm_65532_candidate_v1.ko`](artifacts/t6a_usb_ncm_65532_candidate_v1.ko)、SHA256 は `7f0e5f3ec197a5f80f23195a3945a2d700bca9d97b8c04eadbacb02c247523c1`。
 
-The performance candidate is not yet promoted as canonical because its complete
-Gate-0 provenance has not yet been imported into this clean repository.
+canonical v6 は再現 baseline として保持しています。v6 は 16 KiB NTB / 32 datagrams / 300 us、v1 は 65532-byte NTB / 64 datagrams / 80 us です。instrumented v5 は runtime 未検証の experimental であり、推奨インストール対象ではありません。
 
-For the authoritative present state, read [STATUS.md](STATUS.md) first.
-New humans and agents should then read
-[docs/AGENT_START_HERE.md](docs/AGENT_START_HERE.md).
+## 達成性能（測定方向を明記）
 
-## Confirmed result
+同一の T6A–Windows 構成での receiver throughput 平均です。T6A→Windows は P1 1.490、P4 1.580、P10 1.656 Gbit/s。Windows→T6A は P4 1.923、P10 1.982 Gbit/s。逆方向P1は不安定で0.893 Gbit/s平均でした。環境依存の測定値であり、他のkernel・hostでの保証値ではありません。
 
-Vendor純正NCMの現在の実機baselineは次のとおりです。
+## Quick Start
 
-```text
-T6A → Windows
-1.392 / 1.375 / 1.378 Gbit/s
+1. 現在のmodule、ConfigFS、ネットワーク設定をバックアップする。
+2. 物理または別経路の管理接続が維持できることを確認する。
+3. 対応 kernel、vermagic、SHA256 を [release notes](RELEASE-NOTES-65532.md) と照合する。
+4. [導入手順](docs/USB-GADGET-NCM.md)に従い、ConfigFSで一つの gadget/function だけを構成する。
+5. UDCがconfiguredになり、対象インターフェースの疎通を確認する。
 
-Windows → T6A
-1.01 / 1.01 / 1.01 Gbit/s
+危険な force-unload、UDC driver操作、無条件の再起動、eFuse・Secure Boot・Flash Encryption操作は既定手順に含めません。
 
-TCP Retr = 0
+## 導入後の扱い
+
+再起動後の自動復元はターゲット固有のinit/ConfigFS設定に依存します。自動復元を前提にせず、起動後にmodule、gadget、UDC、link、疎通を確認します。失敗時は[rollback/recovery](docs/RECOVERY.md)で保存済みのv6または元の構成へ戻します。まずWindows側を切断し、管理経路を確保してください。
+
+## 既知の制約と研究状況
+
+- vendor kernel 5.4.238 の内部ABIに依存し、generic Linuxでは動きません。
+- moduleのABI、UDC、ConfigFS topology、USB speedが一致しない場合は導入しないでください。
+- v1のP1 reverseは安定しておらず、性能差の原因を断定していません。
+- v6は再現baseline、v1は tested performance candidate、v5は未検証実験版です。
+
+## 成果物検証とライセンス
+
+```sh
+sha256sum -c artifacts/SHA256SUMS
+modinfo artifacts/t6a_usb_ncm_65532_candidate_v1.ko
 ```
 
-## Confirmed USB state
-
-```text
-mode=3
-xHCI ABSENT
-GPIO322 LOW
-VBUS 0V
-f5 -> ncm.gs8
-UDC configured
-current_speed=super-speed
-ncm0 LOWER_UP
-```
-
-`mode=3`は、一般的なLinux enumからの推測ではなく、T6A実機のvendor mode nodeでDEVICE成功状態として確認した値です。
-
-## Windows
-
-```text
-UsbNcm Host Device
-UsbNcm.sys
-VID:PID = 2C7C:7006
-T6A     test-net.77.1/24
-Windows test-net.77.2/24
-```
-
-## Repository policy
-
-GitHubがこのプロジェクトのSystem of Recordです。成功、失敗、NO_IMPROVEMENT、rollback、未検証事項を同じ粒度で記録します。性能変更は原則として1 commit / 1 variableとし、commit・benchmark・evidence・rollbackを対応させます。
-
-管理LANはUSB data planeと分離します。ADB、force rmmod、不可逆なeFuse/security設定は本プロジェクトの通常手順に含めません。
-
-## Layout
-
-- `docs/` — 再現手順、設計、Windows、recovery、安全方針
-- `driver/` — observation candidateと将来のvendor-tree patch
-- `telemetry/` — observation-only counter sinkと設計
-- `scripts/` — activate/recover/audit/benchmark用の再現可能な補助
-- `evidence/` — 実験・hardware・baselineの要約済み一次資料
-- `known-non-working/` — 再使用禁止または効果なしの正式記録
-
-## Status
-
-The single current truth is [STATUS.md](STATUS.md).
-
-Canonical v6 is live-validated and preserved as the reproducibility baseline.
-Current work is performance characterization and datapath instrumentation.
-
-## Current evidence
-
-The public summaries below are the authoritative route through the current
-investigation. Sol prompt/response text, credentials, and private runtime
-state are intentionally excluded.
-
-- [function_instance ABI](candidate/20260905-mtk-fi-compat/ABI-REVIEW.md)
-- [net_device static gate and mismatch](evidence/abi/t6a-net-device-static-gate-reaudit-20260905.md)
-- [bbd228 exact ELF re-audit](evidence/abi/t6a-bbd228-exact-elf-provenance-reaudit-20260905.md)
-- [netdev_priv final codegen audit](evidence/abi/t6a-netdev-priv-final-codegen-fix-20260905.md)
-- [netdev_ops / register_netdevice analysis](evidence/abi/t6a-net-device-complete-reconstruction-20260905.md)
-- [active Image text correlation](evidence/abi/t6a-actual-kernel-text-register-netdevice-20260905.md)
-- [active kernel identity manifest](evidence/manifests/t6a-active-kernel-identity-20260905.json)
-- [052318 live Oops](evidence/experiments/t6a-netdev-final-live-oops-20260905.md)
-- [RESET STONE 1 Sol audit](evidence/abi/t6a-reset-stone-1-sol-audit-20260905.md)
-- [autonomous loop v1](docs/T6A_AUTONOMOUS_LOOP_V1.md)
-
-## License
-
-Kernel/module source is GPL-2.0-only. Documentation and experiment records are CC BY 4.0 unless a file states otherwise. See `LICENSE`.
+source/ と module は GPL-2.0-only。文書と実験記録は明記がない限り CC BY 4.0。詳細は [LICENSE](LICENSE) と [LICENSE-DOCS](LICENSE-DOCS) を参照。
