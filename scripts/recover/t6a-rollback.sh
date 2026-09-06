@@ -1,4 +1,5 @@
 #!/bin/sh
+# Published MAC addresses are examples; set them to your local configuration before use.
 set +e
 LOG=/tmp/butlerx-rollback-$(date +%Y%m%d-%H%M%S).log
 exec > "$LOG" 2>&1

@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-EXPECTED_ORIGIN='https://github.com/everyoneknows/sbat6-usb-nic.git'
+EXPECTED_ORIGIN='https://github.com/Karin-Laboratory/sbat6-usb-nic.git'
 
 TOP=$(git rev-parse --show-toplevel 2>/dev/null) || {
     echo "ERROR: not inside a git repository" >&2
@@ -45,4 +45,4 @@ git merge-base HEAD origin/main >/dev/null 2>&1 || {
     exit 1
 }
 
-echo "REPO_IDENTITY_OK=everyoneknows/sbat6-usb-nic"
+echo "REPO_IDENTITY_OK=Karin-Laboratory/sbat6-usb-nic"
