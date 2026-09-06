@@ -27,6 +27,10 @@ but has not yet completed clean-repository Gate-0 promotion.
 
 Do not replace canonical v6 with it merely because it is faster.
 
+The canonical v6 `.ko` binary is not committed in this repository. Its
+authoritative SHA256 is recorded in
+`candidate/t6a-usb-ncm-canonical-v6/SHA256SUMS`.
+
 ## Critical corrections
 
 The ~350 Mbit/s to ~1.49 Gbit/s jump was primarily High-Speed to SuperSpeed
