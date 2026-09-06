@@ -2,40 +2,26 @@
 
 SoftBank Air Terminal 6 / SBA6Dを、USB CDC-NCM gadgetとしてWindows/Linuxへ直結し、USB NICとして利用するための実機一次資料、再現手順、telemetry、kernel driver実験の記録です。
 
-## Current status (2026-09-05)
+## Current status (2026-09-06)
 
-The USB NCM driver investigation is still in progress. The `net_device` ABI is
-substantially characterized and the USB function-instance path has live
-evidence, but the vendor `struct module` / module-loader ABI is **not proven**.
-There is currently no approved custom module and no live module test.
+The custom external CDC-NCM driver is functional on the stock T6A Linux
+5.4.238 kernel. UDC bind, Windows UsbNcm.sys enumeration, and bidirectional
+IPv4 traffic are proven.
 
-Vendor `__this_module` corpus observations:
+The immutable reproducibility baseline is
+[`candidate/t6a-usb-ncm-canonical-v6`](candidate/t6a-usb-ncm-canonical-v6/).
 
-```text
-Linux 5.4.238 / aarch64 target
-157 vendor modules scanned
-156 valid .gnu.linkonce.this_module samples
-sizeof-like section size  0x340
-module name offset        0x18 (156/156)
-init relocation           0x150
-cleanup relocation        0x328
-```
+Performance work has progressed beyond that baseline. A separate 65532-byte
+NTB candidate has reached approximately 1.49 Gbit/s T6A -> Windows P1, while
+RPS CPU pipeline separation has raised Windows -> T6A to a best observed
+1.999 Gbit/s with P10.
 
-Upstream Linux 5.4.238 predicts `.this_module = 0x280`; a MediaTek Android
-lineage candidate predicts `0x2c0` or otherwise has incompatible offsets.
-Neither reproduces the T6A vendor ABI. Only two useful relocation anchors
-were recovered, so the vendor-specific opaque regions remain unproven.
+The performance candidate is not yet promoted as canonical because its complete
+Gate-0 provenance has not yet been imported into this clean repository.
 
-Runtime collection confirmed the `.gnu.linkonce.this_module` section address
-for 157 loaded modules. BTF and `/proc/kcore` were unavailable, so raw runtime
-`struct module` bytes could not be obtained.
-
-The investigation is fail-closed: a candidate is not loaded merely because
-size/init/cleanup happen to match. Live testing is allowed only after
-independent ABI evidence converges. Therefore there is no guessed padding, ELF
-patching, or live custom-module test at this checkpoint. See
-[the current research status](docs/research/current-status.md) and the
-[`struct module` ABI note](docs/research/struct-module-abi.md).
+For the authoritative present state, read [STATUS.md](STATUS.md) first.
+New humans and agents should then read
+[docs/AGENT_START_HERE.md](docs/AGENT_START_HERE.md).
 
 ## Confirmed result
 
@@ -93,9 +79,10 @@ GitHubがこのプロジェクトのSystem of Recordです。成功、失敗、N
 
 ## Status
 
-The single current truth is [STATUS.md](STATUS.md). The project is at
-`RESET_STONE_1_COMPLETE`: vendor lineage reconstruction plus staged minimal
-implementation. No candidate is approved for live testing.
+The single current truth is [STATUS.md](STATUS.md).
+
+Canonical v6 is live-validated and preserved as the reproducibility baseline.
+Current work is performance characterization and datapath instrumentation.
 
 ## Current evidence
 

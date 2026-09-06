@@ -1,0 +1,9 @@
+make: Entering kernel build directory (redacted)
+  CC [M]  candidate/t6a-usb-ncm-canonical-v6/u_ether.o
+  CC [M]  candidate/t6a-usb-ncm-canonical-v6/f_ncm.o
+  LD [M]  candidate/t6a-usb-ncm-canonical-v6/t6a_usb_ncm_canonical_v6.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC [M]  candidate/t6a-usb-ncm-canonical-v6/t6a_usb_ncm_canonical_v6.mod.o
+  LD [M]  candidate/t6a-usb-ncm-canonical-v6/t6a_usb_ncm_canonical_v6.ko
+make: Leaving kernel build directory (redacted)

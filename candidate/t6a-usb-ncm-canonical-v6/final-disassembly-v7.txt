@@ -1,0 +1,3744 @@
+
+candidate/t6a-usb-ncm-canonical-v6/t6a_usb_ncm_canonical_v6.ko:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+0000000000000000 <system_uses_lse_atomics>:
+       0:	14000004 	b	10 <system_uses_lse_atomics+0x10>
+       4:	14000003 	b	10 <system_uses_lse_atomics+0x10>
+       8:	52800020 	mov	w0, #0x1                   	// #1
+       c:	d65f03c0 	ret
+      10:	52800000 	mov	w0, #0x0                   	// #0
+      14:	17fffffe 	b	c <system_uses_lse_atomics+0xc>
+
+0000000000000018 <__cmpxchg_case_acq_32>:
+      18:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+      1c:	aa0003e3 	mov	x3, x0
+      20:	910003fd 	mov	x29, sp
+      24:	97fffff7 	bl	0 <system_uses_lse_atomics>
+      28:	360000e0 	tbz	w0, #0, 44 <__cmpxchg_case_acq_32+0x2c>
+      2c:	aa0303e0 	mov	x0, x3
+      30:	2a0103e4 	mov	w4, w1
+      34:	88e47c62 	casa	w4, w2, [x3]
+      38:	2a0403e0 	mov	w0, w4
+      3c:	a8c17bfd 	ldp	x29, x30, [sp], #16
+      40:	d65f03c0 	ret
+      44:	2a0203e5 	mov	w5, w2
+      48:	2a0103e1 	mov	w1, w1
+      4c:	f9800071 	prfm	pstl1strm, [x3]
+      50:	885ffc60 	ldaxr	w0, [x3]
+      54:	4a010002 	eor	w2, w0, w1
+      58:	35000062 	cbnz	w2, 64 <__cmpxchg_case_acq_32+0x4c>
+      5c:	88027c65 	stxr	w2, w5, [x3]
+      60:	35ffff82 	cbnz	w2, 50 <__cmpxchg_case_acq_32+0x38>
+      64:	17fffff6 	b	3c <__cmpxchg_case_acq_32+0x24>
+
+0000000000000068 <arch_local_irq_disable>:
+      68:	d2800c00 	mov	x0, #0x60                  	// #96
+      6c:	d50342df 	msr	daifset, #0x2
+      70:	d65f03c0 	ret
+
+0000000000000074 <eth_get_drvinfo>:
+      74:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+      78:	d2800402 	mov	x2, #0x20                  	// #32
+      7c:	910003fd 	mov	x29, sp
+      80:	a90153f3 	stp	x19, x20, [sp, #16]
+      84:	aa0103f3 	mov	x19, x1
+      88:	aa0003f4 	mov	x20, x0
+      8c:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			8c: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1
+      90:	91001260 	add	x0, x19, #0x4
+      94:	91000021 	add	x1, x1, #0x0
+			94: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1
+      98:	94000000 	bl	0 <strlcpy>
+			98: R_AARCH64_CALL26	strlcpy
+      9c:	d2800402 	mov	x2, #0x20                  	// #32
+      a0:	91009260 	add	x0, x19, #0x24
+      a4:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			a4: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x8
+      a8:	91000021 	add	x1, x1, #0x0
+			a8: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x8
+      ac:	94000000 	bl	0 <strlcpy>
+			ac: R_AARCH64_CALL26	strlcpy
+      b0:	f9446e80 	ldr	x0, [x20, #2264]
+      b4:	d2800402 	mov	x2, #0x20                  	// #32
+      b8:	f9402c01 	ldr	x1, [x0, #88]
+      bc:	91011260 	add	x0, x19, #0x44
+      c0:	94000000 	bl	0 <strlcpy>
+			c0: R_AARCH64_CALL26	strlcpy
+      c4:	f9446e82 	ldr	x2, [x20, #2264]
+      c8:	91019260 	add	x0, x19, #0x64
+      cc:	f9405841 	ldr	x1, [x2, #176]
+      d0:	b5000041 	cbnz	x1, d8 <eth_get_drvinfo+0x64>
+      d4:	f9403041 	ldr	x1, [x2, #96]
+      d8:	d2800402 	mov	x2, #0x20                  	// #32
+      dc:	94000000 	bl	0 <strlcpy>
+			dc: R_AARCH64_CALL26	strlcpy
+      e0:	a94153f3 	ldp	x19, x20, [sp, #16]
+      e4:	a8c27bfd 	ldp	x29, x30, [sp], #32
+      e8:	d65f03c0 	ret
+
+00000000000000ec <dev_kfree_skb_any>:
+      ec:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+      f0:	52800021 	mov	w1, #0x1                   	// #1
+      f4:	910003fd 	mov	x29, sp
+      f8:	94000000 	bl	0 <__dev_kfree_skb_any>
+			f8: R_AARCH64_CALL26	__dev_kfree_skb_any
+      fc:	a8c17bfd 	ldp	x29, x30, [sp], #16
+     100:	d65f03c0 	ret
+
+0000000000000104 <eth_random_addr>:
+     104:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+     108:	d28000c1 	mov	x1, #0x6                   	// #6
+     10c:	910003fd 	mov	x29, sp
+     110:	f9000bf3 	str	x19, [sp, #16]
+     114:	aa0003f3 	mov	x19, x0
+     118:	94000000 	bl	0 <get_random_bytes>
+			118: R_AARCH64_CALL26	get_random_bytes
+     11c:	39400261 	ldrb	w1, [x19]
+     120:	121f7821 	and	w1, w1, #0xfffffffe
+     124:	321f0021 	orr	w1, w1, #0x2
+     128:	39000261 	strb	w1, [x19]
+     12c:	f9400bf3 	ldr	x19, [sp, #16]
+     130:	a8c27bfd 	ldp	x29, x30, [sp], #32
+     134:	d65f03c0 	ret
+
+0000000000000138 <get_ether_addr>:
+     138:	a9bc7bfd 	stp	x29, x30, [sp, #-64]!
+     13c:	910003fd 	mov	x29, sp
+     140:	a90153f3 	stp	x19, x20, [sp, #16]
+     144:	aa0103f4 	mov	x20, x1
+     148:	a9025bf5 	stp	x21, x22, [sp, #32]
+     14c:	a90363f7 	stp	x23, x24, [sp, #48]
+     150:	b5000120 	cbnz	x0, 174 <get_ether_addr+0x3c>
+     154:	aa1403e0 	mov	x0, x20
+     158:	97ffffeb 	bl	104 <eth_random_addr>
+     15c:	52800020 	mov	w0, #0x1                   	// #1
+     160:	a94153f3 	ldp	x19, x20, [sp, #16]
+     164:	a9425bf5 	ldp	x21, x22, [sp, #32]
+     168:	a94363f7 	ldp	x23, x24, [sp, #48]
+     16c:	a8c47bfd 	ldp	x29, x30, [sp], #64
+     170:	d65f03c0 	ret
+     174:	aa0003f3 	mov	x19, x0
+     178:	d2800016 	mov	x22, #0x0                   	// #0
+     17c:	52800758 	mov	w24, #0x3a                  	// #58
+     180:	39400260 	ldrb	w0, [x19]
+     184:	7100b81f 	cmp	w0, #0x2e
+     188:	7a581004 	ccmp	w0, w24, #0x4, ne	// ne = any
+     18c:	9a9f17e0 	cset	x0, eq	// eq = none
+     190:	9a931677 	cinc	x23, x19, eq	// eq = none
+     194:	38606a60 	ldrb	w0, [x19, x0]
+     198:	91000af3 	add	x19, x23, #0x2
+     19c:	94000000 	bl	0 <hex_to_bin>
+			19c: R_AARCH64_CALL26	hex_to_bin
+     1a0:	2a0003f5 	mov	w21, w0
+     1a4:	394006e0 	ldrb	w0, [x23, #1]
+     1a8:	94000000 	bl	0 <hex_to_bin>
+			1a8: R_AARCH64_CALL26	hex_to_bin
+     1ac:	2a151015 	orr	w21, w0, w21, lsl #4
+     1b0:	38366a95 	strb	w21, [x20, x22]
+     1b4:	910006d6 	add	x22, x22, #0x1
+     1b8:	f1001adf 	cmp	x22, #0x6
+     1bc:	54fffe21 	b.ne	180 <get_ether_addr+0x48>  // b.any
+     1c0:	b9400281 	ldr	w1, [x20]
+     1c4:	3707fc81 	tbnz	w1, #0, 154 <get_ether_addr+0x1c>
+     1c8:	79400a80 	ldrh	w0, [x20, #4]
+     1cc:	2a010000 	orr	w0, w0, w1
+     1d0:	34fffc20 	cbz	w0, 154 <get_ether_addr+0x1c>
+     1d4:	52800000 	mov	w0, #0x0                   	// #0
+     1d8:	17ffffe2 	b	160 <get_ether_addr+0x28>
+
+00000000000001dc <__preempt_count_sub.constprop.0>:
+     1dc:	d5384101 	mrs	x1, sp_el0
+     1e0:	b9401820 	ldr	w0, [x1, #24]
+     1e4:	51000400 	sub	w0, w0, #0x1
+     1e8:	b9001820 	str	w0, [x1, #24]
+     1ec:	d65f03c0 	ret
+
+00000000000001f0 <__raw_spin_unlock_irqrestore>:
+     1f0:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+     1f4:	52800002 	mov	w2, #0x0                   	// #0
+     1f8:	910003fd 	mov	x29, sp
+     1fc:	089ffc02 	stlrb	w2, [x0]
+     200:	d51b4221 	msr	daif, x1
+     204:	d503201f 	nop
+     208:	97fffff5 	bl	1dc <__preempt_count_sub.constprop.0>
+     20c:	a8c17bfd 	ldp	x29, x30, [sp], #16
+     210:	d65f03c0 	ret
+
+0000000000000214 <__raw_spin_unlock>:
+     214:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+     218:	52800001 	mov	w1, #0x0                   	// #0
+     21c:	910003fd 	mov	x29, sp
+     220:	089ffc01 	stlrb	w1, [x0]
+     224:	97ffffee 	bl	1dc <__preempt_count_sub.constprop.0>
+     228:	a8c17bfd 	ldp	x29, x30, [sp], #16
+     22c:	d65f03c0 	ret
+
+0000000000000230 <__preempt_count_add.constprop.0>:
+     230:	d5384101 	mrs	x1, sp_el0
+     234:	b9401820 	ldr	w0, [x1, #24]
+     238:	11000400 	add	w0, w0, #0x1
+     23c:	b9001820 	str	w0, [x1, #24]
+     240:	d65f03c0 	ret
+
+0000000000000244 <t6a_netif_stop_queue>:
+     244:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+     248:	910003fd 	mov	x29, sp
+     24c:	f941e001 	ldr	x1, [x0, #960]
+     250:	97ffff6c 	bl	0 <system_uses_lse_atomics>
+     254:	360000c0 	tbz	w0, #0, 26c <t6a_netif_stop_queue+0x28>
+     258:	91024022 	add	x2, x1, #0x90
+     25c:	d2800020 	mov	x0, #0x1                   	// #1
+     260:	f820305f 	stset	x0, [x2]
+     264:	a8c17bfd 	ldp	x29, x30, [sp], #16
+     268:	d65f03c0 	ret
+     26c:	91024021 	add	x1, x1, #0x90
+     270:	f9800031 	prfm	pstl1strm, [x1]
+     274:	c85f7c20 	ldxr	x0, [x1]
+     278:	b2400000 	orr	x0, x0, #0x1
+     27c:	c8027c20 	stxr	w2, x0, [x1]
+     280:	35ffffa2 	cbnz	w2, 274 <t6a_netif_stop_queue+0x30>
+     284:	17fffff8 	b	264 <t6a_netif_stop_queue+0x20>
+
+0000000000000288 <defer_kevent.constprop.0>:
+     288:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+     28c:	91028001 	add	x1, x0, #0xa0
+     290:	910003fd 	mov	x29, sp
+     294:	f9000bf3 	str	x19, [sp, #16]
+     298:	aa0003f3 	mov	x19, x0
+     29c:	97ffff59 	bl	0 <system_uses_lse_atomics>
+     2a0:	36000240 	tbz	w0, #0, 2e8 <defer_kevent.constprop.0+0x60>
+     2a4:	d2800020 	mov	x0, #0x1                   	// #1
+     2a8:	f8e03020 	ldsetal	x0, x0, [x1]
+     2ac:	37000180 	tbnz	w0, #0, 2dc <defer_kevent.constprop.0+0x54>
+     2b0:	90000000 	adrp	x0, 0 <system_wq>
+			2b0: R_AARCH64_ADR_PREL_PG_HI21	system_wq
+     2b4:	91020262 	add	x2, x19, #0x80
+     2b8:	f9400001 	ldr	x1, [x0]
+			2b8: R_AARCH64_LDST64_ABS_LO12_NC	system_wq
+     2bc:	52800080 	mov	w0, #0x4                   	// #4
+     2c0:	94000000 	bl	0 <queue_work_on>
+			2c0: R_AARCH64_CALL26	queue_work_on
+     2c4:	370000c0 	tbnz	w0, #0, 2dc <defer_kevent.constprop.0+0x54>
+     2c8:	f9400a61 	ldr	x1, [x19, #16]
+     2cc:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			2cc: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x14
+     2d0:	52800002 	mov	w2, #0x0                   	// #0
+     2d4:	91000000 	add	x0, x0, #0x0
+			2d4: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x14
+     2d8:	94000000 	bl	0 <printk>
+			2d8: R_AARCH64_CALL26	printk
+     2dc:	f9400bf3 	ldr	x19, [sp, #16]
+     2e0:	a8c27bfd 	ldp	x29, x30, [sp], #32
+     2e4:	d65f03c0 	ret
+     2e8:	91028263 	add	x3, x19, #0xa0
+     2ec:	f9800071 	prfm	pstl1strm, [x3]
+     2f0:	c85f7c60 	ldxr	x0, [x3]
+     2f4:	b2400001 	orr	x1, x0, #0x1
+     2f8:	c802fc61 	stlxr	w2, x1, [x3]
+     2fc:	35ffffa2 	cbnz	w2, 2f0 <defer_kevent.constprop.0+0x68>
+     300:	d5033bbf 	dmb	ish
+     304:	17ffffea 	b	2ac <defer_kevent.constprop.0+0x24>
+
+0000000000000308 <__raw_spin_lock_irqsave>:
+     308:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+     30c:	aa0003e6 	mov	x6, x0
+     310:	910003fd 	mov	x29, sp
+     314:	f9000bf3 	str	x19, [sp, #16]
+     318:	d53b4233 	mrs	x19, daif
+     31c:	12190260 	and	w0, w19, #0x80
+     320:	35000040 	cbnz	w0, 328 <__raw_spin_lock_irqsave+0x20>
+     324:	97ffff51 	bl	68 <arch_local_irq_disable>
+     328:	97ffffc2 	bl	230 <__preempt_count_add.constprop.0>
+     32c:	52800001 	mov	w1, #0x0                   	// #0
+     330:	aa0603e0 	mov	x0, x6
+     334:	52800022 	mov	w2, #0x1                   	// #1
+     338:	97ffff38 	bl	18 <__cmpxchg_case_acq_32>
+     33c:	2a0003e1 	mov	w1, w0
+     340:	34000060 	cbz	w0, 34c <__raw_spin_lock_irqsave+0x44>
+     344:	aa0603e0 	mov	x0, x6
+     348:	94000000 	bl	0 <queued_spin_lock_slowpath>
+			348: R_AARCH64_CALL26	queued_spin_lock_slowpath
+     34c:	aa1303e0 	mov	x0, x19
+     350:	f9400bf3 	ldr	x19, [sp, #16]
+     354:	a8c27bfd 	ldp	x29, x30, [sp], #32
+     358:	d65f03c0 	ret
+
+000000000000035c <eth_start_xmit>:
+     35c:	a9ba7bfd 	stp	x29, x30, [sp, #-96]!
+     360:	910003fd 	mov	x29, sp
+     364:	a9025bf5 	stp	x21, x22, [sp, #32]
+     368:	91230035 	add	x21, x1, #0x8c0
+     36c:	a90153f3 	stp	x19, x20, [sp, #16]
+     370:	aa0103f3 	mov	x19, x1
+     374:	aa0003f4 	mov	x20, x0
+     378:	aa1503e0 	mov	x0, x21
+     37c:	a90363f7 	stp	x23, x24, [sp, #48]
+     380:	a9046bf9 	stp	x25, x26, [sp, #64]
+     384:	f9002bfb 	str	x27, [sp, #80]
+     388:	97ffffe0 	bl	308 <__raw_spin_lock_irqsave>
+     38c:	f94006b7 	ldr	x23, [x21, #8]
+     390:	aa0003e1 	mov	x1, x0
+     394:	b40001f7 	cbz	x23, 3d0 <eth_start_xmit+0x74>
+     398:	7941e6e3 	ldrh	w3, [x23, #242]
+     39c:	f94072f7 	ldr	x23, [x23, #224]
+     3a0:	aa1503e0 	mov	x0, x21
+     3a4:	97ffff93 	bl	1f0 <__raw_spin_unlock_irqrestore>
+     3a8:	b50001f7 	cbnz	x23, 3e4 <eth_start_xmit+0x88>
+     3ac:	b5000174 	cbnz	x20, 3d8 <eth_start_xmit+0x7c>
+     3b0:	52800000 	mov	w0, #0x0                   	// #0
+     3b4:	f9402bfb 	ldr	x27, [sp, #80]
+     3b8:	a94153f3 	ldp	x19, x20, [sp, #16]
+     3bc:	a9425bf5 	ldp	x21, x22, [sp, #32]
+     3c0:	a94363f7 	ldp	x23, x24, [sp, #48]
+     3c4:	a9446bf9 	ldp	x25, x26, [sp, #64]
+     3c8:	a8c67bfd 	ldp	x29, x30, [sp], #96
+     3cc:	d65f03c0 	ret
+     3d0:	52800003 	mov	w3, #0x0                   	// #0
+     3d4:	17fffff3 	b	3a0 <eth_start_xmit+0x44>
+     3d8:	aa1403e0 	mov	x0, x20
+     3dc:	97ffff44 	bl	ec <dev_kfree_skb_any>
+     3e0:	17fffff4 	b	3b0 <eth_start_xmit+0x54>
+     3e4:	b4000234 	cbz	x20, 428 <eth_start_xmit+0xcc>
+     3e8:	37000203 	tbnz	w3, #0, 428 <eth_start_xmit+0xcc>
+     3ec:	f9406681 	ldr	x1, [x20, #200]
+     3f0:	b9400020 	ldr	w0, [x1]
+     3f4:	360001a0 	tbz	w0, #0, 428 <eth_start_xmit+0xcc>
+     3f8:	79400020 	ldrh	w0, [x1]
+     3fc:	79400422 	ldrh	w2, [x1, #2]
+     400:	79400821 	ldrh	w1, [x1, #4]
+     404:	0a020000 	and	w0, w0, w2
+     408:	0a010000 	and	w0, w0, w1
+     40c:	529fffe1 	mov	w1, #0xffff                	// #65535
+     410:	6b20203f 	cmp	w1, w0, uxth
+     414:	52800040 	mov	w0, #0x2                   	// #2
+     418:	52800101 	mov	w1, #0x8                   	// #8
+     41c:	1a811000 	csel	w0, w0, w1, ne	// ne = any
+     420:	6a00007f 	tst	w3, w0
+     424:	54fffda0 	b.eq	3d8 <eth_start_xmit+0x7c>  // b.none
+     428:	91238278 	add	x24, x19, #0x8e0
+     42c:	9123a279 	add	x25, x19, #0x8e8
+     430:	aa1803e0 	mov	x0, x24
+     434:	97ffffb5 	bl	308 <__raw_spin_lock_irqsave>
+     438:	aa0003e3 	mov	x3, x0
+     43c:	f9447660 	ldr	x0, [x19, #2280]
+     440:	eb00033f 	cmp	x25, x0
+     444:	540000c1 	b.ne	45c <eth_start_xmit+0x100>  // b.any
+     448:	aa1803e0 	mov	x0, x24
+     44c:	aa0303e1 	mov	x1, x3
+     450:	97ffff68 	bl	1f0 <__raw_spin_unlock_irqrestore>
+     454:	52800200 	mov	w0, #0x10                  	// #16
+     458:	17ffffd7 	b	3b4 <eth_start_xmit+0x58>
+     45c:	f94016b6 	ldr	x22, [x21, #40]
+     460:	d10102da 	sub	x26, x22, #0x40
+     464:	a94002c1 	ldp	x1, x0, [x22]
+     468:	f9000420 	str	x0, [x1, #8]
+     46c:	f9000001 	str	x1, [x0]
+     470:	d2802000 	mov	x0, #0x100                 	// #256
+     474:	f2fbd5a0 	movk	x0, #0xdead, lsl #48
+     478:	91008801 	add	x1, x0, #0x22
+     47c:	a90006c0 	stp	x0, x1, [x22]
+     480:	f9447660 	ldr	x0, [x19, #2280]
+     484:	eb00033f 	cmp	x25, x0
+     488:	54000061 	b.ne	494 <eth_start_xmit+0x138>  // b.any
+     48c:	aa1303e0 	mov	x0, x19
+     490:	97ffff6d 	bl	244 <t6a_netif_stop_queue>
+     494:	aa1803e0 	mov	x0, x24
+     498:	aa0303e1 	mov	x1, x3
+     49c:	97ffff55 	bl	1f0 <__raw_spin_unlock_irqrestore>
+     4a0:	f9403aa0 	ldr	x0, [x21, #112]
+     4a4:	b4000500 	cbz	x0, 544 <eth_start_xmit+0x1e8>
+     4a8:	aa1503e0 	mov	x0, x21
+     4ac:	97ffff97 	bl	308 <__raw_spin_lock_irqsave>
+     4b0:	aa0003fb 	mov	x27, x0
+     4b4:	f94006a0 	ldr	x0, [x21, #8]
+     4b8:	b40000a0 	cbz	x0, 4cc <eth_start_xmit+0x170>
+     4bc:	f9403aa2 	ldr	x2, [x21, #112]
+     4c0:	aa1403e1 	mov	x1, x20
+     4c4:	d63f0040 	blr	x2
+     4c8:	aa0003f4 	mov	x20, x0
+     4cc:	aa1b03e1 	mov	x1, x27
+     4d0:	aa1503e0 	mov	x0, x21
+     4d4:	97ffff47 	bl	1f0 <__raw_spin_unlock_irqrestore>
+     4d8:	b5000374 	cbnz	x20, 544 <eth_start_xmit+0x1e8>
+     4dc:	f94006a0 	ldr	x0, [x21, #8]
+     4e0:	b4000060 	cbz	x0, 4ec <eth_start_xmit+0x190>
+     4e4:	39441000 	ldrb	w0, [x0, #260]
+     4e8:	37000080 	tbnz	w0, #0, 4f8 <eth_start_xmit+0x19c>
+     4ec:	f9407aa0 	ldr	x0, [x21, #240]
+     4f0:	91000400 	add	x0, x0, #0x1
+     4f4:	f9007aa0 	str	x0, [x21, #240]
+     4f8:	aa1803e0 	mov	x0, x24
+     4fc:	97ffff83 	bl	308 <__raw_spin_lock_irqsave>
+     500:	aa0003e1 	mov	x1, x0
+     504:	f9447660 	ldr	x0, [x19, #2280]
+     508:	eb00033f 	cmp	x25, x0
+     50c:	540000e1 	b.ne	528 <eth_start_xmit+0x1cc>  // b.any
+     510:	f941e263 	ldr	x3, [x19, #960]
+     514:	d2800022 	mov	x2, #0x1                   	// #1
+     518:	91024064 	add	x4, x3, #0x90
+     51c:	97fffeb9 	bl	0 <system_uses_lse_atomics>
+     520:	360008c0 	tbz	w0, #0, 638 <eth_start_xmit+0x2dc>
+     524:	f822109f 	stclr	x2, [x4]
+     528:	f9447660 	ldr	x0, [x19, #2280]
+     52c:	f9000416 	str	x22, [x0, #8]
+     530:	a90066c0 	stp	x0, x25, [x22]
+     534:	aa1803e0 	mov	x0, x24
+     538:	f9047676 	str	x22, [x19, #2280]
+     53c:	97ffff2d 	bl	1f0 <__raw_spin_unlock_irqrestore>
+     540:	17ffff9c 	b	3b0 <eth_start_xmit+0x54>
+     544:	f9406681 	ldr	x1, [x20, #200]
+     548:	b9407280 	ldr	w0, [x20, #112]
+     54c:	f81c02c1 	stur	x1, [x22, #-64]
+     550:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			550: R_AARCH64_ADR_PREL_PG_HI21	.text+0x8f4
+     554:	91000021 	add	x1, x1, #0x0
+			554: R_AARCH64_ADD_ABS_LO12_NC	.text+0x8f4
+     558:	a9035341 	stp	x1, x20, [x26, #48]
+     55c:	f94006a2 	ldr	x2, [x21, #8]
+     560:	b40003e2 	cbz	x2, 5dc <eth_start_xmit+0x280>
+     564:	3943e041 	ldrb	w1, [x2, #248]
+     568:	360003a1 	tbz	w1, #0, 5dc <eth_start_xmit+0x280>
+     56c:	b9410042 	ldr	w2, [x2, #256]
+     570:	6b02001f 	cmp	w0, w2
+     574:	540000c1 	b.ne	58c <eth_start_xmit+0x230>  // b.any
+     578:	79405ee2 	ldrh	w2, [x23, #46]
+     57c:	1ac20c01 	sdiv	w1, w0, w2
+     580:	1b028021 	msub	w1, w1, w2, w0
+     584:	7100003f 	cmp	w1, #0x0
+     588:	1a9f07e1 	cset	w1, ne	// ne = any
+     58c:	b9402b42 	ldr	w2, [x26, #40]
+     590:	330f0022 	bfi	w2, w1, #17, #1
+     594:	b9002b42 	str	w2, [x26, #40]
+     598:	36880102 	tbz	w2, #17, 5b8 <eth_start_xmit+0x25c>
+     59c:	3942a2a1 	ldrb	w1, [x21, #168]
+     5a0:	370000c1 	tbnz	w1, #0, 5b8 <eth_start_xmit+0x25c>
+     5a4:	79405ee2 	ldrh	w2, [x23, #46]
+     5a8:	1ac20c01 	sdiv	w1, w0, w2
+     5ac:	1b028021 	msub	w1, w1, w2, w0
+     5b0:	7100003f 	cmp	w1, #0x0
+     5b4:	1a801400 	cinc	w0, w0, eq	// eq = none
+     5b8:	b9000b40 	str	w0, [x26, #8]
+     5bc:	aa1a03e1 	mov	x1, x26
+     5c0:	aa1703e0 	mov	x0, x23
+     5c4:	52814402 	mov	w2, #0xa20                 	// #2592
+     5c8:	94000000 	bl	0 <usb_ep_queue>
+			5c8: R_AARCH64_CALL26	usb_ep_queue
+     5cc:	340000c0 	cbz	w0, 5e4 <eth_start_xmit+0x288>
+     5d0:	aa1403e0 	mov	x0, x20
+     5d4:	97fffec6 	bl	ec <dev_kfree_skb_any>
+     5d8:	17ffffc5 	b	4ec <eth_start_xmit+0x190>
+     5dc:	52800021 	mov	w1, #0x1                   	// #1
+     5e0:	17ffffeb 	b	58c <eth_start_xmit+0x230>
+     5e4:	f941e260 	ldr	x0, [x19, #960]
+     5e8:	90000001 	adrp	x1, 0 <jiffies>
+			5e8: R_AARCH64_ADR_PREL_PG_HI21	jiffies
+     5ec:	f9400022 	ldr	x2, [x1]
+			5ec: R_AARCH64_LDST64_ABS_LO12_NC	jiffies
+     5f0:	f9404403 	ldr	x3, [x0, #136]
+     5f4:	eb02007f 	cmp	x3, x2
+     5f8:	54000060 	b.eq	604 <eth_start_xmit+0x2a8>  // b.none
+     5fc:	f9400021 	ldr	x1, [x1]
+			5fc: R_AARCH64_LDST64_ABS_LO12_NC	jiffies
+     600:	f9004401 	str	x1, [x0, #136]
+     604:	91242261 	add	x1, x19, #0x908
+     608:	97fffe7e 	bl	0 <system_uses_lse_atomics>
+     60c:	36000080 	tbz	w0, #0, 61c <eth_start_xmit+0x2c0>
+     610:	52800020 	mov	w0, #0x1                   	// #1
+     614:	b820003f 	stadd	w0, [x1]
+     618:	17ffff66 	b	3b0 <eth_start_xmit+0x54>
+     61c:	91242262 	add	x2, x19, #0x908
+     620:	f9800051 	prfm	pstl1strm, [x2]
+     624:	885f7c40 	ldxr	w0, [x2]
+     628:	11000400 	add	w0, w0, #0x1
+     62c:	88017c40 	stxr	w1, w0, [x2]
+     630:	35ffffa1 	cbnz	w1, 624 <eth_start_xmit+0x2c8>
+     634:	17ffff5f 	b	3b0 <eth_start_xmit+0x54>
+     638:	91024063 	add	x3, x3, #0x90
+     63c:	f9800071 	prfm	pstl1strm, [x3]
+     640:	c85f7c60 	ldxr	x0, [x3]
+     644:	8a220000 	bic	x0, x0, x2
+     648:	c8047c60 	stxr	w4, x0, [x3]
+     64c:	35ffffa4 	cbnz	w4, 640 <eth_start_xmit+0x2e4>
+     650:	17ffffb6 	b	528 <eth_start_xmit+0x1cc>
+
+0000000000000654 <rx_submit>:
+     654:	a9bc7bfd 	stp	x29, x30, [sp, #-64]!
+     658:	910003fd 	mov	x29, sp
+     65c:	a90153f3 	stp	x19, x20, [sp, #16]
+     660:	aa0003f3 	mov	x19, x0
+     664:	a9025bf5 	stp	x21, x22, [sp, #32]
+     668:	aa0103f5 	mov	x21, x1
+     66c:	a90363f7 	stp	x23, x24, [sp, #48]
+     670:	2a0203f7 	mov	w23, w2
+     674:	f9400c16 	ldr	x22, [x0, #24]
+     678:	97ffff24 	bl	308 <__raw_spin_lock_irqsave>
+     67c:	f9400663 	ldr	x3, [x19, #8]
+     680:	aa0003e1 	mov	x1, x0
+     684:	b4000063 	cbz	x3, 690 <rx_submit+0x3c>
+     688:	f9407478 	ldr	x24, [x3, #232]
+     68c:	b5000158 	cbnz	x24, 6b4 <rx_submit+0x60>
+     690:	12800d54 	mov	w20, #0xffffff95            	// #-107
+     694:	aa1303e0 	mov	x0, x19
+     698:	97fffed6 	bl	1f0 <__raw_spin_unlock_irqrestore>
+     69c:	2a1403e0 	mov	w0, w20
+     6a0:	a94153f3 	ldp	x19, x20, [sp, #16]
+     6a4:	a9425bf5 	ldp	x21, x22, [sp, #32]
+     6a8:	a94363f7 	ldp	x23, x24, [sp, #48]
+     6ac:	a8c47bfd 	ldp	x29, x30, [sp], #64
+     6b0:	d65f03c0 	ret
+     6b4:	b940f474 	ldr	w20, [x3, #244]
+     6b8:	d2878ac0 	mov	x0, #0x3c56                	// #15446
+     6bc:	8b000294 	add	x20, x20, x0
+     6c0:	b9435ac0 	ldr	w0, [x22, #856]
+     6c4:	364000c0 	tbz	w0, #8, 6dc <rx_submit+0x88>
+     6c8:	79405f04 	ldrh	w4, [x24, #46]
+     6cc:	51000482 	sub	w2, w4, #0x1
+     6d0:	8b22c282 	add	x2, x20, w2, sxtw
+     6d4:	9ac40842 	udiv	x2, x2, x4
+     6d8:	9b047c54 	mul	x20, x2, x4
+     6dc:	3943e060 	ldrb	w0, [x3, #248]
+     6e0:	36000080 	tbz	w0, #0, 6f0 <rx_submit+0x9c>
+     6e4:	b940fc60 	ldr	w0, [x3, #252]
+     6e8:	eb00029f 	cmp	x20, x0
+     6ec:	9a802294 	csel	x20, x20, x0, cs	// cs = hs, nlast
+     6f0:	aa1303e0 	mov	x0, x19
+     6f4:	97fffebf 	bl	1f0 <__raw_spin_unlock_irqrestore>
+     6f8:	f9400a60 	ldr	x0, [x19, #16]
+     6fc:	2a1703e2 	mov	w2, w23
+     700:	2a1403e1 	mov	w1, w20
+     704:	94000000 	bl	0 <__netdev_alloc_skb>
+			704: R_AARCH64_CALL26	__netdev_alloc_skb
+     708:	aa0003f6 	mov	x22, x0
+     70c:	b5000240 	cbnz	x0, 754 <rx_submit+0x100>
+     710:	aa1303e0 	mov	x0, x19
+     714:	12800174 	mov	w20, #0xfffffff4            	// #-12
+     718:	97fffedc 	bl	288 <defer_kevent.constprop.0>
+     71c:	b5000396 	cbnz	x22, 78c <rx_submit+0x138>
+     720:	91008276 	add	x22, x19, #0x20
+     724:	aa1603e0 	mov	x0, x22
+     728:	97fffef8 	bl	308 <__raw_spin_lock_irqsave>
+     72c:	aa1303e2 	mov	x2, x19
+     730:	910102a3 	add	x3, x21, #0x40
+     734:	aa0003e1 	mov	x1, x0
+     738:	aa1603e0 	mov	x0, x22
+     73c:	f8438c44 	ldr	x4, [x2, #56]!
+     740:	f9000483 	str	x3, [x4, #8]
+     744:	a9040aa4 	stp	x4, x2, [x21, #64]
+     748:	f9001e63 	str	x3, [x19, #56]
+     74c:	97fffea9 	bl	1f0 <__raw_spin_unlock_irqrestore>
+     750:	17ffffd3 	b	69c <rx_submit+0x48>
+     754:	f9406400 	ldr	x0, [x0, #200]
+     758:	f90002a0 	str	x0, [x21]
+     75c:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			75c: R_AARCH64_ADR_PREL_PG_HI21	.text+0x9e8
+     760:	91000000 	add	x0, x0, #0x0
+			760: R_AARCH64_ADD_ABS_LO12_NC	.text+0x9e8
+     764:	b9000ab4 	str	w20, [x21, #8]
+     768:	2a1703e2 	mov	w2, w23
+     76c:	a9035aa0 	stp	x0, x22, [x21, #48]
+     770:	aa1503e1 	mov	x1, x21
+     774:	aa1803e0 	mov	x0, x24
+     778:	94000000 	bl	0 <usb_ep_queue>
+			778: R_AARCH64_CALL26	usb_ep_queue
+     77c:	2a0003f4 	mov	w20, w0
+     780:	3100301f 	cmn	w0, #0xc
+     784:	54fffc60 	b.eq	710 <rx_submit+0xbc>  // b.none
+     788:	34fff8a0 	cbz	w0, 69c <rx_submit+0x48>
+     78c:	aa1603e0 	mov	x0, x22
+     790:	97fffe57 	bl	ec <dev_kfree_skb_any>
+     794:	17ffffe3 	b	720 <rx_submit+0xcc>
+
+0000000000000798 <rx_fill>:
+     798:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+     79c:	910003fd 	mov	x29, sp
+     7a0:	a90153f3 	stp	x19, x20, [sp, #16]
+     7a4:	aa0003f3 	mov	x19, x0
+     7a8:	91008014 	add	x20, x0, #0x20
+     7ac:	aa1403e0 	mov	x0, x20
+     7b0:	a9025bf5 	stp	x21, x22, [sp, #32]
+     7b4:	2a0103f5 	mov	w21, w1
+     7b8:	9100e276 	add	x22, x19, #0x38
+     7bc:	97fffed3 	bl	308 <__raw_spin_lock_irqsave>
+     7c0:	aa0003e1 	mov	x1, x0
+     7c4:	f9401e60 	ldr	x0, [x19, #56]
+     7c8:	eb0002df 	cmp	x22, x0
+     7cc:	54000081 	b.ne	7dc <rx_fill+0x44>  // b.any
+     7d0:	aa1403e0 	mov	x0, x20
+     7d4:	97fffe87 	bl	1f0 <__raw_spin_unlock_irqrestore>
+     7d8:	14000011 	b	81c <rx_fill+0x84>
+     7dc:	f9401e60 	ldr	x0, [x19, #56]
+     7e0:	d1010004 	sub	x4, x0, #0x40
+     7e4:	a9400803 	ldp	x3, x2, [x0]
+     7e8:	f9000462 	str	x2, [x3, #8]
+     7ec:	f9000043 	str	x3, [x2]
+     7f0:	f9000000 	str	x0, [x0]
+     7f4:	f9000400 	str	x0, [x0, #8]
+     7f8:	aa1403e0 	mov	x0, x20
+     7fc:	97fffe7d 	bl	1f0 <__raw_spin_unlock_irqrestore>
+     800:	2a1503e2 	mov	w2, w21
+     804:	aa0403e1 	mov	x1, x4
+     808:	aa1303e0 	mov	x0, x19
+     80c:	97ffff92 	bl	654 <rx_submit>
+     810:	36f800e0 	tbz	w0, #31, 82c <rx_fill+0x94>
+     814:	aa1303e0 	mov	x0, x19
+     818:	97fffe9c 	bl	288 <defer_kevent.constprop.0>
+     81c:	a94153f3 	ldp	x19, x20, [sp, #16]
+     820:	a9425bf5 	ldp	x21, x22, [sp, #32]
+     824:	a8c37bfd 	ldp	x29, x30, [sp], #48
+     828:	d65f03c0 	ret
+     82c:	aa1403e0 	mov	x0, x20
+     830:	97fffeb6 	bl	308 <__raw_spin_lock_irqsave>
+     834:	aa0003e1 	mov	x1, x0
+     838:	17ffffe3 	b	7c4 <rx_fill+0x2c>
+
+000000000000083c <eth_work>:
+     83c:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+     840:	aa0003e1 	mov	x1, x0
+     844:	91008003 	add	x3, x0, #0x20
+     848:	910003fd 	mov	x29, sp
+     84c:	d2800022 	mov	x2, #0x1                   	// #1
+     850:	97fffdec 	bl	0 <system_uses_lse_atomics>
+     854:	36000180 	tbz	w0, #0, 884 <eth_work+0x48>
+     858:	f8e21062 	ldclral	x2, x2, [x3]
+     85c:	aa0203e0 	mov	x0, x2
+     860:	360000e0 	tbz	w0, #0, 87c <eth_work+0x40>
+     864:	d1020020 	sub	x0, x1, #0x80
+     868:	f9400801 	ldr	x1, [x0, #16]
+     86c:	f9402421 	ldr	x1, [x1, #72]
+     870:	36000061 	tbz	w1, #0, 87c <eth_work+0x40>
+     874:	52819801 	mov	w1, #0xcc0                 	// #3264
+     878:	97ffffc8 	bl	798 <rx_fill>
+     87c:	a8c17bfd 	ldp	x29, x30, [sp], #16
+     880:	d65f03c0 	ret
+     884:	91008025 	add	x5, x1, #0x20
+     888:	f98000b1 	prfm	pstl1strm, [x5]
+     88c:	c85f7ca0 	ldxr	x0, [x5]
+     890:	8a220003 	bic	x3, x0, x2
+     894:	c804fca3 	stlxr	w4, x3, [x5]
+     898:	35ffffa4 	cbnz	w4, 88c <eth_work+0x50>
+     89c:	d5033bbf 	dmb	ish
+     8a0:	17fffff0 	b	860 <eth_work+0x24>
+
+00000000000008a4 <do_raw_spin_lock>:
+     8a4:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+     8a8:	aa0003e6 	mov	x6, x0
+     8ac:	52800022 	mov	w2, #0x1                   	// #1
+     8b0:	910003fd 	mov	x29, sp
+     8b4:	52800001 	mov	w1, #0x0                   	// #0
+     8b8:	97fffdd8 	bl	18 <__cmpxchg_case_acq_32>
+     8bc:	34000080 	cbz	w0, 8cc <do_raw_spin_lock+0x28>
+     8c0:	2a0003e1 	mov	w1, w0
+     8c4:	aa0603e0 	mov	x0, x6
+     8c8:	94000000 	bl	0 <queued_spin_lock_slowpath>
+			8c8: R_AARCH64_CALL26	queued_spin_lock_slowpath
+     8cc:	a8c17bfd 	ldp	x29, x30, [sp], #16
+     8d0:	d65f03c0 	ret
+
+00000000000008d4 <__raw_spin_lock>:
+     8d4:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+     8d8:	aa0003e2 	mov	x2, x0
+     8dc:	910003fd 	mov	x29, sp
+     8e0:	97fffe54 	bl	230 <__preempt_count_add.constprop.0>
+     8e4:	aa0203e0 	mov	x0, x2
+     8e8:	97ffffef 	bl	8a4 <do_raw_spin_lock>
+     8ec:	a8c17bfd 	ldp	x29, x30, [sp], #16
+     8f0:	d65f03c0 	ret
+
+00000000000008f4 <tx_complete>:
+     8f4:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+     8f8:	aa0003e2 	mov	x2, x0
+     8fc:	910003fd 	mov	x29, sp
+     900:	a90153f3 	stp	x19, x20, [sp, #16]
+     904:	aa0103f4 	mov	x20, x1
+     908:	f90013f5 	str	x21, [sp, #32]
+     90c:	f9401c20 	ldr	x0, [x1, #56]
+     910:	b9405421 	ldr	w1, [x1, #84]
+     914:	f9400053 	ldr	x19, [x2]
+     918:	3101a03f 	cmn	w1, #0x68
+     91c:	540000e0 	b.eq	938 <tx_complete+0x44>  // b.none
+     920:	34000481 	cbz	w1, 9b0 <tx_complete+0xbc>
+     924:	3101b03f 	cmn	w1, #0x6c
+     928:	54000080 	b.eq	938 <tx_complete+0x44>  // b.none
+     92c:	f9407261 	ldr	x1, [x19, #224]
+     930:	91000421 	add	x1, x1, #0x1
+     934:	f9007261 	str	x1, [x19, #224]
+     938:	97fffded 	bl	ec <dev_kfree_skb_any>
+     93c:	f9406260 	ldr	x0, [x19, #192]
+     940:	91008275 	add	x21, x19, #0x20
+     944:	91000400 	add	x0, x0, #0x1
+     948:	f9006260 	str	x0, [x19, #192]
+     94c:	aa1503e0 	mov	x0, x21
+     950:	97ffffe1 	bl	8d4 <__raw_spin_lock>
+     954:	aa1303e1 	mov	x1, x19
+     958:	91010280 	add	x0, x20, #0x40
+     95c:	f8428c22 	ldr	x2, [x1, #40]!
+     960:	f9000440 	str	x0, [x2, #8]
+     964:	a9040682 	stp	x2, x1, [x20, #64]
+     968:	91012262 	add	x2, x19, #0x48
+     96c:	f9001660 	str	x0, [x19, #40]
+     970:	aa1503e0 	mov	x0, x21
+     974:	97fffe28 	bl	214 <__raw_spin_unlock>
+     978:	52800021 	mov	w1, #0x1                   	// #1
+     97c:	97fffda1 	bl	0 <system_uses_lse_atomics>
+     980:	36000260 	tbz	w0, #0, 9cc <tx_complete+0xd8>
+     984:	4b0103e1 	neg	w1, w1
+     988:	b821005f 	stadd	w1, [x2]
+     98c:	f9400a60 	ldr	x0, [x19, #16]
+     990:	f9402401 	ldr	x1, [x0, #72]
+     994:	37100061 	tbnz	w1, #2, 9a0 <tx_complete+0xac>
+     998:	f941e000 	ldr	x0, [x0, #960]
+     99c:	94000000 	bl	0 <netif_tx_wake_queue>
+			99c: R_AARCH64_CALL26	netif_tx_wake_queue
+     9a0:	f94013f5 	ldr	x21, [sp, #32]
+     9a4:	a94153f3 	ldp	x19, x20, [sp, #16]
+     9a8:	a8c37bfd 	ldp	x29, x30, [sp], #48
+     9ac:	d65f03c0 	ret
+     9b0:	f9406a61 	ldr	x1, [x19, #208]
+     9b4:	b9407002 	ldr	w2, [x0, #112]
+     9b8:	8b020021 	add	x1, x1, x2
+     9bc:	f9006a61 	str	x1, [x19, #208]
+     9c0:	52800001 	mov	w1, #0x0                   	// #0
+     9c4:	94000000 	bl	0 <__dev_kfree_skb_any>
+			9c4: R_AARCH64_CALL26	__dev_kfree_skb_any
+     9c8:	17ffffdd 	b	93c <tx_complete+0x48>
+     9cc:	91012263 	add	x3, x19, #0x48
+     9d0:	f9800071 	prfm	pstl1strm, [x3]
+     9d4:	885f7c60 	ldxr	w0, [x3]
+     9d8:	4b010000 	sub	w0, w0, w1
+     9dc:	88027c60 	stxr	w2, w0, [x3]
+     9e0:	35ffffa2 	cbnz	w2, 9d4 <tx_complete+0xe0>
+     9e4:	17ffffea 	b	98c <tx_complete+0x98>
+
+00000000000009e8 <rx_complete>:
+     9e8:	a9bc7bfd 	stp	x29, x30, [sp, #-64]!
+     9ec:	910003fd 	mov	x29, sp
+     9f0:	a90153f3 	stp	x19, x20, [sp, #16]
+     9f4:	a9025bf5 	stp	x21, x22, [sp, #32]
+     9f8:	aa0103f6 	mov	x22, x1
+     9fc:	a90363f7 	stp	x23, x24, [sp, #48]
+     a00:	b9405434 	ldr	w20, [x1, #84]
+     a04:	f9400013 	ldr	x19, [x0]
+     a08:	f9401c35 	ldr	x21, [x1, #56]
+     a0c:	31012e9f 	cmn	w20, #0x4b
+     a10:	54000e00 	b.eq	bd0 <rx_complete+0x1e8>  // b.none
+     a14:	31012a9f 	cmn	w20, #0x4a
+     a18:	5400020a 	b.ge	a58 <rx_complete+0x70>  // b.tcont
+     a1c:	31019e9f 	cmn	w20, #0x67
+     a20:	54000b00 	b.eq	b80 <rx_complete+0x198>  // b.none
+     a24:	31019a9f 	cmn	w20, #0x66
+     a28:	540000aa 	b.ge	a3c <rx_complete+0x54>  // b.tcont
+     a2c:	3101b29f 	cmn	w20, #0x6c
+     a30:	54000ac0 	b.eq	b88 <rx_complete+0x1a0>  // b.none
+     a34:	3101a29f 	cmn	w20, #0x68
+     a38:	54000a80 	b.eq	b88 <rx_complete+0x1a0>  // b.none
+     a3c:	f9406e60 	ldr	x0, [x19, #216]
+     a40:	91000400 	add	x0, x0, #0x1
+     a44:	f9006e60 	str	x0, [x19, #216]
+     a48:	b40003b5 	cbz	x21, abc <rx_complete+0xd4>
+     a4c:	aa1503e0 	mov	x0, x21
+     a50:	97fffda7 	bl	ec <dev_kfree_skb_any>
+     a54:	1400001a 	b	abc <rx_complete+0xd4>
+     a58:	35ffff34 	cbnz	w20, a3c <rx_complete+0x54>
+     a5c:	b9405821 	ldr	w1, [x1, #88]
+     a60:	aa1503e0 	mov	x0, x21
+     a64:	91014277 	add	x23, x19, #0x50
+     a68:	94000000 	bl	0 <skb_put>
+			a68: R_AARCH64_CALL26	skb_put
+     a6c:	f9403e60 	ldr	x0, [x19, #120]
+     a70:	b4000400 	cbz	x0, af0 <rx_complete+0x108>
+     a74:	aa1303e0 	mov	x0, x19
+     a78:	97fffe24 	bl	308 <__raw_spin_lock_irqsave>
+     a7c:	aa0003f8 	mov	x24, x0
+     a80:	f9400660 	ldr	x0, [x19, #8]
+     a84:	b40002e0 	cbz	x0, ae0 <rx_complete+0xf8>
+     a88:	f9403e63 	ldr	x3, [x19, #120]
+     a8c:	aa1703e2 	mov	x2, x23
+     a90:	aa1503e1 	mov	x1, x21
+     a94:	d63f0060 	blr	x3
+     a98:	2a0003f4 	mov	w20, w0
+     a9c:	aa1803e1 	mov	x1, x24
+     aa0:	aa1303e0 	mov	x0, x19
+     aa4:	97fffdd3 	bl	1f0 <__raw_spin_unlock_irqrestore>
+     aa8:	aa1703e0 	mov	x0, x23
+     aac:	94000000 	bl	0 <skb_dequeue>
+			aac: R_AARCH64_CALL26	skb_dequeue
+     ab0:	aa0003f5 	mov	x21, x0
+     ab4:	52878698 	mov	w24, #0x3c34                	// #15412
+     ab8:	b5000255 	cbnz	x21, b00 <rx_complete+0x118>
+     abc:	f9400a60 	ldr	x0, [x19, #16]
+     ac0:	f9402400 	ldr	x0, [x0, #72]
+     ac4:	36000660 	tbz	w0, #0, b90 <rx_complete+0x1a8>
+     ac8:	b40007b6 	cbz	x22, bbc <rx_complete+0x1d4>
+     acc:	aa1603e1 	mov	x1, x22
+     ad0:	aa1303e0 	mov	x0, x19
+     ad4:	52814402 	mov	w2, #0xa20                 	// #2592
+     ad8:	97fffedf 	bl	654 <rx_submit>
+     adc:	14000038 	b	bbc <rx_complete+0x1d4>
+     ae0:	aa1503e0 	mov	x0, x21
+     ae4:	12800d54 	mov	w20, #0xffffff95            	// #-107
+     ae8:	97fffd81 	bl	ec <dev_kfree_skb_any>
+     aec:	17ffffec 	b	a9c <rx_complete+0xb4>
+     af0:	aa1503e1 	mov	x1, x21
+     af4:	aa1703e0 	mov	x0, x23
+     af8:	94000000 	bl	0 <skb_queue_tail>
+			af8: R_AARCH64_CALL26	skb_queue_tail
+     afc:	17ffffeb 	b	aa8 <rx_complete+0xc0>
+     b00:	37f800b4 	tbnz	w20, #31, b14 <rx_complete+0x12c>
+     b04:	b94072a0 	ldr	w0, [x21, #112]
+     b08:	51003800 	sub	w0, w0, #0xe
+     b0c:	6b18001f 	cmp	w0, w24
+     b10:	540001a9 	b.ls	b44 <rx_complete+0x15c>  // b.plast
+     b14:	f9406e60 	ldr	x0, [x19, #216]
+     b18:	91000400 	add	x0, x0, #0x1
+     b1c:	f9006e60 	str	x0, [x19, #216]
+     b20:	f9408660 	ldr	x0, [x19, #264]
+     b24:	91000400 	add	x0, x0, #0x1
+     b28:	f9008660 	str	x0, [x19, #264]
+     b2c:	aa1503e0 	mov	x0, x21
+     b30:	97fffd6f 	bl	ec <dev_kfree_skb_any>
+     b34:	aa1703e0 	mov	x0, x23
+     b38:	94000000 	bl	0 <skb_dequeue>
+			b38: R_AARCH64_CALL26	skb_dequeue
+     b3c:	aa0003f5 	mov	x21, x0
+     b40:	17ffffde 	b	ab8 <rx_complete+0xd0>
+     b44:	f9400a61 	ldr	x1, [x19, #16]
+     b48:	aa1503e0 	mov	x0, x21
+     b4c:	94000000 	bl	0 <eth_type_trans>
+			b4c: R_AARCH64_CALL26	eth_type_trans
+     b50:	790162a0 	strh	w0, [x21, #176]
+     b54:	f9405e60 	ldr	x0, [x19, #184]
+     b58:	91000400 	add	x0, x0, #0x1
+     b5c:	f9005e60 	str	x0, [x19, #184]
+     b60:	f9406660 	ldr	x0, [x19, #200]
+     b64:	b94072a1 	ldr	w1, [x21, #112]
+     b68:	8b010000 	add	x0, x0, x1
+     b6c:	f9006660 	str	x0, [x19, #200]
+     b70:	aa1503e0 	mov	x0, x21
+     b74:	94000000 	bl	0 <netif_rx>
+			b74: R_AARCH64_CALL26	netif_rx
+     b78:	2a0003f4 	mov	w20, w0
+     b7c:	17ffffee 	b	b34 <rx_complete+0x14c>
+     b80:	aa1303e0 	mov	x0, x19
+     b84:	97fffdc1 	bl	288 <defer_kevent.constprop.0>
+     b88:	aa1503e0 	mov	x0, x21
+     b8c:	97fffd58 	bl	ec <dev_kfree_skb_any>
+     b90:	91008274 	add	x20, x19, #0x20
+     b94:	aa1403e0 	mov	x0, x20
+     b98:	97ffff4f 	bl	8d4 <__raw_spin_lock>
+     b9c:	aa1303e1 	mov	x1, x19
+     ba0:	910102c0 	add	x0, x22, #0x40
+     ba4:	f8438c22 	ldr	x2, [x1, #56]!
+     ba8:	f9000440 	str	x0, [x2, #8]
+     bac:	a90406c2 	stp	x2, x1, [x22, #64]
+     bb0:	f9001e60 	str	x0, [x19, #56]
+     bb4:	aa1403e0 	mov	x0, x20
+     bb8:	97fffd97 	bl	214 <__raw_spin_unlock>
+     bbc:	a94153f3 	ldp	x19, x20, [sp, #16]
+     bc0:	a9425bf5 	ldp	x21, x22, [sp, #32]
+     bc4:	a94363f7 	ldp	x23, x24, [sp, #48]
+     bc8:	a8c47bfd 	ldp	x29, x30, [sp], #64
+     bcc:	d65f03c0 	ret
+     bd0:	f9408a60 	ldr	x0, [x19, #272]
+     bd4:	91000400 	add	x0, x0, #0x1
+     bd8:	f9008a60 	str	x0, [x19, #272]
+     bdc:	17ffff98 	b	a3c <rx_complete+0x54>
+
+0000000000000be0 <eth_open>:
+     be0:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+     be4:	910003fd 	mov	x29, sp
+     be8:	a90153f3 	stp	x19, x20, [sp, #16]
+     bec:	91230014 	add	x20, x0, #0x8c0
+     bf0:	aa0003f3 	mov	x19, x0
+     bf4:	f9400a80 	ldr	x0, [x20, #16]
+     bf8:	f9402400 	ldr	x0, [x0, #72]
+     bfc:	37100100 	tbnz	w0, #2, c1c <eth_open+0x3c>
+     c00:	aa1403e0 	mov	x0, x20
+     c04:	52819801 	mov	w1, #0xcc0                 	// #3264
+     c08:	97fffee4 	bl	798 <rx_fill>
+     c0c:	b9090a7f 	str	wzr, [x19, #2312]
+     c10:	f9400a80 	ldr	x0, [x20, #16]
+     c14:	f941e000 	ldr	x0, [x0, #960]
+     c18:	94000000 	bl	0 <netif_tx_wake_queue>
+			c18: R_AARCH64_CALL26	netif_tx_wake_queue
+     c1c:	97fffd13 	bl	68 <arch_local_irq_disable>
+     c20:	97fffd84 	bl	230 <__preempt_count_add.constprop.0>
+     c24:	aa1403e0 	mov	x0, x20
+     c28:	97ffff1f 	bl	8a4 <do_raw_spin_lock>
+     c2c:	f9400680 	ldr	x0, [x20, #8]
+     c30:	b4000080 	cbz	x0, c40 <eth_open+0x60>
+     c34:	f9408c01 	ldr	x1, [x0, #280]
+     c38:	b4000041 	cbz	x1, c40 <eth_open+0x60>
+     c3c:	d63f0020 	blr	x1
+     c40:	52800000 	mov	w0, #0x0                   	// #0
+     c44:	91230261 	add	x1, x19, #0x8c0
+     c48:	089ffc20 	stlrb	w0, [x1]
+     c4c:	d2801c00 	mov	x0, #0xe0                  	// #224
+     c50:	d50342ff 	msr	daifclr, #0x2
+     c54:	d503201f 	nop
+     c58:	97fffd61 	bl	1dc <__preempt_count_sub.constprop.0>
+     c5c:	52800000 	mov	w0, #0x0                   	// #0
+     c60:	a94153f3 	ldp	x19, x20, [sp, #16]
+     c64:	a8c27bfd 	ldp	x29, x30, [sp], #32
+     c68:	d65f03c0 	ret
+
+0000000000000c6c <eth_stop>:
+     c6c:	a9bc7bfd 	stp	x29, x30, [sp, #-64]!
+     c70:	910003fd 	mov	x29, sp
+     c74:	a90153f3 	stp	x19, x20, [sp, #16]
+     c78:	aa0003f4 	mov	x20, x0
+     c7c:	a9025bf5 	stp	x21, x22, [sp, #32]
+     c80:	91230295 	add	x21, x20, #0x8c0
+     c84:	a90363f7 	stp	x23, x24, [sp, #48]
+     c88:	97fffd6f 	bl	244 <t6a_netif_stop_queue>
+     c8c:	aa1503e0 	mov	x0, x21
+     c90:	97fffd9e 	bl	308 <__raw_spin_lock_irqsave>
+     c94:	aa0003f6 	mov	x22, x0
+     c98:	f94006b3 	ldr	x19, [x21, #8]
+     c9c:	b40002b3 	cbz	x19, cf0 <eth_stop+0x84>
+     ca0:	f9409261 	ldr	x1, [x19, #288]
+     ca4:	b4000061 	cbz	x1, cb0 <eth_stop+0x44>
+     ca8:	aa1303e0 	mov	x0, x19
+     cac:	d63f0020 	blr	x1
+     cb0:	a94e0660 	ldp	x0, x1, [x19, #224]
+     cb4:	f9401c37 	ldr	x23, [x1, #56]
+     cb8:	f9401c18 	ldr	x24, [x0, #56]
+     cbc:	94000000 	bl	0 <usb_ep_disable>
+			cbc: R_AARCH64_CALL26	usb_ep_disable
+     cc0:	f9407660 	ldr	x0, [x19, #232]
+     cc4:	94000000 	bl	0 <usb_ep_disable>
+			cc4: R_AARCH64_CALL26	usb_ep_disable
+     cc8:	f9402680 	ldr	x0, [x20, #72]
+     ccc:	37100120 	tbnz	w0, #2, cf0 <eth_stop+0x84>
+     cd0:	f9407260 	ldr	x0, [x19, #224]
+     cd4:	f9001c18 	str	x24, [x0, #56]
+     cd8:	f9407660 	ldr	x0, [x19, #232]
+     cdc:	f9001c17 	str	x23, [x0, #56]
+     ce0:	f9407260 	ldr	x0, [x19, #224]
+     ce4:	94000000 	bl	0 <usb_ep_enable>
+			ce4: R_AARCH64_CALL26	usb_ep_enable
+     ce8:	f9407660 	ldr	x0, [x19, #232]
+     cec:	94000000 	bl	0 <usb_ep_enable>
+			cec: R_AARCH64_CALL26	usb_ep_enable
+     cf0:	aa1603e1 	mov	x1, x22
+     cf4:	aa1503e0 	mov	x0, x21
+     cf8:	97fffd3e 	bl	1f0 <__raw_spin_unlock_irqrestore>
+     cfc:	52800000 	mov	w0, #0x0                   	// #0
+     d00:	a94153f3 	ldp	x19, x20, [sp, #16]
+     d04:	a9425bf5 	ldp	x21, x22, [sp, #32]
+     d08:	a94363f7 	ldp	x23, x24, [sp, #48]
+     d0c:	a8c47bfd 	ldp	x29, x30, [sp], #64
+     d10:	d65f03c0 	ret
+
+0000000000000d14 <prealloc>:
+     d14:	340006e2 	cbz	w2, df0 <prealloc+0xdc>
+     d18:	a9bc7bfd 	stp	x29, x30, [sp, #-64]!
+     d1c:	910003fd 	mov	x29, sp
+     d20:	a90153f3 	stp	x19, x20, [sp, #16]
+     d24:	aa0003f3 	mov	x19, x0
+     d28:	2a0203f4 	mov	w20, w2
+     d2c:	a9025bf5 	stp	x21, x22, [sp, #32]
+     d30:	aa0103f5 	mov	x21, x1
+     d34:	f9001bf7 	str	x23, [sp, #48]
+     d38:	f9400003 	ldr	x3, [x0]
+     d3c:	d1010061 	sub	x1, x3, #0x40
+     d40:	91010020 	add	x0, x1, #0x40
+     d44:	eb00027f 	cmp	x19, x0
+     d48:	54000201 	b.ne	d88 <prealloc+0x74>  // b.any
+     d4c:	34000134 	cbz	w20, d70 <prealloc+0x5c>
+     d50:	aa1503e0 	mov	x0, x21
+     d54:	52814401 	mov	w1, #0xa20                 	// #2592
+     d58:	51000694 	sub	w20, w20, #0x1
+     d5c:	94000000 	bl	0 <usb_ep_alloc_request>
+			d5c: R_AARCH64_CALL26	usb_ep_alloc_request
+     d60:	b50003c0 	cbnz	x0, dd8 <prealloc+0xc4>
+     d64:	f9400260 	ldr	x0, [x19]
+     d68:	eb00027f 	cmp	x19, x0
+     d6c:	54000320 	b.eq	dd0 <prealloc+0xbc>  // b.none
+     d70:	52800000 	mov	w0, #0x0                   	// #0
+     d74:	f9401bf7 	ldr	x23, [sp, #48]
+     d78:	a94153f3 	ldp	x19, x20, [sp, #16]
+     d7c:	a9425bf5 	ldp	x21, x22, [sp, #32]
+     d80:	a8c47bfd 	ldp	x29, x30, [sp], #64
+     d84:	d65f03c0 	ret
+     d88:	f9402020 	ldr	x0, [x1, #64]
+     d8c:	350001d4 	cbnz	w20, dc4 <prealloc+0xb0>
+     d90:	d2802016 	mov	x22, #0x100                 	// #256
+     d94:	f2fbd5b6 	movk	x22, #0xdead, lsl #48
+     d98:	91008ad7 	add	x23, x22, #0x22
+     d9c:	a9440034 	ldp	x20, x0, [x1, #64]
+     da0:	f9000680 	str	x0, [x20, #8]
+     da4:	f9000014 	str	x20, [x0]
+     da8:	aa1503e0 	mov	x0, x21
+     dac:	a9045c36 	stp	x22, x23, [x1, #64]
+     db0:	94000000 	bl	0 <usb_ep_free_request>
+			db0: R_AARCH64_CALL26	usb_ep_free_request
+     db4:	eb14027f 	cmp	x19, x20
+     db8:	54fffdc0 	b.eq	d70 <prealloc+0x5c>  // b.none
+     dbc:	d1010281 	sub	x1, x20, #0x40
+     dc0:	17fffff7 	b	d9c <prealloc+0x88>
+     dc4:	d1010001 	sub	x1, x0, #0x40
+     dc8:	51000694 	sub	w20, w20, #0x1
+     dcc:	17ffffdd 	b	d40 <prealloc+0x2c>
+     dd0:	12800160 	mov	w0, #0xfffffff4            	// #-12
+     dd4:	17ffffe8 	b	d74 <prealloc+0x60>
+     dd8:	f9400262 	ldr	x2, [x19]
+     ddc:	91010001 	add	x1, x0, #0x40
+     de0:	f9000441 	str	x1, [x2, #8]
+     de4:	a9044c02 	stp	x2, x19, [x0, #64]
+     de8:	f9000261 	str	x1, [x19]
+     dec:	17ffffd8 	b	d4c <prealloc+0x38>
+     df0:	12800160 	mov	w0, #0xfffffff4            	// #-12
+     df4:	d65f03c0 	ret
+
+0000000000000df8 <t6a_stats>:
+     df8:	9125e000 	add	x0, x0, #0x978
+     dfc:	d65f03c0 	ret
+
+0000000000000e00 <t6a_gether_setup_name>:
+     e00:	a9bb7bfd 	stp	x29, x30, [sp, #-80]!
+     e04:	910003fd 	mov	x29, sp
+     e08:	a90153f3 	stp	x19, x20, [sp, #16]
+     e0c:	a9025bf5 	stp	x21, x22, [sp, #32]
+     e10:	aa0003f5 	mov	x21, x0
+     e14:	aa0303f6 	mov	x22, x3
+     e18:	52802e00 	mov	w0, #0x170                 	// #368
+     e1c:	a90363f7 	stp	x23, x24, [sp, #48]
+     e20:	aa0103f7 	mov	x23, x1
+     e24:	aa0503f8 	mov	x24, x5
+     e28:	a9046bf9 	stp	x25, x26, [sp, #64]
+     e2c:	aa0203f9 	mov	x25, x2
+     e30:	2a0403fa 	mov	w26, w4
+     e34:	52800022 	mov	w2, #0x1                   	// #1
+     e38:	2a0203e1 	mov	w1, w2
+     e3c:	94000000 	bl	0 <alloc_etherdev_mqs>
+			e3c: R_AARCH64_CALL26	alloc_etherdev_mqs
+     e40:	b4000c20 	cbz	x0, fc4 <t6a_gether_setup_name+0x1c4>
+     e44:	91230014 	add	x20, x0, #0x8c0
+     e48:	b27b7be1 	mov	x1, #0xfffffffe0           	// #68719476704
+     e4c:	b908c01f 	str	wzr, [x0, #2240]
+     e50:	aa1803e3 	mov	x3, x24
+     e54:	90000002 	adrp	x2, 0 <system_uses_lse_atomics>
+			e54: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x3b
+     e58:	91000042 	add	x2, x2, #0x0
+			e58: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x3b
+     e5c:	b900229f 	str	wzr, [x20, #32]
+     e60:	910c6018 	add	x24, x0, #0x318
+     e64:	f9004281 	str	x1, [x20, #128]
+     e68:	91252001 	add	x1, x0, #0x948
+     e6c:	f904a401 	str	x1, [x0, #2376]
+     e70:	aa0003f3 	mov	x19, x0
+     e74:	f904a801 	str	x1, [x0, #2384]
+     e78:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			e78: R_AARCH64_ADR_PREL_PG_HI21	.text+0x83c
+     e7c:	91000021 	add	x1, x1, #0x0
+			e7c: R_AARCH64_ADD_ABS_LO12_NC	.text+0x83c
+     e80:	f9004e81 	str	x1, [x20, #152]
+     e84:	9123a001 	add	x1, x0, #0x8e8
+     e88:	f9047401 	str	x1, [x0, #2280]
+     e8c:	f9047801 	str	x1, [x0, #2288]
+     e90:	9123e001 	add	x1, x0, #0x8f8
+     e94:	f9047c01 	str	x1, [x0, #2296]
+     e98:	f9048001 	str	x1, [x0, #2304]
+     e9c:	91244001 	add	x1, x0, #0x910
+     ea0:	a9000421 	stp	x1, x1, [x1]
+     ea4:	d2800201 	mov	x1, #0x10                  	// #16
+     ea8:	f904901f 	str	xzr, [x0, #2336]
+     eac:	f9000a80 	str	x0, [x20, #16]
+     eb0:	b9006a9a 	str	w26, [x20, #104]
+     eb4:	94000000 	bl	0 <snprintf>
+			eb4: R_AARCH64_CALL26	snprintf
+     eb8:	aa1803e1 	mov	x1, x24
+     ebc:	aa1703e0 	mov	x0, x23
+     ec0:	97fffc9e 	bl	138 <get_ether_addr>
+     ec4:	34000600 	cbz	w0, f84 <t6a_gether_setup_name+0x184>
+     ec8:	52800020 	mov	w0, #0x1                   	// #1
+     ecc:	39097a60 	strb	w0, [x19, #606]
+     ed0:	90000002 	adrp	x2, 0 <system_uses_lse_atomics>
+			ed0: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x41
+     ed4:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			ed4: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x46
+     ed8:	91000042 	add	x2, x2, #0x0
+			ed8: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x41
+     edc:	91000021 	add	x1, x1, #0x0
+			edc: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x46
+     ee0:	910182a0 	add	x0, x21, #0x60
+     ee4:	94000000 	bl	0 <_dev_warn>
+			ee4: R_AARCH64_CALL26	_dev_warn
+     ee8:	9125aa77 	add	x23, x19, #0x96a
+     eec:	aa1903e0 	mov	x0, x25
+     ef0:	aa1703e1 	mov	x1, x23
+     ef4:	97fffc91 	bl	138 <get_ether_addr>
+     ef8:	340000e0 	cbz	w0, f14 <t6a_gether_setup_name+0x114>
+     efc:	90000002 	adrp	x2, 0 <system_uses_lse_atomics>
+			efc: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x68
+     f00:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			f00: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x46
+     f04:	91000042 	add	x2, x2, #0x0
+			f04: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x68
+     f08:	91000021 	add	x1, x1, #0x0
+			f08: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x46
+     f0c:	910182a0 	add	x0, x21, #0x60
+     f10:	94000000 	bl	0 <_dev_warn>
+			f10: R_AARCH64_CALL26	_dev_warn
+     f14:	b40000b6 	cbz	x22, f28 <t6a_gether_setup_name+0x128>
+     f18:	79400ae0 	ldrh	w0, [x23, #4]
+     f1c:	b94002e1 	ldr	w1, [x23]
+     f20:	b90002c1 	str	w1, [x22]
+     f24:	79000ac0 	strh	w0, [x22, #4]
+     f28:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			f28: R_AARCH64_ADR_PREL_PG_HI21	.rodata
+     f2c:	91000000 	add	x0, x0, #0x0
+			f2c: R_AARCH64_ADD_ABS_LO12_NC	.rodata
+     f30:	91084001 	add	x1, x0, #0x210
+     f34:	a91f8660 	stp	x0, x1, [x19, #504]
+     f38:	91080260 	add	x0, x19, #0x200
+     f3c:	d28001c1 	mov	x1, #0xe                   	// #14
+     f40:	f2c78681 	movk	x1, #0x3c34, lsl #32
+     f44:	f802c001 	stur	x1, [x0, #44]
+     f48:	aa1303e0 	mov	x0, x19
+     f4c:	f9000e95 	str	x21, [x20, #24]
+     f50:	94000000 	bl	0 <register_netdev>
+			f50: R_AARCH64_CALL26	register_netdev
+     f54:	2a0003f5 	mov	w21, w0
+     f58:	36f801c0 	tbz	w0, #31, f90 <t6a_gether_setup_name+0x190>
+     f5c:	93407eb4 	sxtw	x20, w21
+     f60:	aa1303e0 	mov	x0, x19
+     f64:	94000000 	bl	0 <free_netdev>
+			f64: R_AARCH64_CALL26	free_netdev
+     f68:	aa1403e0 	mov	x0, x20
+     f6c:	a94153f3 	ldp	x19, x20, [sp, #16]
+     f70:	a9425bf5 	ldp	x21, x22, [sp, #32]
+     f74:	a94363f7 	ldp	x23, x24, [sp, #48]
+     f78:	a9446bf9 	ldp	x25, x26, [sp, #64]
+     f7c:	a8c57bfd 	ldp	x29, x30, [sp], #80
+     f80:	d65f03c0 	ret
+     f84:	52800060 	mov	w0, #0x3                   	// #3
+     f88:	39097a60 	strb	w0, [x19, #606]
+     f8c:	17ffffd7 	b	ee8 <t6a_gether_setup_name+0xe8>
+     f90:	f9400a81 	ldr	x1, [x20, #16]
+     f94:	aa1803e2 	mov	x2, x24
+     f98:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			f98: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x6d
+     f9c:	91000000 	add	x0, x0, #0x0
+			f9c: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x6d
+     fa0:	94000000 	bl	0 <printk>
+			fa0: R_AARCH64_CALL26	printk
+     fa4:	f9400a81 	ldr	x1, [x20, #16]
+     fa8:	aa1703e2 	mov	x2, x23
+     fac:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			fac: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x7c
+     fb0:	91000000 	add	x0, x0, #0x0
+			fb0: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x7c
+     fb4:	94000000 	bl	0 <printk>
+			fb4: R_AARCH64_CALL26	printk
+     fb8:	aa1303e0 	mov	x0, x19
+     fbc:	94000000 	bl	0 <netif_carrier_off>
+			fbc: R_AARCH64_CALL26	netif_carrier_off
+     fc0:	17ffffea 	b	f68 <t6a_gether_setup_name+0x168>
+     fc4:	92800174 	mov	x20, #0xfffffffffffffff4    	// #-12
+     fc8:	17ffffe8 	b	f68 <t6a_gether_setup_name+0x168>
+
+0000000000000fcc <t6a_gether_setup_name_default>:
+     fcc:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+     fd0:	52800022 	mov	w2, #0x1                   	// #1
+     fd4:	2a0203e1 	mov	w1, w2
+     fd8:	910003fd 	mov	x29, sp
+     fdc:	a90153f3 	stp	x19, x20, [sp, #16]
+     fe0:	aa0003f4 	mov	x20, x0
+     fe4:	52802e00 	mov	w0, #0x170                 	// #368
+     fe8:	94000000 	bl	0 <alloc_etherdev_mqs>
+			fe8: R_AARCH64_CALL26	alloc_etherdev_mqs
+     fec:	b4000720 	cbz	x0, 10d0 <t6a_gether_setup_name_default+0x104>
+     ff0:	b27b7be3 	mov	x3, #0xfffffffe0           	// #68719476704
+     ff4:	f904a003 	str	x3, [x0, #2368]
+     ff8:	91252003 	add	x3, x0, #0x948
+     ffc:	91244002 	add	x2, x0, #0x910
+    1000:	f904a403 	str	x3, [x0, #2376]
+    1004:	aa0003f3 	mov	x19, x0
+    1008:	f904a803 	str	x3, [x0, #2384]
+    100c:	90000003 	adrp	x3, 0 <system_uses_lse_atomics>
+			100c: R_AARCH64_ADR_PREL_PG_HI21	.text+0x83c
+    1010:	91000063 	add	x3, x3, #0x0
+			1010: R_AARCH64_ADD_ABS_LO12_NC	.text+0x83c
+    1014:	f904ac03 	str	x3, [x0, #2392]
+    1018:	9123a003 	add	x3, x0, #0x8e8
+    101c:	f9047403 	str	x3, [x0, #2280]
+    1020:	b908c01f 	str	wzr, [x0, #2240]
+    1024:	d2800201 	mov	x1, #0x10                  	// #16
+    1028:	b908e01f 	str	wzr, [x0, #2272]
+    102c:	f9047803 	str	x3, [x0, #2288]
+    1030:	9123e003 	add	x3, x0, #0x8f8
+    1034:	f9047c03 	str	x3, [x0, #2296]
+    1038:	f9048003 	str	x3, [x0, #2304]
+    103c:	aa1403e3 	mov	x3, x20
+    1040:	a9000842 	stp	x2, x2, [x2]
+    1044:	528000a2 	mov	w2, #0x5                   	// #5
+    1048:	90000014 	adrp	x20, 0 <system_uses_lse_atomics>
+			1048: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x90
+    104c:	f9046800 	str	x0, [x0, #2256]
+    1050:	91000294 	add	x20, x20, #0x0
+			1050: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x90
+    1054:	f904901f 	str	xzr, [x0, #2336]
+    1058:	b9092802 	str	w2, [x0, #2344]
+    105c:	90000002 	adrp	x2, 0 <system_uses_lse_atomics>
+			105c: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x3b
+    1060:	91000042 	add	x2, x2, #0x0
+			1060: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x3b
+    1064:	94000000 	bl	0 <snprintf>
+			1064: R_AARCH64_CALL26	snprintf
+    1068:	9125c260 	add	x0, x19, #0x970
+    106c:	97fffc26 	bl	104 <eth_random_addr>
+    1070:	52800020 	mov	w0, #0x1                   	// #1
+    1074:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			1074: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x41
+    1078:	91000021 	add	x1, x1, #0x0
+			1078: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x41
+    107c:	39097a60 	strb	w0, [x19, #606]
+    1080:	aa1403e0 	mov	x0, x20
+    1084:	94000000 	bl	0 <printk>
+			1084: R_AARCH64_CALL26	printk
+    1088:	9125aa60 	add	x0, x19, #0x96a
+    108c:	97fffc1e 	bl	104 <eth_random_addr>
+    1090:	aa1403e0 	mov	x0, x20
+    1094:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			1094: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x68
+    1098:	91000021 	add	x1, x1, #0x0
+			1098: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x68
+    109c:	94000000 	bl	0 <printk>
+			109c: R_AARCH64_CALL26	printk
+    10a0:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			10a0: R_AARCH64_ADR_PREL_PG_HI21	.rodata
+    10a4:	91000000 	add	x0, x0, #0x0
+			10a4: R_AARCH64_ADD_ABS_LO12_NC	.rodata
+    10a8:	91084001 	add	x1, x0, #0x210
+    10ac:	a91f8660 	stp	x0, x1, [x19, #504]
+    10b0:	91080260 	add	x0, x19, #0x200
+    10b4:	d28001c1 	mov	x1, #0xe                   	// #14
+    10b8:	f2c78681 	movk	x1, #0x3c34, lsl #32
+    10bc:	f802c001 	stur	x1, [x0, #44]
+    10c0:	aa1303e0 	mov	x0, x19
+    10c4:	a94153f3 	ldp	x19, x20, [sp, #16]
+    10c8:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    10cc:	d65f03c0 	ret
+    10d0:	92800173 	mov	x19, #0xfffffffffffffff4    	// #-12
+    10d4:	17fffffb 	b	10c0 <t6a_gether_setup_name_default+0xf4>
+
+00000000000010d8 <t6a_gether_register_netdev>:
+    10d8:	d10143ff 	sub	sp, sp, #0x50
+    10dc:	d5384101 	mrs	x1, sp_el0
+    10e0:	a9027bfd 	stp	x29, x30, [sp, #32]
+    10e4:	910083fd 	add	x29, sp, #0x20
+    10e8:	a90353f3 	stp	x19, x20, [sp, #48]
+    10ec:	a9045bf5 	stp	x21, x22, [sp, #64]
+    10f0:	f9421022 	ldr	x2, [x1, #1056]
+    10f4:	f9000fe2 	str	x2, [sp, #24]
+    10f8:	d2800002 	mov	x2, #0x0                   	// #0
+    10fc:	b114401f 	cmn	x0, #0x510
+    1100:	540005a0 	b.eq	11b4 <t6a_gether_register_netdev+0xdc>  // b.none
+    1104:	aa0003f4 	mov	x20, x0
+    1108:	94000000 	bl	0 <register_netdev>
+			1108: R_AARCH64_CALL26	register_netdev
+    110c:	2a0003f3 	mov	w19, w0
+    1110:	37f80380 	tbnz	w0, #31, 1180 <t6a_gether_register_netdev+0xa8>
+    1114:	f9446a81 	ldr	x1, [x20, #2256]
+    1118:	9125aa82 	add	x2, x20, #0x96a
+    111c:	9125c296 	add	x22, x20, #0x970
+    1120:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			1120: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x7c
+    1124:	91000000 	add	x0, x0, #0x0
+			1124: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x7c
+    1128:	91230295 	add	x21, x20, #0x8c0
+    112c:	94000000 	bl	0 <printk>
+			112c: R_AARCH64_CALL26	printk
+    1130:	aa1403e0 	mov	x0, x20
+    1134:	94000000 	bl	0 <netif_carrier_off>
+			1134: R_AARCH64_CALL26	netif_carrier_off
+    1138:	52800020 	mov	w0, #0x1                   	// #1
+    113c:	b9497281 	ldr	w1, [x20, #2416]
+    1140:	790013e0 	strh	w0, [sp, #8]
+    1144:	79400ac0 	ldrh	w0, [x22, #4]
+    1148:	b800a3e1 	stur	w1, [sp, #10]
+    114c:	79001fe0 	strh	w0, [sp, #14]
+    1150:	94000000 	bl	0 <rtnl_lock>
+			1150: R_AARCH64_CALL26	rtnl_lock
+    1154:	910023e1 	add	x1, sp, #0x8
+    1158:	d2800002 	mov	x2, #0x0                   	// #0
+    115c:	aa1403e0 	mov	x0, x20
+    1160:	94000000 	bl	0 <dev_set_mac_address>
+			1160: R_AARCH64_CALL26	dev_set_mac_address
+    1164:	2a0003f3 	mov	w19, w0
+    1168:	94000000 	bl	0 <rtnl_unlock>
+			1168: R_AARCH64_CALL26	rtnl_unlock
+    116c:	34000193 	cbz	w19, 119c <t6a_gether_register_netdev+0xc4>
+    1170:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			1170: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0xb4
+    1174:	2a1303e1 	mov	w1, w19
+    1178:	91000000 	add	x0, x0, #0x0
+			1178: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0xb4
+    117c:	94000000 	bl	0 <printk>
+			117c: R_AARCH64_CALL26	printk
+    1180:	d5384100 	mrs	x0, sp_el0
+    1184:	f9400fe2 	ldr	x2, [sp, #24]
+    1188:	f9421001 	ldr	x1, [x0, #1056]
+    118c:	eb010042 	subs	x2, x2, x1
+    1190:	d2800001 	mov	x1, #0x0                   	// #0
+    1194:	54000140 	b.eq	11bc <t6a_gether_register_netdev+0xe4>  // b.none
+    1198:	94000000 	bl	0 <__stack_chk_fail>
+			1198: R_AARCH64_CALL26	__stack_chk_fail
+    119c:	f9400aa1 	ldr	x1, [x21, #16]
+    11a0:	aa1603e2 	mov	x2, x22
+    11a4:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			11a4: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x6d
+    11a8:	91000000 	add	x0, x0, #0x0
+			11a8: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x6d
+    11ac:	94000000 	bl	0 <printk>
+			11ac: R_AARCH64_CALL26	printk
+    11b0:	17fffff4 	b	1180 <t6a_gether_register_netdev+0xa8>
+    11b4:	128002b3 	mov	w19, #0xffffffea            	// #-22
+    11b8:	17fffff2 	b	1180 <t6a_gether_register_netdev+0xa8>
+    11bc:	a9427bfd 	ldp	x29, x30, [sp, #32]
+    11c0:	2a1303e0 	mov	w0, w19
+    11c4:	a94353f3 	ldp	x19, x20, [sp, #48]
+    11c8:	a9445bf5 	ldp	x21, x22, [sp, #64]
+    11cc:	910143ff 	add	sp, sp, #0x50
+    11d0:	d65f03c0 	ret
+
+00000000000011d4 <t6a_gether_set_gadget>:
+    11d4:	f9046c01 	str	x1, [x0, #2264]
+    11d8:	d65f03c0 	ret
+
+00000000000011dc <t6a_gether_set_dev_addr>:
+    11dc:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+    11e0:	910003fd 	mov	x29, sp
+    11e4:	a90153f3 	stp	x19, x20, [sp, #16]
+    11e8:	9100abf4 	add	x20, sp, #0x2a
+    11ec:	aa0003f3 	mov	x19, x0
+    11f0:	aa0103e0 	mov	x0, x1
+    11f4:	aa1403e1 	mov	x1, x20
+    11f8:	97fffbd0 	bl	138 <get_ether_addr>
+    11fc:	35000140 	cbnz	w0, 1224 <t6a_gether_set_dev_addr+0x48>
+    1200:	79405fe1 	ldrh	w1, [sp, #46]
+    1204:	b842a3e2 	ldur	w2, [sp, #42]
+    1208:	b9097262 	str	w2, [x19, #2416]
+    120c:	7912ea61 	strh	w1, [x19, #2420]
+    1210:	52800061 	mov	w1, #0x3                   	// #3
+    1214:	39097a61 	strb	w1, [x19, #606]
+    1218:	a94153f3 	ldp	x19, x20, [sp, #16]
+    121c:	a8c37bfd 	ldp	x29, x30, [sp], #48
+    1220:	d65f03c0 	ret
+    1224:	128002a0 	mov	w0, #0xffffffea            	// #-22
+    1228:	17fffffc 	b	1218 <t6a_gether_set_dev_addr+0x3c>
+
+000000000000122c <t6a_gether_get_dev_addr>:
+    122c:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    1230:	910003fd 	mov	x29, sp
+    1234:	a90153f3 	stp	x19, x20, [sp, #16]
+    1238:	aa0103f3 	mov	x19, x1
+    123c:	2a0203f4 	mov	w20, w2
+    1240:	7100445f 	cmp	w2, #0x11
+    1244:	5400024d 	b.le	128c <t6a_gether_get_dev_addr+0x60>
+    1248:	9125c003 	add	x3, x0, #0x970
+    124c:	93407e81 	sxtw	x1, w20
+    1250:	aa1303e0 	mov	x0, x19
+    1254:	90000002 	adrp	x2, 0 <system_uses_lse_atomics>
+			1254: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0xdc
+    1258:	91000042 	add	x2, x2, #0x0
+			1258: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0xdc
+    125c:	94000000 	bl	0 <snprintf>
+			125c: R_AARCH64_CALL26	snprintf
+    1260:	52800240 	mov	w0, #0x12                  	// #18
+    1264:	11000401 	add	w1, w0, #0x1
+    1268:	6b14003f 	cmp	w1, w20
+    126c:	540000aa 	b.ge	1280 <t6a_gether_get_dev_addr+0x54>  // b.tcont
+    1270:	52800142 	mov	w2, #0xa                   	// #10
+    1274:	3820ca62 	strb	w2, [x19, w0, sxtw]
+    1278:	2a0103e0 	mov	w0, w1
+    127c:	3821ca7f 	strb	wzr, [x19, w1, sxtw]
+    1280:	a94153f3 	ldp	x19, x20, [sp, #16]
+    1284:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    1288:	d65f03c0 	ret
+    128c:	128002a0 	mov	w0, #0xffffffea            	// #-22
+    1290:	17fffff5 	b	1264 <t6a_gether_get_dev_addr+0x38>
+
+0000000000001294 <t6a_gether_set_host_addr>:
+    1294:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+    1298:	910003fd 	mov	x29, sp
+    129c:	a90153f3 	stp	x19, x20, [sp, #16]
+    12a0:	9100abf4 	add	x20, sp, #0x2a
+    12a4:	aa0003f3 	mov	x19, x0
+    12a8:	aa0103e0 	mov	x0, x1
+    12ac:	aa1403e1 	mov	x1, x20
+    12b0:	97fffba2 	bl	138 <get_ether_addr>
+    12b4:	35000120 	cbnz	w0, 12d8 <t6a_gether_set_host_addr+0x44>
+    12b8:	9125aa62 	add	x2, x19, #0x96a
+    12bc:	b842a3e3 	ldur	w3, [sp, #42]
+    12c0:	79405fe1 	ldrh	w1, [sp, #46]
+    12c4:	b9000043 	str	w3, [x2]
+    12c8:	7912de61 	strh	w1, [x19, #2414]
+    12cc:	a94153f3 	ldp	x19, x20, [sp, #16]
+    12d0:	a8c37bfd 	ldp	x29, x30, [sp], #48
+    12d4:	d65f03c0 	ret
+    12d8:	128002a0 	mov	w0, #0xffffffea            	// #-22
+    12dc:	17fffffc 	b	12cc <t6a_gether_set_host_addr+0x38>
+
+00000000000012e0 <t6a_gether_get_host_addr>:
+    12e0:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    12e4:	910003fd 	mov	x29, sp
+    12e8:	a90153f3 	stp	x19, x20, [sp, #16]
+    12ec:	aa0103f3 	mov	x19, x1
+    12f0:	2a0203f4 	mov	w20, w2
+    12f4:	7100445f 	cmp	w2, #0x11
+    12f8:	5400024d 	b.le	1340 <t6a_gether_get_host_addr+0x60>
+    12fc:	9125a803 	add	x3, x0, #0x96a
+    1300:	93407e81 	sxtw	x1, w20
+    1304:	aa1303e0 	mov	x0, x19
+    1308:	90000002 	adrp	x2, 0 <system_uses_lse_atomics>
+			1308: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0xdc
+    130c:	91000042 	add	x2, x2, #0x0
+			130c: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0xdc
+    1310:	94000000 	bl	0 <snprintf>
+			1310: R_AARCH64_CALL26	snprintf
+    1314:	52800240 	mov	w0, #0x12                  	// #18
+    1318:	11000401 	add	w1, w0, #0x1
+    131c:	6b14003f 	cmp	w1, w20
+    1320:	540000aa 	b.ge	1334 <t6a_gether_get_host_addr+0x54>  // b.tcont
+    1324:	52800142 	mov	w2, #0xa                   	// #10
+    1328:	3820ca62 	strb	w2, [x19, w0, sxtw]
+    132c:	2a0103e0 	mov	w0, w1
+    1330:	3821ca7f 	strb	wzr, [x19, w1, sxtw]
+    1334:	a94153f3 	ldp	x19, x20, [sp, #16]
+    1338:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    133c:	d65f03c0 	ret
+    1340:	128002a0 	mov	w0, #0xffffffea            	// #-22
+    1344:	17fffff5 	b	1318 <t6a_gether_get_host_addr+0x38>
+
+0000000000001348 <t6a_gether_get_host_addr_cdc>:
+    1348:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    134c:	910003fd 	mov	x29, sp
+    1350:	f9000bf3 	str	x19, [sp, #16]
+    1354:	aa0103f3 	mov	x19, x1
+    1358:	93407c41 	sxtw	x1, w2
+    135c:	7100303f 	cmp	w1, #0xc
+    1360:	5400016d 	b.le	138c <t6a_gether_get_host_addr_cdc+0x44>
+    1364:	9125a803 	add	x3, x0, #0x96a
+    1368:	90000002 	adrp	x2, 0 <system_uses_lse_atomics>
+			1368: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0xe0
+    136c:	91000042 	add	x2, x2, #0x0
+			136c: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0xe0
+    1370:	aa1303e0 	mov	x0, x19
+    1374:	94000000 	bl	0 <snprintf>
+			1374: R_AARCH64_CALL26	snprintf
+    1378:	aa1303e0 	mov	x0, x19
+    137c:	94000000 	bl	0 <strlen>
+			137c: R_AARCH64_CALL26	strlen
+    1380:	f9400bf3 	ldr	x19, [sp, #16]
+    1384:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    1388:	d65f03c0 	ret
+    138c:	128002a0 	mov	w0, #0xffffffea            	// #-22
+    1390:	17fffffc 	b	1380 <t6a_gether_get_host_addr_cdc+0x38>
+
+0000000000001394 <t6a_gether_get_host_addr_u8>:
+    1394:	9125a800 	add	x0, x0, #0x96a
+    1398:	b9400002 	ldr	w2, [x0]
+    139c:	79400800 	ldrh	w0, [x0, #4]
+    13a0:	b9000022 	str	w2, [x1]
+    13a4:	79000820 	strh	w0, [x1, #4]
+    13a8:	d65f03c0 	ret
+
+00000000000013ac <t6a_gether_set_qmult>:
+    13ac:	b9092801 	str	w1, [x0, #2344]
+    13b0:	d65f03c0 	ret
+
+00000000000013b4 <t6a_gether_get_qmult>:
+    13b4:	b9492800 	ldr	w0, [x0, #2344]
+    13b8:	d65f03c0 	ret
+
+00000000000013bc <t6a_gether_get_ifname>:
+    13bc:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+    13c0:	910003fd 	mov	x29, sp
+    13c4:	a90153f3 	stp	x19, x20, [sp, #16]
+    13c8:	aa0003f3 	mov	x19, x0
+    13cc:	93407c54 	sxtw	x20, w2
+    13d0:	f90013f5 	str	x21, [sp, #32]
+    13d4:	aa0103f5 	mov	x21, x1
+    13d8:	94000000 	bl	0 <rtnl_lock>
+			13d8: R_AARCH64_CALL26	rtnl_lock
+    13dc:	39400260 	ldrb	w0, [x19]
+    13e0:	34000240 	cbz	w0, 1428 <t6a_gether_get_ifname+0x6c>
+    13e4:	aa1303e0 	mov	x0, x19
+    13e8:	528004a1 	mov	w1, #0x25                  	// #37
+    13ec:	94000000 	bl	0 <strchr>
+			13ec: R_AARCH64_CALL26	strchr
+    13f0:	b50001c0 	cbnz	x0, 1428 <t6a_gether_get_ifname+0x6c>
+    13f4:	aa1303e3 	mov	x3, x19
+    13f8:	aa1403e1 	mov	x1, x20
+    13fc:	90000002 	adrp	x2, 0 <system_uses_lse_atomics>
+			13fc: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0xf9
+    1400:	91000042 	add	x2, x2, #0x0
+			1400: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0xf9
+    1404:	aa1503e0 	mov	x0, x21
+    1408:	94000000 	bl	0 <scnprintf>
+			1408: R_AARCH64_CALL26	scnprintf
+    140c:	2a0003f3 	mov	w19, w0
+    1410:	94000000 	bl	0 <rtnl_unlock>
+			1410: R_AARCH64_CALL26	rtnl_unlock
+    1414:	f94013f5 	ldr	x21, [sp, #32]
+    1418:	2a1303e0 	mov	w0, w19
+    141c:	a94153f3 	ldp	x19, x20, [sp, #16]
+    1420:	a8c37bfd 	ldp	x29, x30, [sp], #48
+    1424:	d65f03c0 	ret
+    1428:	90000013 	adrp	x19, 0 <system_uses_lse_atomics>
+			1428: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0xe4
+    142c:	91000273 	add	x19, x19, #0x0
+			142c: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0xe4
+    1430:	17fffff1 	b	13f4 <t6a_gether_get_ifname+0x38>
+
+0000000000001434 <t6a_gether_cleanup>:
+    1434:	b40001c0 	cbz	x0, 146c <t6a_gether_cleanup+0x38>
+    1438:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    143c:	910003fd 	mov	x29, sp
+    1440:	f9000bf3 	str	x19, [sp, #16]
+    1444:	aa0003f3 	mov	x19, x0
+    1448:	f9400800 	ldr	x0, [x0, #16]
+    144c:	94000000 	bl	0 <unregister_netdev>
+			144c: R_AARCH64_CALL26	unregister_netdev
+    1450:	91020260 	add	x0, x19, #0x80
+    1454:	94000000 	bl	0 <flush_work>
+			1454: R_AARCH64_CALL26	flush_work
+    1458:	f9400a60 	ldr	x0, [x19, #16]
+    145c:	94000000 	bl	0 <free_netdev>
+			145c: R_AARCH64_CALL26	free_netdev
+    1460:	f9400bf3 	ldr	x19, [sp, #16]
+    1464:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    1468:	d65f03c0 	ret
+    146c:	d65f03c0 	ret
+
+0000000000001470 <t6a_gether_connect>:
+    1470:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+    1474:	910003fd 	mov	x29, sp
+    1478:	a90153f3 	stp	x19, x20, [sp, #16]
+    147c:	a9025bf5 	stp	x21, x22, [sp, #32]
+    1480:	f9406c13 	ldr	x19, [x0, #216]
+    1484:	b4000bf3 	cbz	x19, 1600 <t6a_gether_connect+0x190>
+    1488:	aa0003f4 	mov	x20, x0
+    148c:	f9407000 	ldr	x0, [x0, #224]
+    1490:	f9000013 	str	x19, [x0]
+    1494:	f9407280 	ldr	x0, [x20, #224]
+    1498:	94000000 	bl	0 <usb_ep_enable>
+			1498: R_AARCH64_CALL26	usb_ep_enable
+    149c:	2a0003f5 	mov	w21, w0
+    14a0:	35000a40 	cbnz	w0, 15e8 <t6a_gether_connect+0x178>
+    14a4:	f9407680 	ldr	x0, [x20, #232]
+    14a8:	f9000013 	str	x19, [x0]
+    14ac:	f9407680 	ldr	x0, [x20, #232]
+    14b0:	94000000 	bl	0 <usb_ep_enable>
+			14b0: R_AARCH64_CALL26	usb_ep_enable
+    14b4:	2a0003f5 	mov	w21, w0
+    14b8:	35000940 	cbnz	w0, 15e0 <t6a_gether_connect+0x170>
+    14bc:	f9400e60 	ldr	x0, [x19, #24]
+    14c0:	b9404c01 	ldr	w1, [x0, #76]
+    14c4:	7100083f 	cmp	w1, #0x2
+    14c8:	540007e9 	b.ls	15c4 <t6a_gether_connect+0x154>  // b.plast
+    14cc:	b9404800 	ldr	w0, [x0, #72]
+    14d0:	71000c1f 	cmp	w0, #0x3
+    14d4:	7a441802 	ccmp	w0, #0x4, #0x2, ne	// ne = any
+    14d8:	54000769 	b.ls	15c4 <t6a_gether_connect+0x154>  // b.plast
+    14dc:	b9406a75 	ldr	w21, [x19, #104]
+    14e0:	531f7ab5 	lsl	w21, w21, #1
+    14e4:	91008276 	add	x22, x19, #0x20
+    14e8:	aa1603e0 	mov	x0, x22
+    14ec:	97fffcfa 	bl	8d4 <__raw_spin_lock>
+    14f0:	f9407281 	ldr	x1, [x20, #224]
+    14f4:	2a1503e2 	mov	w2, w21
+    14f8:	9100a260 	add	x0, x19, #0x28
+    14fc:	97fffe06 	bl	d14 <prealloc>
+    1500:	350000e0 	cbnz	w0, 151c <t6a_gether_connect+0xac>
+    1504:	f9407681 	ldr	x1, [x20, #232]
+    1508:	2a1503e2 	mov	w2, w21
+    150c:	9100e260 	add	x0, x19, #0x38
+    1510:	97fffe01 	bl	d14 <prealloc>
+    1514:	2a0003e2 	mov	w2, w0
+    1518:	34000040 	cbz	w0, 1520 <t6a_gether_connect+0xb0>
+    151c:	12800162 	mov	w2, #0xfffffff4            	// #-12
+    1520:	aa1603e0 	mov	x0, x22
+    1524:	97fffb3c 	bl	214 <__raw_spin_unlock>
+    1528:	35000562 	cbnz	w2, 15d4 <t6a_gether_connect+0x164>
+    152c:	3943c280 	ldrb	w0, [x20, #240]
+    1530:	3902a260 	strb	w0, [x19, #168]
+    1534:	f9400e60 	ldr	x0, [x19, #24]
+    1538:	f941ac00 	ldr	x0, [x0, #856]
+    153c:	d34c3000 	ubfx	x0, x0, #12, #1
+    1540:	3902a660 	strb	w0, [x19, #169]
+    1544:	b940f680 	ldr	w0, [x20, #244]
+    1548:	b9006e60 	str	w0, [x19, #108]
+    154c:	f9408a80 	ldr	x0, [x20, #272]
+    1550:	f9003e60 	str	x0, [x19, #120]
+    1554:	f9408680 	ldr	x0, [x20, #264]
+    1558:	f9003a60 	str	x0, [x19, #112]
+    155c:	aa1303e0 	mov	x0, x19
+    1560:	97fffcdd 	bl	8d4 <__raw_spin_lock>
+    1564:	f9000674 	str	x20, [x19, #8]
+    1568:	f9400a60 	ldr	x0, [x19, #16]
+    156c:	f9402400 	ldr	x0, [x0, #72]
+    1570:	360002e0 	tbz	w0, #0, 15cc <t6a_gether_connect+0x15c>
+    1574:	f9408e81 	ldr	x1, [x20, #280]
+    1578:	b4000061 	cbz	x1, 1584 <t6a_gether_connect+0x114>
+    157c:	aa1403e0 	mov	x0, x20
+    1580:	d63f0020 	blr	x1
+    1584:	aa1303e0 	mov	x0, x19
+    1588:	97fffb23 	bl	214 <__raw_spin_unlock>
+    158c:	f9400a60 	ldr	x0, [x19, #16]
+    1590:	94000000 	bl	0 <netif_carrier_on>
+			1590: R_AARCH64_CALL26	netif_carrier_on
+    1594:	f9400a60 	ldr	x0, [x19, #16]
+    1598:	f9402400 	ldr	x0, [x0, #72]
+    159c:	36000100 	tbz	w0, #0, 15bc <t6a_gether_connect+0x14c>
+    15a0:	aa1303e0 	mov	x0, x19
+    15a4:	52814401 	mov	w1, #0xa20                 	// #2592
+    15a8:	97fffc7c 	bl	798 <rx_fill>
+    15ac:	b9004a7f 	str	wzr, [x19, #72]
+    15b0:	f9400a60 	ldr	x0, [x19, #16]
+    15b4:	f941e000 	ldr	x0, [x0, #960]
+    15b8:	94000000 	bl	0 <netif_tx_wake_queue>
+			15b8: R_AARCH64_CALL26	netif_tx_wake_queue
+    15bc:	f9400a60 	ldr	x0, [x19, #16]
+    15c0:	1400000c 	b	15f0 <t6a_gether_connect+0x180>
+    15c4:	52800055 	mov	w21, #0x2                   	// #2
+    15c8:	17ffffc7 	b	14e4 <t6a_gether_connect+0x74>
+    15cc:	f9409281 	ldr	x1, [x20, #288]
+    15d0:	17ffffea 	b	1578 <t6a_gether_connect+0x108>
+    15d4:	f9407680 	ldr	x0, [x20, #232]
+    15d8:	12800175 	mov	w21, #0xfffffff4            	// #-12
+    15dc:	94000000 	bl	0 <usb_ep_disable>
+			15dc: R_AARCH64_CALL26	usb_ep_disable
+    15e0:	f9407280 	ldr	x0, [x20, #224]
+    15e4:	94000000 	bl	0 <usb_ep_disable>
+			15e4: R_AARCH64_CALL26	usb_ep_disable
+    15e8:	36fffeb5 	tbz	w21, #31, 15bc <t6a_gether_connect+0x14c>
+    15ec:	93407ea0 	sxtw	x0, w21
+    15f0:	a94153f3 	ldp	x19, x20, [sp, #16]
+    15f4:	a9425bf5 	ldp	x21, x22, [sp, #32]
+    15f8:	a8c37bfd 	ldp	x29, x30, [sp], #48
+    15fc:	d65f03c0 	ret
+    1600:	928002a0 	mov	x0, #0xffffffffffffffea    	// #-22
+    1604:	17fffffb 	b	15f0 <t6a_gether_connect+0x180>
+
+0000000000001608 <t6a_gether_disconnect>:
+    1608:	a9bc7bfd 	stp	x29, x30, [sp, #-64]!
+    160c:	910003fd 	mov	x29, sp
+    1610:	a90153f3 	stp	x19, x20, [sp, #16]
+    1614:	a9025bf5 	stp	x21, x22, [sp, #32]
+    1618:	a90363f7 	stp	x23, x24, [sp, #48]
+    161c:	f9406c13 	ldr	x19, [x0, #216]
+    1620:	b40005b3 	cbz	x19, 16d4 <t6a_gether_disconnect+0xcc>
+    1624:	aa0003f4 	mov	x20, x0
+    1628:	91008275 	add	x21, x19, #0x20
+    162c:	f9400a60 	ldr	x0, [x19, #16]
+    1630:	d2802016 	mov	x22, #0x100                 	// #256
+    1634:	f2fbd5b6 	movk	x22, #0xdead, lsl #48
+    1638:	9100a277 	add	x23, x19, #0x28
+    163c:	91008ad8 	add	x24, x22, #0x22
+    1640:	97fffb01 	bl	244 <t6a_netif_stop_queue>
+    1644:	f9400a60 	ldr	x0, [x19, #16]
+    1648:	94000000 	bl	0 <netif_carrier_off>
+			1648: R_AARCH64_CALL26	netif_carrier_off
+    164c:	f9407280 	ldr	x0, [x20, #224]
+    1650:	94000000 	bl	0 <usb_ep_disable>
+			1650: R_AARCH64_CALL26	usb_ep_disable
+    1654:	aa1503e0 	mov	x0, x21
+    1658:	97fffc9f 	bl	8d4 <__raw_spin_lock>
+    165c:	f9401660 	ldr	x0, [x19, #40]
+    1660:	eb0002ff 	cmp	x23, x0
+    1664:	54000441 	b.ne	16ec <t6a_gether_disconnect+0xe4>  // b.any
+    1668:	aa1503e0 	mov	x0, x21
+    166c:	97fffaea 	bl	214 <__raw_spin_unlock>
+    1670:	f9407280 	ldr	x0, [x20, #224]
+    1674:	d2802016 	mov	x22, #0x100                 	// #256
+    1678:	f2fbd5b6 	movk	x22, #0xdead, lsl #48
+    167c:	9100e277 	add	x23, x19, #0x38
+    1680:	91008ad8 	add	x24, x22, #0x22
+    1684:	f9001c1f 	str	xzr, [x0, #56]
+    1688:	f9407680 	ldr	x0, [x20, #232]
+    168c:	94000000 	bl	0 <usb_ep_disable>
+			168c: R_AARCH64_CALL26	usb_ep_disable
+    1690:	aa1503e0 	mov	x0, x21
+    1694:	97fffc90 	bl	8d4 <__raw_spin_lock>
+    1698:	f9401e60 	ldr	x0, [x19, #56]
+    169c:	eb0002ff 	cmp	x23, x0
+    16a0:	54000401 	b.ne	1720 <t6a_gether_disconnect+0x118>  // b.any
+    16a4:	aa1503e0 	mov	x0, x21
+    16a8:	97fffadb 	bl	214 <__raw_spin_unlock>
+    16ac:	f9407680 	ldr	x0, [x20, #232]
+    16b0:	f9001c1f 	str	xzr, [x0, #56]
+    16b4:	aa1303e0 	mov	x0, x19
+    16b8:	b9006e7f 	str	wzr, [x19, #108]
+    16bc:	a9077e7f 	stp	xzr, xzr, [x19, #112]
+    16c0:	97fffc85 	bl	8d4 <__raw_spin_lock>
+    16c4:	f900067f 	str	xzr, [x19, #8]
+    16c8:	aa1303e0 	mov	x0, x19
+    16cc:	97fffad2 	bl	214 <__raw_spin_unlock>
+    16d0:	14000002 	b	16d8 <t6a_gether_disconnect+0xd0>
+    16d4:	d4210000 	brk	#0x800
+    16d8:	a94153f3 	ldp	x19, x20, [sp, #16]
+    16dc:	a9425bf5 	ldp	x21, x22, [sp, #32]
+    16e0:	a94363f7 	ldp	x23, x24, [sp, #48]
+    16e4:	a8c47bfd 	ldp	x29, x30, [sp], #64
+    16e8:	d65f03c0 	ret
+    16ec:	f9401662 	ldr	x2, [x19, #40]
+    16f0:	a9400041 	ldp	x1, x0, [x2]
+    16f4:	f9000420 	str	x0, [x1, #8]
+    16f8:	f9000001 	str	x1, [x0]
+    16fc:	aa1503e0 	mov	x0, x21
+    1700:	a9006056 	stp	x22, x24, [x2]
+    1704:	97fffac4 	bl	214 <__raw_spin_unlock>
+    1708:	f9407280 	ldr	x0, [x20, #224]
+    170c:	d1010041 	sub	x1, x2, #0x40
+    1710:	94000000 	bl	0 <usb_ep_free_request>
+			1710: R_AARCH64_CALL26	usb_ep_free_request
+    1714:	aa1503e0 	mov	x0, x21
+    1718:	97fffc6f 	bl	8d4 <__raw_spin_lock>
+    171c:	17ffffd0 	b	165c <t6a_gether_disconnect+0x54>
+    1720:	f9401e62 	ldr	x2, [x19, #56]
+    1724:	a9400041 	ldp	x1, x0, [x2]
+    1728:	f9000420 	str	x0, [x1, #8]
+    172c:	f9000001 	str	x1, [x0]
+    1730:	aa1503e0 	mov	x0, x21
+    1734:	a9006056 	stp	x22, x24, [x2]
+    1738:	97fffab7 	bl	214 <__raw_spin_unlock>
+    173c:	f9407680 	ldr	x0, [x20, #232]
+    1740:	d1010041 	sub	x1, x2, #0x40
+    1744:	94000000 	bl	0 <usb_ep_free_request>
+			1744: R_AARCH64_CALL26	usb_ep_free_request
+    1748:	aa1503e0 	mov	x0, x21
+    174c:	97fffc62 	bl	8d4 <__raw_spin_lock>
+    1750:	17ffffd2 	b	1698 <t6a_gether_disconnect+0x90>
+    1754:	d5184600 	msr	icc_pmr_el1, x0
+    1758:	d5184601 	msr	icc_pmr_el1, x1
+    175c:	d5033f9f 	dsb	sy
+    1760:	d5384613 	mrs	x19, icc_pmr_el1
+    1764:	521b0a60 	eor	w0, w19, #0xe0
+    1768:	d5184600 	msr	icc_pmr_el1, x0
+    176c:	d5033f9f 	dsb	sy
+
+0000000000001770 <system_uses_lse_atomics>:
+    1770:	14000004 	b	1780 <system_uses_lse_atomics+0x10>
+    1774:	14000003 	b	1780 <system_uses_lse_atomics+0x10>
+    1778:	52800020 	mov	w0, #0x1                   	// #1
+    177c:	d65f03c0 	ret
+    1780:	52800000 	mov	w0, #0x0                   	// #0
+    1784:	17fffffe 	b	177c <system_uses_lse_atomics+0xc>
+
+0000000000001788 <ncm_get_alt>:
+    1788:	3944a002 	ldrb	w2, [x0, #296]
+    178c:	6b01005f 	cmp	w2, w1
+    1790:	54000080 	b.eq	17a0 <ncm_get_alt+0x18>  // b.none
+    1794:	f9407000 	ldr	x0, [x0, #224]
+    1798:	3940b400 	ldrb	w0, [x0, #45]
+    179c:	d65f03c0 	ret
+    17a0:	52800000 	mov	w0, #0x0                   	// #0
+    17a4:	17fffffe 	b	179c <ncm_get_alt+0x14>
+
+00000000000017a8 <ncm_free>:
+    17a8:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    17ac:	910003fd 	mov	x29, sp
+    17b0:	a90153f3 	stp	x19, x20, [sp, #16]
+    17b4:	f9406413 	ldr	x19, [x0, #200]
+    17b8:	94000000 	bl	0 <kfree>
+			17b8: R_AARCH64_CALL26	kfree
+    17bc:	91068274 	add	x20, x19, #0x1a0
+    17c0:	aa1403e0 	mov	x0, x20
+    17c4:	94000000 	bl	0 <mutex_lock>
+			17c4: R_AARCH64_CALL26	mutex_lock
+    17c8:	b941c261 	ldr	w1, [x19, #448]
+    17cc:	aa1403e0 	mov	x0, x20
+    17d0:	51000421 	sub	w1, w1, #0x1
+    17d4:	b901c261 	str	w1, [x19, #448]
+    17d8:	94000000 	bl	0 <mutex_unlock>
+			17d8: R_AARCH64_CALL26	mutex_unlock
+    17dc:	a94153f3 	ldp	x19, x20, [sp, #16]
+    17e0:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    17e4:	d65f03c0 	ret
+
+00000000000017e8 <skb_put_zero>:
+    17e8:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    17ec:	910003fd 	mov	x29, sp
+    17f0:	a90153f3 	stp	x19, x20, [sp, #16]
+    17f4:	2a0103f4 	mov	w20, w1
+    17f8:	94000000 	bl	0 <skb_put>
+			17f8: R_AARCH64_CALL26	skb_put
+    17fc:	2a1403e2 	mov	w2, w20
+    1800:	aa0003f3 	mov	x19, x0
+    1804:	52800001 	mov	w1, #0x0                   	// #0
+    1808:	94000000 	bl	0 <memset>
+			1808: R_AARCH64_CALL26	memset
+    180c:	aa1303e0 	mov	x0, x19
+    1810:	a94153f3 	ldp	x19, x20, [sp, #16]
+    1814:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    1818:	d65f03c0 	ret
+
+000000000000181c <ncm_disable>:
+    181c:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    1820:	910003fd 	mov	x29, sp
+    1824:	f9000bf3 	str	x19, [sp, #16]
+    1828:	aa0003f3 	mov	x19, x0
+    182c:	f9407001 	ldr	x1, [x0, #224]
+    1830:	3940b421 	ldrb	w1, [x1, #45]
+    1834:	360000a1 	tbz	w1, #0, 1848 <ncm_disable+0x2c>
+    1838:	52800021 	mov	w1, #0x1                   	// #1
+    183c:	f900b81f 	str	xzr, [x0, #368]
+    1840:	39074001 	strb	w1, [x0, #464]
+    1844:	94000000 	bl	1608 <t6a_gether_disconnect>
+			1844: R_AARCH64_CALL26	t6a_gether_disconnect
+    1848:	f9409e60 	ldr	x0, [x19, #312]
+    184c:	3940b401 	ldrb	w1, [x0, #45]
+    1850:	36000081 	tbz	w1, #0, 1860 <ncm_disable+0x44>
+    1854:	94000000 	bl	0 <usb_ep_disable>
+			1854: R_AARCH64_CALL26	usb_ep_disable
+    1858:	f9409e60 	ldr	x0, [x19, #312]
+    185c:	f9001c1f 	str	xzr, [x0, #56]
+    1860:	f9400bf3 	ldr	x19, [sp, #16]
+    1864:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    1868:	d65f03c0 	ret
+
+000000000000186c <ncm_setup>:
+    186c:	a9bc7bfd 	stp	x29, x30, [sp, #-64]!
+    1870:	52943004 	mov	w4, #0xa180                	// #41344
+    1874:	910003fd 	mov	x29, sp
+    1878:	a90153f3 	stp	x19, x20, [sp, #16]
+    187c:	aa0003f4 	mov	x20, x0
+    1880:	a9025bf5 	stp	x21, x22, [sp, #32]
+    1884:	aa0103f6 	mov	x22, x1
+    1888:	f9001bf7 	str	x23, [sp, #48]
+    188c:	f9401800 	ldr	x0, [x0, #48]
+    1890:	79400821 	ldrh	w1, [x1, #4]
+    1894:	794006c3 	ldrh	w3, [x22, #2]
+    1898:	f9401817 	ldr	x23, [x0, #48]
+    189c:	794002c0 	ldrh	w0, [x22]
+    18a0:	79400ec2 	ldrh	w2, [x22, #6]
+    18a4:	5ac00400 	rev16	w0, w0
+    18a8:	12003c00 	and	w0, w0, #0xffff
+    18ac:	f94006f5 	ldr	x21, [x23, #8]
+    18b0:	6b04001f 	cmp	w0, w4
+    18b4:	54000720 	b.eq	1998 <ncm_setup+0x12c>  // b.none
+    18b8:	5400032c 	b.gt	191c <ncm_setup+0xb0>
+    18bc:	528430c4 	mov	w4, #0x2186                	// #8582
+    18c0:	6b04001f 	cmp	w0, w4
+    18c4:	54000dc0 	b.eq	1a7c <ncm_setup+0x210>  // b.none
+    18c8:	5400012c 	b.gt	18ec <ncm_setup+0x80>
+    18cc:	52842864 	mov	w4, #0x2143                	// #8515
+    18d0:	6b04001f 	cmp	w0, w4
+    18d4:	54000540 	b.eq	197c <ncm_setup+0x110>  // b.none
+    18d8:	52843084 	mov	w4, #0x2184                	// #8580
+    18dc:	6b04001f 	cmp	w0, w4
+    18e0:	54000e60 	b.eq	1aac <ncm_setup+0x240>  // b.none
+    18e4:	12800bd3 	mov	w19, #0xffffffa1            	// #-95
+    18e8:	1400003b 	b	19d4 <ncm_setup+0x168>
+    18ec:	52843144 	mov	w4, #0x218a                	// #8586
+    18f0:	6b04001f 	cmp	w0, w4
+    18f4:	54ffff81 	b.ne	18e4 <ncm_setup+0x78>  // b.any
+    18f8:	35ffff62 	cbnz	w2, 18e4 <ncm_setup+0x78>
+    18fc:	3944a280 	ldrb	w0, [x20, #296]
+    1900:	6b01001f 	cmp	w0, w1
+    1904:	54ffff01 	b.ne	18e4 <ncm_setup+0x78>  // b.any
+    1908:	34001043 	cbz	w3, 1b10 <ncm_setup+0x2a4>
+    190c:	7100047f 	cmp	w3, #0x1
+    1910:	54fffea1 	b.ne	18e4 <ncm_setup+0x78>  // b.any
+    1914:	39058283 	strb	w3, [x20, #352]
+    1918:	1400001e 	b	1990 <ncm_setup+0x124>
+    191c:	529430a4 	mov	w4, #0xa185                	// #41349
+    1920:	6b04001f 	cmp	w0, w4
+    1924:	54000960 	b.eq	1a50 <ncm_setup+0x1e4>  // b.none
+    1928:	52943124 	mov	w4, #0xa189                	// #41353
+    192c:	6b04001f 	cmp	w0, w4
+    1930:	54000dc0 	b.eq	1ae8 <ncm_setup+0x27c>  // b.none
+    1934:	52943064 	mov	w4, #0xa183                	// #41347
+    1938:	6b04001f 	cmp	w0, w4
+    193c:	54fffd41 	b.ne	18e4 <ncm_setup+0x78>  // b.any
+    1940:	7100007f 	cmp	w3, #0x0
+    1944:	7a410840 	ccmp	w2, #0x1, #0x0, eq	// eq = none
+    1948:	54fffce9 	b.ls	18e4 <ncm_setup+0x78>  // b.plast
+    194c:	3944a280 	ldrb	w0, [x20, #296]
+    1950:	6b01001f 	cmp	w0, w1
+    1954:	54fffc81 	b.ne	18e4 <ncm_setup+0x78>  // b.any
+    1958:	f94002a1 	ldr	x1, [x21]
+    195c:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			195c: R_AARCH64_ADR_PREL_PG_HI21	.rodata+0x3d0
+    1960:	f940ae82 	ldr	x2, [x20, #344]
+    1964:	91000000 	add	x0, x0, #0x0
+			1964: R_AARCH64_ADD_ABS_LO12_NC	.rodata+0x3d0
+    1968:	eb00005f 	cmp	x2, x0
+    196c:	1a9f07e0 	cset	w0, ne	// ne = any
+    1970:	79000020 	strh	w0, [x1]
+    1974:	52800053 	mov	w19, #0x2                   	// #2
+    1978:	14000017 	b	19d4 <ncm_setup+0x168>
+    197c:	35fffb42 	cbnz	w2, 18e4 <ncm_setup+0x78>
+    1980:	3944a280 	ldrb	w0, [x20, #296]
+    1984:	6b01001f 	cmp	w0, w1
+    1988:	54fffae1 	b.ne	18e4 <ncm_setup+0x78>  // b.any
+    198c:	7901e683 	strh	w3, [x20, #242]
+    1990:	52800013 	mov	w19, #0x0                   	// #0
+    1994:	14000010 	b	19d4 <ncm_setup+0x168>
+    1998:	7100005f 	cmp	w2, #0x0
+    199c:	7a401860 	ccmp	w3, #0x0, #0x0, ne	// ne = any
+    19a0:	54fffa21 	b.ne	18e4 <ncm_setup+0x78>  // b.any
+    19a4:	3944a280 	ldrb	w0, [x20, #296]
+    19a8:	6b01001f 	cmp	w0, w1
+    19ac:	54fff9c1 	b.ne	18e4 <ncm_setup+0x78>  // b.any
+    19b0:	52800380 	mov	w0, #0x1c                  	// #28
+    19b4:	7100705f 	cmp	w2, #0x1c
+    19b8:	1a809042 	csel	w2, w2, w0, ls	// ls = plast
+    19bc:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			19bc: R_AARCH64_ADR_PREL_PG_HI21	.data
+    19c0:	f94002a0 	ldr	x0, [x21]
+    19c4:	12003c53 	and	w19, w2, #0xffff
+    19c8:	91000021 	add	x1, x1, #0x0
+			19c8: R_AARCH64_ADD_ABS_LO12_NC	.data
+    19cc:	92403c42 	and	x2, x2, #0xffff
+    19d0:	94000000 	bl	0 <memcpy>
+			19d0: R_AARCH64_CALL26	memcpy
+    19d4:	f940ae81 	ldr	x1, [x20, #344]
+    19d8:	39458280 	ldrb	w0, [x20, #352]
+    19dc:	b9400421 	ldr	w1, [x1, #4]
+    19e0:	2a006020 	orr	w0, w1, w0, lsl #24
+    19e4:	b9016680 	str	w0, [x20, #356]
+    19e8:	37f80993 	tbnz	w19, #31, 1b18 <ncm_setup+0x2ac>
+    19ec:	b9402aa0 	ldr	w0, [x21, #40]
+    19f0:	aa1503e1 	mov	x1, x21
+    19f4:	b9000ab3 	str	w19, [x21, #8]
+    19f8:	52814402 	mov	w2, #0xa20                 	// #2592
+    19fc:	120e7800 	and	w0, w0, #0xfffdffff
+    1a00:	b9002aa0 	str	w0, [x21, #40]
+    1a04:	f94002e0 	ldr	x0, [x23]
+    1a08:	f9401800 	ldr	x0, [x0, #48]
+    1a0c:	94000000 	bl	0 <usb_ep_queue>
+			1a0c: R_AARCH64_CALL26	usb_ep_queue
+    1a10:	2a0003f3 	mov	w19, w0
+    1a14:	36f80120 	tbz	w0, #31, 1a38 <ncm_setup+0x1cc>
+    1a18:	394006c3 	ldrb	w3, [x22, #1]
+    1a1c:	2a0003e4 	mov	w4, w0
+    1a20:	394002c2 	ldrb	w2, [x22]
+    1a24:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			1a24: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0xfd
+    1a28:	f94002e0 	ldr	x0, [x23]
+    1a2c:	91000021 	add	x1, x1, #0x0
+			1a2c: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0xfd
+    1a30:	91018000 	add	x0, x0, #0x60
+    1a34:	94000000 	bl	0 <_dev_err>
+			1a34: R_AARCH64_CALL26	_dev_err
+    1a38:	f9401bf7 	ldr	x23, [sp, #48]
+    1a3c:	2a1303e0 	mov	w0, w19
+    1a40:	a94153f3 	ldp	x19, x20, [sp, #16]
+    1a44:	a9425bf5 	ldp	x21, x22, [sp, #32]
+    1a48:	a8c47bfd 	ldp	x29, x30, [sp], #64
+    1a4c:	d65f03c0 	ret
+    1a50:	7100007f 	cmp	w3, #0x0
+    1a54:	7a430840 	ccmp	w2, #0x3, #0x0, eq	// eq = none
+    1a58:	54fff469 	b.ls	18e4 <ncm_setup+0x78>  // b.plast
+    1a5c:	3944a280 	ldrb	w0, [x20, #296]
+    1a60:	6b01001f 	cmp	w0, w1
+    1a64:	54fff401 	b.ne	18e4 <ncm_setup+0x78>  // b.any
+    1a68:	f94002a0 	ldr	x0, [x21]
+    1a6c:	b9410281 	ldr	w1, [x20, #256]
+    1a70:	b9000001 	str	w1, [x0]
+    1a74:	52800093 	mov	w19, #0x4                   	// #4
+    1a78:	17ffffd7 	b	19d4 <ncm_setup+0x168>
+    1a7c:	7100007f 	cmp	w3, #0x0
+    1a80:	7a440840 	ccmp	w2, #0x4, #0x0, eq	// eq = none
+    1a84:	54fff301 	b.ne	18e4 <ncm_setup+0x78>  // b.any
+    1a88:	3944a280 	ldrb	w0, [x20, #296]
+    1a8c:	6b01001f 	cmp	w0, w1
+    1a90:	54fff2a1 	b.ne	18e4 <ncm_setup+0x78>  // b.any
+    1a94:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			1a94: R_AARCH64_ADR_PREL_PG_HI21	.text+0x1b20
+    1a98:	91000000 	add	x0, x0, #0x0
+			1a98: R_AARCH64_ADD_ABS_LO12_NC	.text+0x1b20
+    1a9c:	a90352a0 	stp	x0, x20, [x21, #48]
+    1aa0:	52800080 	mov	w0, #0x4                   	// #4
+    1aa4:	b9000aa0 	str	w0, [x21, #8]
+    1aa8:	17fffff3 	b	1a74 <ncm_setup+0x208>
+    1aac:	35fff1c2 	cbnz	w2, 18e4 <ncm_setup+0x78>
+    1ab0:	3944a280 	ldrb	w0, [x20, #296]
+    1ab4:	6b01001f 	cmp	w0, w1
+    1ab8:	54fff161 	b.ne	18e4 <ncm_setup+0x78>  // b.any
+    1abc:	340000e3 	cbz	w3, 1ad8 <ncm_setup+0x26c>
+    1ac0:	7100047f 	cmp	w3, #0x1
+    1ac4:	54fff101 	b.ne	18e4 <ncm_setup+0x78>  // b.any
+    1ac8:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			1ac8: R_AARCH64_ADR_PREL_PG_HI21	.rodata+0x3d0
+    1acc:	91000000 	add	x0, x0, #0x0
+			1acc: R_AARCH64_ADD_ABS_LO12_NC	.rodata+0x3d0
+    1ad0:	9100c000 	add	x0, x0, #0x30
+    1ad4:	14000003 	b	1ae0 <ncm_setup+0x274>
+    1ad8:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			1ad8: R_AARCH64_ADR_PREL_PG_HI21	.rodata+0x3d0
+    1adc:	91000000 	add	x0, x0, #0x0
+			1adc: R_AARCH64_ADD_ABS_LO12_NC	.rodata+0x3d0
+    1ae0:	f900ae80 	str	x0, [x20, #344]
+    1ae4:	17ffffab 	b	1990 <ncm_setup+0x124>
+    1ae8:	7100007f 	cmp	w3, #0x0
+    1aec:	7a410840 	ccmp	w2, #0x1, #0x0, eq	// eq = none
+    1af0:	54ffefa9 	b.ls	18e4 <ncm_setup+0x78>  // b.plast
+    1af4:	3944a280 	ldrb	w0, [x20, #296]
+    1af8:	6b01001f 	cmp	w0, w1
+    1afc:	54ffef41 	b.ne	18e4 <ncm_setup+0x78>  // b.any
+    1b00:	f94002a0 	ldr	x0, [x21]
+    1b04:	39458281 	ldrb	w1, [x20, #352]
+    1b08:	79000001 	strh	w1, [x0]
+    1b0c:	17ffff9a 	b	1974 <ncm_setup+0x108>
+    1b10:	3905829f 	strb	wzr, [x20, #352]
+    1b14:	17ffff9f 	b	1990 <ncm_setup+0x124>
+    1b18:	12800bd3 	mov	w19, #0xffffffa1            	// #-95
+    1b1c:	17ffffc7 	b	1a38 <ncm_setup+0x1cc>
+
+0000000000001b20 <ncm_ep0out_complete>:
+    1b20:	b9405422 	ldr	w2, [x1, #84]
+    1b24:	f9401c23 	ldr	x3, [x1, #56]
+    1b28:	f9001c3f 	str	xzr, [x1, #56]
+    1b2c:	35000202 	cbnz	w2, 1b6c <ncm_ep0out_complete+0x4c>
+    1b30:	b9400822 	ldr	w2, [x1, #8]
+    1b34:	b9405824 	ldr	w4, [x1, #88]
+    1b38:	6b02009f 	cmp	w4, w2
+    1b3c:	54000181 	b.ne	1b6c <ncm_ep0out_complete+0x4c>  // b.any
+    1b40:	f9400021 	ldr	x1, [x1]
+    1b44:	b9400021 	ldr	w1, [x1]
+    1b48:	711ffc3f 	cmp	w1, #0x7ff
+    1b4c:	54000109 	b.ls	1b6c <ncm_ep0out_complete+0x4c>  // b.plast
+    1b50:	90000002 	adrp	x2, 0 <system_uses_lse_atomics>
+			1b50: R_AARCH64_ADR_PREL_PG_HI21	.data
+    1b54:	91000042 	add	x2, x2, #0x0
+			1b54: R_AARCH64_ADD_ABS_LO12_NC	.data
+    1b58:	b9400442 	ldr	w2, [x2, #4]
+    1b5c:	6b01005f 	cmp	w2, w1
+    1b60:	54000063 	b.cc	1b6c <ncm_ep0out_complete+0x4c>  // b.lo, b.ul, b.last
+    1b64:	b9010061 	str	w1, [x3, #256]
+    1b68:	d65f03c0 	ret
+    1b6c:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+    1b70:	910003fd 	mov	x29, sp
+    1b74:	94000000 	bl	0 <usb_ep_set_halt>
+			1b74: R_AARCH64_CALL26	usb_ep_set_halt
+    1b78:	a8c17bfd 	ldp	x29, x30, [sp], #16
+    1b7c:	d65f03c0 	ret
+
+0000000000001b80 <ncm_unbind>:
+    1b80:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    1b84:	91064020 	add	x0, x1, #0x190
+    1b88:	910003fd 	mov	x29, sp
+    1b8c:	f9000bf3 	str	x19, [sp, #16]
+    1b90:	aa0103f3 	mov	x19, x1
+    1b94:	94000000 	bl	0 <hrtimer_cancel>
+			1b94: R_AARCH64_CALL26	hrtimer_cancel
+    1b98:	f9401e60 	ldr	x0, [x19, #56]
+    1b9c:	94000000 	bl	0 <kfree>
+			1b9c: R_AARCH64_CALL26	kfree
+    1ba0:	b900427f 	str	wzr, [x19, #64]
+    1ba4:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			1ba4: R_AARCH64_ADR_PREL_PG_HI21	.data+0x20
+    1ba8:	3900001f 	strb	wzr, [x0]
+			1ba8: R_AARCH64_LDST8_ABS_LO12_NC	.data+0x20
+    1bac:	aa1303e0 	mov	x0, x19
+    1bb0:	94000000 	bl	0 <usb_free_all_descriptors>
+			1bb0: R_AARCH64_CALL26	usb_free_all_descriptors
+    1bb4:	b9414e60 	ldr	w0, [x19, #332]
+    1bb8:	34000080 	cbz	w0, 1bc8 <ncm_unbind+0x48>
+    1bbc:	a9538660 	ldp	x0, x1, [x19, #312]
+    1bc0:	94000000 	bl	0 <usb_ep_dequeue>
+			1bc0: R_AARCH64_CALL26	usb_ep_dequeue
+    1bc4:	b9014e7f 	str	wzr, [x19, #332]
+    1bc8:	f940a260 	ldr	x0, [x19, #320]
+    1bcc:	f9400000 	ldr	x0, [x0]
+    1bd0:	94000000 	bl	0 <kfree>
+			1bd0: R_AARCH64_CALL26	kfree
+    1bd4:	a9538660 	ldp	x0, x1, [x19, #312]
+    1bd8:	94000000 	bl	0 <usb_ep_free_request>
+			1bd8: R_AARCH64_CALL26	usb_ep_free_request
+    1bdc:	f9400bf3 	ldr	x19, [sp, #16]
+    1be0:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    1be4:	d65f03c0 	ret
+
+0000000000001be8 <ncm_opts_ifname_show>:
+    1be8:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+    1bec:	910003fd 	mov	x29, sp
+    1bf0:	a90153f3 	stp	x19, x20, [sp, #16]
+    1bf4:	aa0003f3 	mov	x19, x0
+    1bf8:	aa0103f4 	mov	x20, x1
+    1bfc:	f90013f5 	str	x21, [sp, #32]
+    1c00:	91068015 	add	x21, x0, #0x1a0
+    1c04:	aa1503e0 	mov	x0, x21
+    1c08:	94000000 	bl	0 <mutex_lock>
+			1c08: R_AARCH64_CALL26	mutex_lock
+    1c0c:	f9406260 	ldr	x0, [x19, #192]
+    1c10:	aa1403e1 	mov	x1, x20
+    1c14:	52820002 	mov	w2, #0x1000                	// #4096
+    1c18:	94000000 	bl	13bc <t6a_gether_get_ifname>
+			1c18: R_AARCH64_CALL26	t6a_gether_get_ifname
+    1c1c:	2a0003f3 	mov	w19, w0
+    1c20:	aa1503e0 	mov	x0, x21
+    1c24:	94000000 	bl	0 <mutex_unlock>
+			1c24: R_AARCH64_CALL26	mutex_unlock
+    1c28:	f94013f5 	ldr	x21, [sp, #32]
+    1c2c:	93407e60 	sxtw	x0, w19
+    1c30:	a94153f3 	ldp	x19, x20, [sp, #16]
+    1c34:	a8c37bfd 	ldp	x29, x30, [sp], #48
+    1c38:	d65f03c0 	ret
+
+0000000000001c3c <ncm_opts_qmult_store>:
+    1c3c:	a9bc7bfd 	stp	x29, x30, [sp, #-64]!
+    1c40:	910003fd 	mov	x29, sp
+    1c44:	a90153f3 	stp	x19, x20, [sp, #16]
+    1c48:	aa0003f4 	mov	x20, x0
+    1c4c:	aa0103f3 	mov	x19, x1
+    1c50:	a9025bf5 	stp	x21, x22, [sp, #32]
+    1c54:	91068016 	add	x22, x0, #0x1a0
+    1c58:	aa1603e0 	mov	x0, x22
+    1c5c:	aa0203f5 	mov	x21, x2
+    1c60:	94000000 	bl	0 <mutex_lock>
+			1c60: R_AARCH64_CALL26	mutex_lock
+    1c64:	b941c280 	ldr	w0, [x20, #448]
+    1c68:	35000240 	cbnz	w0, 1cb0 <ncm_opts_qmult_store+0x74>
+    1c6c:	aa1303e0 	mov	x0, x19
+    1c70:	9100ffe2 	add	x2, sp, #0x3f
+    1c74:	52800001 	mov	w1, #0x0                   	// #0
+    1c78:	94000000 	bl	0 <kstrtou8>
+			1c78: R_AARCH64_CALL26	kstrtou8
+    1c7c:	2a0003f3 	mov	w19, w0
+    1c80:	350000a0 	cbnz	w0, 1c94 <ncm_opts_qmult_store+0x58>
+    1c84:	f9406280 	ldr	x0, [x20, #192]
+    1c88:	2a1503f3 	mov	w19, w21
+    1c8c:	3940ffe1 	ldrb	w1, [sp, #63]
+    1c90:	94000000 	bl	13ac <t6a_gether_set_qmult>
+			1c90: R_AARCH64_CALL26	t6a_gether_set_qmult
+    1c94:	aa1603e0 	mov	x0, x22
+    1c98:	94000000 	bl	0 <mutex_unlock>
+			1c98: R_AARCH64_CALL26	mutex_unlock
+    1c9c:	93407e60 	sxtw	x0, w19
+    1ca0:	a94153f3 	ldp	x19, x20, [sp, #16]
+    1ca4:	a9425bf5 	ldp	x21, x22, [sp, #32]
+    1ca8:	a8c47bfd 	ldp	x29, x30, [sp], #64
+    1cac:	d65f03c0 	ret
+    1cb0:	128001f3 	mov	w19, #0xfffffff0            	// #-16
+    1cb4:	17fffff8 	b	1c94 <ncm_opts_qmult_store+0x58>
+
+0000000000001cb8 <ncm_opts_qmult_show>:
+    1cb8:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+    1cbc:	910003fd 	mov	x29, sp
+    1cc0:	a90153f3 	stp	x19, x20, [sp, #16]
+    1cc4:	aa0003f3 	mov	x19, x0
+    1cc8:	aa0103f4 	mov	x20, x1
+    1ccc:	f90013f5 	str	x21, [sp, #32]
+    1cd0:	91068015 	add	x21, x0, #0x1a0
+    1cd4:	aa1503e0 	mov	x0, x21
+    1cd8:	94000000 	bl	0 <mutex_lock>
+			1cd8: R_AARCH64_CALL26	mutex_lock
+    1cdc:	f9406260 	ldr	x0, [x19, #192]
+    1ce0:	94000000 	bl	13b4 <t6a_gether_get_qmult>
+			1ce0: R_AARCH64_CALL26	t6a_gether_get_qmult
+    1ce4:	2a0003f3 	mov	w19, w0
+    1ce8:	aa1503e0 	mov	x0, x21
+    1cec:	94000000 	bl	0 <mutex_unlock>
+			1cec: R_AARCH64_CALL26	mutex_unlock
+    1cf0:	2a1303e2 	mov	w2, w19
+    1cf4:	aa1403e0 	mov	x0, x20
+    1cf8:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			1cf8: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x120
+    1cfc:	91000021 	add	x1, x1, #0x0
+			1cfc: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x120
+    1d00:	94000000 	bl	0 <sprintf>
+			1d00: R_AARCH64_CALL26	sprintf
+    1d04:	93407c00 	sxtw	x0, w0
+    1d08:	f94013f5 	ldr	x21, [sp, #32]
+    1d0c:	a94153f3 	ldp	x19, x20, [sp, #16]
+    1d10:	a8c37bfd 	ldp	x29, x30, [sp], #48
+    1d14:	d65f03c0 	ret
+
+0000000000001d18 <ncm_opts_host_addr_store>:
+    1d18:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+    1d1c:	910003fd 	mov	x29, sp
+    1d20:	a90153f3 	stp	x19, x20, [sp, #16]
+    1d24:	aa0003f3 	mov	x19, x0
+    1d28:	aa0203f4 	mov	x20, x2
+    1d2c:	a9025bf5 	stp	x21, x22, [sp, #32]
+    1d30:	91068015 	add	x21, x0, #0x1a0
+    1d34:	aa1503e0 	mov	x0, x21
+    1d38:	aa0103f6 	mov	x22, x1
+    1d3c:	94000000 	bl	0 <mutex_lock>
+			1d3c: R_AARCH64_CALL26	mutex_lock
+    1d40:	b941c260 	ldr	w0, [x19, #448]
+    1d44:	34000100 	cbz	w0, 1d64 <ncm_opts_host_addr_store+0x4c>
+    1d48:	aa1503e0 	mov	x0, x21
+    1d4c:	94000000 	bl	0 <mutex_unlock>
+			1d4c: R_AARCH64_CALL26	mutex_unlock
+    1d50:	928001e0 	mov	x0, #0xfffffffffffffff0    	// #-16
+    1d54:	a94153f3 	ldp	x19, x20, [sp, #16]
+    1d58:	a9425bf5 	ldp	x21, x22, [sp, #32]
+    1d5c:	a8c37bfd 	ldp	x29, x30, [sp], #48
+    1d60:	d65f03c0 	ret
+    1d64:	f9406260 	ldr	x0, [x19, #192]
+    1d68:	aa1603e1 	mov	x1, x22
+    1d6c:	94000000 	bl	1294 <t6a_gether_set_host_addr>
+			1d6c: R_AARCH64_CALL26	t6a_gether_set_host_addr
+    1d70:	2a0003f3 	mov	w19, w0
+    1d74:	aa1503e0 	mov	x0, x21
+    1d78:	94000000 	bl	0 <mutex_unlock>
+			1d78: R_AARCH64_CALL26	mutex_unlock
+    1d7c:	7100027f 	cmp	w19, #0x0
+    1d80:	1a941273 	csel	w19, w19, w20, ne	// ne = any
+    1d84:	93407e60 	sxtw	x0, w19
+    1d88:	17fffff3 	b	1d54 <ncm_opts_host_addr_store+0x3c>
+
+0000000000001d8c <ncm_opts_host_addr_show>:
+    1d8c:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+    1d90:	910003fd 	mov	x29, sp
+    1d94:	a90153f3 	stp	x19, x20, [sp, #16]
+    1d98:	aa0003f3 	mov	x19, x0
+    1d9c:	aa0103f4 	mov	x20, x1
+    1da0:	f90013f5 	str	x21, [sp, #32]
+    1da4:	91068015 	add	x21, x0, #0x1a0
+    1da8:	aa1503e0 	mov	x0, x21
+    1dac:	94000000 	bl	0 <mutex_lock>
+			1dac: R_AARCH64_CALL26	mutex_lock
+    1db0:	f9406260 	ldr	x0, [x19, #192]
+    1db4:	aa1403e1 	mov	x1, x20
+    1db8:	52820002 	mov	w2, #0x1000                	// #4096
+    1dbc:	94000000 	bl	12e0 <t6a_gether_get_host_addr>
+			1dbc: R_AARCH64_CALL26	t6a_gether_get_host_addr
+    1dc0:	2a0003f3 	mov	w19, w0
+    1dc4:	aa1503e0 	mov	x0, x21
+    1dc8:	94000000 	bl	0 <mutex_unlock>
+			1dc8: R_AARCH64_CALL26	mutex_unlock
+    1dcc:	f94013f5 	ldr	x21, [sp, #32]
+    1dd0:	93407e60 	sxtw	x0, w19
+    1dd4:	a94153f3 	ldp	x19, x20, [sp, #16]
+    1dd8:	a8c37bfd 	ldp	x29, x30, [sp], #48
+    1ddc:	d65f03c0 	ret
+
+0000000000001de0 <ncm_opts_dev_addr_store>:
+    1de0:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+    1de4:	910003fd 	mov	x29, sp
+    1de8:	a90153f3 	stp	x19, x20, [sp, #16]
+    1dec:	aa0003f3 	mov	x19, x0
+    1df0:	aa0203f4 	mov	x20, x2
+    1df4:	a9025bf5 	stp	x21, x22, [sp, #32]
+    1df8:	91068015 	add	x21, x0, #0x1a0
+    1dfc:	aa1503e0 	mov	x0, x21
+    1e00:	aa0103f6 	mov	x22, x1
+    1e04:	94000000 	bl	0 <mutex_lock>
+			1e04: R_AARCH64_CALL26	mutex_lock
+    1e08:	b941c260 	ldr	w0, [x19, #448]
+    1e0c:	34000100 	cbz	w0, 1e2c <ncm_opts_dev_addr_store+0x4c>
+    1e10:	aa1503e0 	mov	x0, x21
+    1e14:	94000000 	bl	0 <mutex_unlock>
+			1e14: R_AARCH64_CALL26	mutex_unlock
+    1e18:	928001e0 	mov	x0, #0xfffffffffffffff0    	// #-16
+    1e1c:	a94153f3 	ldp	x19, x20, [sp, #16]
+    1e20:	a9425bf5 	ldp	x21, x22, [sp, #32]
+    1e24:	a8c37bfd 	ldp	x29, x30, [sp], #48
+    1e28:	d65f03c0 	ret
+    1e2c:	f9406260 	ldr	x0, [x19, #192]
+    1e30:	aa1603e1 	mov	x1, x22
+    1e34:	94000000 	bl	11dc <t6a_gether_set_dev_addr>
+			1e34: R_AARCH64_CALL26	t6a_gether_set_dev_addr
+    1e38:	2a0003f3 	mov	w19, w0
+    1e3c:	aa1503e0 	mov	x0, x21
+    1e40:	94000000 	bl	0 <mutex_unlock>
+			1e40: R_AARCH64_CALL26	mutex_unlock
+    1e44:	7100027f 	cmp	w19, #0x0
+    1e48:	1a941273 	csel	w19, w19, w20, ne	// ne = any
+    1e4c:	93407e60 	sxtw	x0, w19
+    1e50:	17fffff3 	b	1e1c <ncm_opts_dev_addr_store+0x3c>
+
+0000000000001e54 <ncm_opts_dev_addr_show>:
+    1e54:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+    1e58:	910003fd 	mov	x29, sp
+    1e5c:	a90153f3 	stp	x19, x20, [sp, #16]
+    1e60:	aa0003f3 	mov	x19, x0
+    1e64:	aa0103f4 	mov	x20, x1
+    1e68:	f90013f5 	str	x21, [sp, #32]
+    1e6c:	91068015 	add	x21, x0, #0x1a0
+    1e70:	aa1503e0 	mov	x0, x21
+    1e74:	94000000 	bl	0 <mutex_lock>
+			1e74: R_AARCH64_CALL26	mutex_lock
+    1e78:	f9406260 	ldr	x0, [x19, #192]
+    1e7c:	aa1403e1 	mov	x1, x20
+    1e80:	52820002 	mov	w2, #0x1000                	// #4096
+    1e84:	94000000 	bl	122c <t6a_gether_get_dev_addr>
+			1e84: R_AARCH64_CALL26	t6a_gether_get_dev_addr
+    1e88:	2a0003f3 	mov	w19, w0
+    1e8c:	aa1503e0 	mov	x0, x21
+    1e90:	94000000 	bl	0 <mutex_unlock>
+			1e90: R_AARCH64_CALL26	mutex_unlock
+    1e94:	f94013f5 	ldr	x21, [sp, #32]
+    1e98:	93407e60 	sxtw	x0, w19
+    1e9c:	a94153f3 	ldp	x19, x20, [sp, #16]
+    1ea0:	a8c37bfd 	ldp	x29, x30, [sp], #48
+    1ea4:	d65f03c0 	ret
+
+0000000000001ea8 <ncm_attr_release>:
+    1ea8:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+    1eac:	910003fd 	mov	x29, sp
+    1eb0:	f9405c00 	ldr	x0, [x0, #184]
+    1eb4:	94000000 	bl	0 <usb_put_function_instance>
+			1eb4: R_AARCH64_CALL26	usb_put_function_instance
+    1eb8:	a8c17bfd 	ldp	x29, x30, [sp], #16
+    1ebc:	d65f03c0 	ret
+
+0000000000001ec0 <ncm_free_inst>:
+    1ec0:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    1ec4:	910003fd 	mov	x29, sp
+    1ec8:	f9000bf3 	str	x19, [sp, #16]
+    1ecc:	aa0003f3 	mov	x19, x0
+    1ed0:	39432001 	ldrb	w1, [x0, #200]
+    1ed4:	f9406000 	ldr	x0, [x0, #192]
+    1ed8:	36000141 	tbz	w1, #0, 1f00 <ncm_free_inst+0x40>
+    1edc:	91230000 	add	x0, x0, #0x8c0
+    1ee0:	94000000 	bl	1434 <t6a_gether_cleanup>
+			1ee0: R_AARCH64_CALL26	t6a_gether_cleanup
+    1ee4:	f9406a60 	ldr	x0, [x19, #208]
+    1ee8:	94000000 	bl	0 <kfree>
+			1ee8: R_AARCH64_CALL26	kfree
+    1eec:	aa1303e0 	mov	x0, x19
+    1ef0:	94000000 	bl	0 <kfree>
+			1ef0: R_AARCH64_CALL26	kfree
+    1ef4:	f9400bf3 	ldr	x19, [sp, #16]
+    1ef8:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    1efc:	d65f03c0 	ret
+    1f00:	94000000 	bl	0 <free_netdev>
+			1f00: R_AARCH64_CALL26	free_netdev
+    1f04:	17fffff8 	b	1ee4 <ncm_free_inst+0x24>
+
+0000000000001f08 <ncm_tx_timeout>:
+    1f08:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    1f0c:	910003fd 	mov	x29, sp
+    1f10:	f9000bf3 	str	x19, [sp, #16]
+    1f14:	d1064013 	sub	x19, x0, #0x190
+    1f18:	39410000 	ldrb	w0, [x0, #64]
+    1f1c:	37000160 	tbnz	w0, #0, 1f48 <ncm_tx_timeout+0x40>
+    1f20:	f940be60 	ldr	x0, [x19, #376]
+    1f24:	b4000120 	cbz	x0, 1f48 <ncm_tx_timeout+0x40>
+    1f28:	f940ba61 	ldr	x1, [x19, #368]
+    1f2c:	52800020 	mov	w0, #0x1                   	// #1
+    1f30:	39062a60 	strb	w0, [x19, #394]
+    1f34:	f940fc20 	ldr	x0, [x1, #504]
+    1f38:	f9401002 	ldr	x2, [x0, #32]
+    1f3c:	d2800000 	mov	x0, #0x0                   	// #0
+    1f40:	d63f0040 	blr	x2
+    1f44:	39062a7f 	strb	wzr, [x19, #394]
+    1f48:	f9400bf3 	ldr	x19, [sp, #16]
+    1f4c:	52800000 	mov	w0, #0x0                   	// #0
+    1f50:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    1f54:	d65f03c0 	ret
+
+0000000000001f58 <get_ncm>:
+    1f58:	aa0003e2 	mov	x2, x0
+    1f5c:	7100043f 	cmp	w1, #0x1
+    1f60:	54000080 	b.eq	1f70 <get_ncm+0x18>  // b.none
+    1f64:	7100083f 	cmp	w1, #0x2
+    1f68:	540000e0 	b.eq	1f84 <get_ncm+0x2c>  // b.none
+    1f6c:	d4210000 	brk	#0x800
+    1f70:	f9400003 	ldr	x3, [x0]
+    1f74:	79400060 	ldrh	w0, [x3]
+    1f78:	8b214461 	add	x1, x3, w1, uxtw #1
+    1f7c:	f9000041 	str	x1, [x2]
+    1f80:	d65f03c0 	ret
+    1f84:	f9400003 	ldr	x3, [x0]
+    1f88:	b9400060 	ldr	w0, [x3]
+    1f8c:	17fffffb 	b	1f78 <get_ncm+0x20>
+
+0000000000001f90 <put_ncm>:
+    1f90:	7100043f 	cmp	w1, #0x1
+    1f94:	54000080 	b.eq	1fa4 <put_ncm+0x14>  // b.none
+    1f98:	7100083f 	cmp	w1, #0x2
+    1f9c:	54000100 	b.eq	1fbc <put_ncm+0x2c>  // b.none
+    1fa0:	d4210000 	brk	#0x800
+    1fa4:	f9400003 	ldr	x3, [x0]
+    1fa8:	79000062 	strh	w2, [x3]
+    1fac:	f9400002 	ldr	x2, [x0]
+    1fb0:	8b214441 	add	x1, x2, w1, uxtw #1
+    1fb4:	f9000001 	str	x1, [x0]
+    1fb8:	d65f03c0 	ret
+    1fbc:	f9400003 	ldr	x3, [x0]
+    1fc0:	b9000062 	str	w2, [x3]
+    1fc4:	17fffffa 	b	1fac <put_ncm+0x1c>
+
+0000000000001fc8 <ncm_bind>:
+    1fc8:	a9bb7bfd 	stp	x29, x30, [sp, #-80]!
+    1fcc:	910003fd 	mov	x29, sp
+    1fd0:	a90153f3 	stp	x19, x20, [sp, #16]
+    1fd4:	a9025bf5 	stp	x21, x22, [sp, #32]
+    1fd8:	a90363f7 	stp	x23, x24, [sp, #48]
+    1fdc:	aa0003f7 	mov	x23, x0
+    1fe0:	f90023f9 	str	x25, [sp, #64]
+    1fe4:	f9401814 	ldr	x20, [x0, #48]
+    1fe8:	f9400280 	ldr	x0, [x20]
+    1fec:	b9435800 	ldr	w0, [x0, #856]
+    1ff0:	37481520 	tbnz	w0, #9, 2294 <ncm_bind+0x2cc>
+    1ff4:	3940e280 	ldrb	w0, [x20, #56]
+    1ff8:	aa0103f5 	mov	x21, x1
+    1ffc:	f9406436 	ldr	x22, [x1, #200]
+    2000:	36000180 	tbz	w0, #0, 2030 <ncm_bind+0x68>
+    2004:	90000000 	adrp	x0, 0 <kmalloc_caches>
+			2004: R_AARCH64_ADR_PREL_PG_HI21	kmalloc_caches+0x38
+    2008:	d2800202 	mov	x2, #0x10                  	// #16
+    200c:	5281b801 	mov	w1, #0xdc0                 	// #3520
+    2010:	f9400000 	ldr	x0, [x0]
+			2010: R_AARCH64_LDST64_ABS_LO12_NC	kmalloc_caches+0x38
+    2014:	94000000 	bl	0 <kmem_cache_alloc_trace>
+			2014: R_AARCH64_CALL26	kmem_cache_alloc_trace
+    2018:	f9001ea0 	str	x0, [x21, #56]
+    201c:	b4001400 	cbz	x0, 229c <ncm_bind+0x2d4>
+    2020:	52800021 	mov	w1, #0x1                   	// #1
+    2024:	b90042a1 	str	w1, [x21, #64]
+    2028:	910362c1 	add	x1, x22, #0xd8
+    202c:	f9000401 	str	x1, [x0, #8]
+    2030:	394322c0 	ldrb	w0, [x22, #200]
+    2034:	370001e0 	tbnz	w0, #0, 2070 <ncm_bind+0xa8>
+    2038:	910682d8 	add	x24, x22, #0x1a0
+    203c:	aa1803e0 	mov	x0, x24
+    2040:	94000000 	bl	0 <mutex_lock>
+			2040: R_AARCH64_CALL26	mutex_lock
+    2044:	f9400281 	ldr	x1, [x20]
+    2048:	f94062c0 	ldr	x0, [x22, #192]
+    204c:	94000000 	bl	11d4 <t6a_gether_set_gadget>
+			204c: R_AARCH64_CALL26	t6a_gether_set_gadget
+    2050:	f94062c0 	ldr	x0, [x22, #192]
+    2054:	94000000 	bl	10d8 <t6a_gether_register_netdev>
+			2054: R_AARCH64_CALL26	t6a_gether_register_netdev
+    2058:	2a0003f3 	mov	w19, w0
+    205c:	aa1803e0 	mov	x0, x24
+    2060:	94000000 	bl	0 <mutex_unlock>
+			2060: R_AARCH64_CALL26	mutex_unlock
+    2064:	35000193 	cbnz	w19, 2094 <ncm_bind+0xcc>
+    2068:	52800020 	mov	w0, #0x1                   	// #1
+    206c:	390322c0 	strb	w0, [x22, #200]
+    2070:	90000016 	adrp	x22, 0 <system_uses_lse_atomics>
+			2070: R_AARCH64_ADR_PREL_PG_HI21	.data
+    2074:	910002d6 	add	x22, x22, #0x0
+			2074: R_AARCH64_ADD_ABS_LO12_NC	.data
+    2078:	9101c2c1 	add	x1, x22, #0x70
+    207c:	aa1403e0 	mov	x0, x20
+    2080:	528000a2 	mov	w2, #0x5                   	// #5
+    2084:	94000000 	bl	0 <usb_gstrings_attach>
+			2084: R_AARCH64_CALL26	usb_gstrings_attach
+    2088:	b140041f 	cmn	x0, #0x1, lsl #12
+    208c:	54000269 	b.ls	20d8 <ncm_bind+0x110>  // b.plast
+    2090:	2a0003f3 	mov	w19, w0
+    2094:	f9401ea0 	ldr	x0, [x21, #56]
+    2098:	94000000 	bl	0 <kfree>
+			2098: R_AARCH64_CALL26	kfree
+    209c:	b90042bf 	str	wzr, [x21, #64]
+    20a0:	f940a2a0 	ldr	x0, [x21, #320]
+    20a4:	b40000a0 	cbz	x0, 20b8 <ncm_bind+0xf0>
+    20a8:	f9400000 	ldr	x0, [x0]
+    20ac:	94000000 	bl	0 <kfree>
+			20ac: R_AARCH64_CALL26	kfree
+    20b0:	a95386a0 	ldp	x0, x1, [x21, #312]
+    20b4:	94000000 	bl	0 <usb_ep_free_request>
+			20b4: R_AARCH64_CALL26	usb_ep_free_request
+    20b8:	f94002a2 	ldr	x2, [x21]
+    20bc:	2a1303e3 	mov	w3, w19
+    20c0:	f9400280 	ldr	x0, [x20]
+    20c4:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			20c4: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x124
+    20c8:	91000021 	add	x1, x1, #0x0
+			20c8: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x124
+    20cc:	91018000 	add	x0, x0, #0x60
+    20d0:	94000000 	bl	0 <_dev_err>
+			20d0: R_AARCH64_CALL26	_dev_err
+    20d4:	14000069 	b	2278 <ncm_bind+0x2b0>
+    20d8:	39400001 	ldrb	w1, [x0]
+    20dc:	390222c1 	strb	w1, [x22, #136]
+    20e0:	39408001 	ldrb	w1, [x0, #32]
+    20e4:	390246c1 	strb	w1, [x22, #145]
+    20e8:	39026ac1 	strb	w1, [x22, #154]
+    20ec:	39404001 	ldrb	w1, [x0, #16]
+    20f0:	3940c000 	ldrb	w0, [x0, #48]
+    20f4:	39027ac1 	strb	w1, [x22, #158]
+    20f8:	aa1503e1 	mov	x1, x21
+    20fc:	3902bec0 	strb	w0, [x22, #175]
+    2100:	aa1703e0 	mov	x0, x23
+    2104:	94000000 	bl	0 <usb_interface_id>
+			2104: R_AARCH64_CALL26	usb_interface_id
+    2108:	2a0003f3 	mov	w19, w0
+    210c:	37fffc40 	tbnz	w0, #31, 2094 <ncm_bind+0xcc>
+    2110:	12001c00 	and	w0, w0, #0xff
+    2114:	3904a2a0 	strb	w0, [x21, #296]
+    2118:	39020ac0 	strb	w0, [x22, #130]
+    211c:	3902aac0 	strb	w0, [x22, #170]
+    2120:	3902cec0 	strb	w0, [x22, #179]
+    2124:	3940e280 	ldrb	w0, [x20, #56]
+    2128:	36000080 	tbz	w0, #0, 2138 <ncm_bind+0x170>
+    212c:	f9401ea0 	ldr	x0, [x21, #56]
+    2130:	12001e73 	and	w19, w19, #0xff
+    2134:	b9000013 	str	w19, [x0]
+    2138:	aa1503e1 	mov	x1, x21
+    213c:	aa1703e0 	mov	x0, x23
+    2140:	94000000 	bl	0 <usb_interface_id>
+			2140: R_AARCH64_CALL26	usb_interface_id
+    2144:	2a0003f3 	mov	w19, w0
+    2148:	37fffa60 	tbnz	w0, #31, 2094 <ncm_bind+0xcc>
+    214c:	12001c00 	and	w0, w0, #0xff
+    2150:	39022ec0 	strb	w0, [x22, #139]
+    2154:	390252c0 	strb	w0, [x22, #148]
+    2158:	9102d6d8 	add	x24, x22, #0xb5
+    215c:	3904a6a0 	strb	w0, [x21, #297]
+    2160:	aa1803e1 	mov	x1, x24
+    2164:	3902d2c0 	strb	w0, [x22, #180]
+    2168:	f9400280 	ldr	x0, [x20]
+    216c:	94000000 	bl	0 <usb_ep_autoconfig>
+			216c: R_AARCH64_CALL26	usb_ep_autoconfig
+    2170:	b5000060 	cbnz	x0, 217c <ncm_bind+0x1b4>
+    2174:	12800253 	mov	w19, #0xffffffed            	// #-19
+    2178:	17ffffc7 	b	2094 <ncm_bind+0xcc>
+    217c:	f90072a0 	str	x0, [x21, #224]
+    2180:	9102fad7 	add	x23, x22, #0xbe
+    2184:	aa1703e1 	mov	x1, x23
+    2188:	f9400280 	ldr	x0, [x20]
+    218c:	94000000 	bl	0 <usb_ep_autoconfig>
+			218c: R_AARCH64_CALL26	usb_ep_autoconfig
+    2190:	b4ffff20 	cbz	x0, 2174 <ncm_bind+0x1ac>
+    2194:	f90076a0 	str	x0, [x21, #232]
+    2198:	91031ed9 	add	x25, x22, #0xc7
+    219c:	aa1903e1 	mov	x1, x25
+    21a0:	f9400280 	ldr	x0, [x20]
+    21a4:	94000000 	bl	0 <usb_ep_autoconfig>
+			21a4: R_AARCH64_CALL26	usb_ep_autoconfig
+    21a8:	b4fffe60 	cbz	x0, 2174 <ncm_bind+0x1ac>
+    21ac:	f9009ea0 	str	x0, [x21, #312]
+    21b0:	52819801 	mov	w1, #0xcc0                 	// #3264
+    21b4:	94000000 	bl	0 <usb_ep_alloc_request>
+			21b4: R_AARCH64_CALL26	usb_ep_alloc_request
+    21b8:	f900a2a0 	str	x0, [x21, #320]
+    21bc:	aa0003f3 	mov	x19, x0
+    21c0:	b5000060 	cbnz	x0, 21cc <ncm_bind+0x204>
+    21c4:	12800173 	mov	w19, #0xfffffff4            	// #-12
+    21c8:	17ffffb3 	b	2094 <ncm_bind+0xcc>
+    21cc:	90000000 	adrp	x0, 0 <kmalloc_caches>
+			21cc: R_AARCH64_ADR_PREL_PG_HI21	kmalloc_caches+0x38
+    21d0:	52819801 	mov	w1, #0xcc0                 	// #3264
+    21d4:	d2800202 	mov	x2, #0x10                  	// #16
+    21d8:	f9400000 	ldr	x0, [x0]
+			21d8: R_AARCH64_LDST64_ABS_LO12_NC	kmalloc_caches+0x38
+    21dc:	94000000 	bl	0 <kmem_cache_alloc_trace>
+			21dc: R_AARCH64_CALL26	kmem_cache_alloc_trace
+    21e0:	f9000260 	str	x0, [x19]
+    21e4:	f940a2a0 	ldr	x0, [x21, #320]
+    21e8:	f9400001 	ldr	x1, [x0]
+    21ec:	b4fffec1 	cbz	x1, 21c4 <ncm_bind+0x1fc>
+    21f0:	f9001c15 	str	x21, [x0, #56]
+    21f4:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			21f4: R_AARCH64_ADR_PREL_PG_HI21	.text+0x2680
+    21f8:	91000000 	add	x0, x0, #0x0
+			21f8: R_AARCH64_ADD_ABS_LO12_NC	.text+0x2680
+    21fc:	39400b02 	ldrb	w2, [x24, #2]
+    2200:	f940a2a1 	ldr	x1, [x21, #320]
+    2204:	910422c4 	add	x4, x22, #0x108
+    2208:	aa0403e3 	mov	x3, x4
+    220c:	39034ac2 	strb	w2, [x22, #210]
+    2210:	3903b6c2 	strb	w2, [x22, #237]
+    2214:	910602c2 	add	x2, x22, #0x180
+    2218:	f9001820 	str	x0, [x1, #48]
+    221c:	39400ae1 	ldrb	w1, [x23, #2]
+    2220:	39400b20 	ldrb	w0, [x25, #2]
+    2224:	39036ec1 	strb	w1, [x22, #219]
+    2228:	390392c0 	strb	w0, [x22, #228]
+    222c:	3903dac1 	strb	w1, [x22, #246]
+    2230:	910782c1 	add	x1, x22, #0x1e0
+    2234:	3903fec0 	strb	w0, [x22, #255]
+    2238:	aa1503e0 	mov	x0, x21
+    223c:	94000000 	bl	0 <usb_assign_descriptors>
+			223c: R_AARCH64_CALL26	usb_assign_descriptors
+    2240:	2a0003f3 	mov	w19, w0
+    2244:	35fff280 	cbnz	w0, 2094 <ncm_bind+0xcc>
+    2248:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			2248: R_AARCH64_ADR_PREL_PG_HI21	.text+0x2da0
+    224c:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			224c: R_AARCH64_ADR_PREL_PG_HI21	.text+0x2de8
+    2250:	91000000 	add	x0, x0, #0x0
+			2250: R_AARCH64_ADD_ABS_LO12_NC	.text+0x2da0
+    2254:	91000021 	add	x1, x1, #0x0
+			2254: R_AARCH64_ADD_ABS_LO12_NC	.text+0x2de8
+    2258:	a91186a0 	stp	x0, x1, [x21, #280]
+    225c:	528000a2 	mov	w2, #0x5                   	// #5
+    2260:	910642a0 	add	x0, x21, #0x190
+    2264:	52800021 	mov	w1, #0x1                   	// #1
+    2268:	94000000 	bl	0 <hrtimer_init>
+			2268: R_AARCH64_CALL26	hrtimer_init
+    226c:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			226c: R_AARCH64_ADR_PREL_PG_HI21	.text+0x1f08
+    2270:	91000000 	add	x0, x0, #0x0
+			2270: R_AARCH64_ADD_ABS_LO12_NC	.text+0x1f08
+    2274:	f900dea0 	str	x0, [x21, #440]
+    2278:	f94023f9 	ldr	x25, [sp, #64]
+    227c:	2a1303e0 	mov	w0, w19
+    2280:	a94153f3 	ldp	x19, x20, [sp, #16]
+    2284:	a9425bf5 	ldp	x21, x22, [sp, #32]
+    2288:	a94363f7 	ldp	x23, x24, [sp, #48]
+    228c:	a8c57bfd 	ldp	x29, x30, [sp], #80
+    2290:	d65f03c0 	ret
+    2294:	128002b3 	mov	w19, #0xffffffea            	// #-22
+    2298:	17fffff8 	b	2278 <ncm_bind+0x2b0>
+    229c:	12800173 	mov	w19, #0xfffffff4            	// #-12
+    22a0:	17fffff6 	b	2278 <ncm_bind+0x2b0>
+
+00000000000022a4 <__raw_spin_unlock>:
+    22a4:	52800001 	mov	w1, #0x0                   	// #0
+    22a8:	089ffc01 	stlrb	w1, [x0]
+    22ac:	d5384101 	mrs	x1, sp_el0
+    22b0:	b9401820 	ldr	w0, [x1, #24]
+    22b4:	51000400 	sub	w0, w0, #0x1
+    22b8:	b9001820 	str	w0, [x1, #24]
+    22bc:	d65f03c0 	ret
+
+00000000000022c0 <__raw_spin_lock>:
+    22c0:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+    22c4:	aa0003e3 	mov	x3, x0
+    22c8:	d5384101 	mrs	x1, sp_el0
+    22cc:	910003fd 	mov	x29, sp
+    22d0:	b9401820 	ldr	w0, [x1, #24]
+    22d4:	11000400 	add	w0, w0, #0x1
+    22d8:	b9001820 	str	w0, [x1, #24]
+    22dc:	97fffd25 	bl	1770 <system_uses_lse_atomics>
+    22e0:	360001a0 	tbz	w0, #0, 2314 <__raw_spin_lock+0x54>
+    22e4:	aa0303e0 	mov	x0, x3
+    22e8:	52800001 	mov	w1, #0x0                   	// #0
+    22ec:	52800022 	mov	w2, #0x1                   	// #1
+    22f0:	2a0103e4 	mov	w4, w1
+    22f4:	88e47c62 	casa	w4, w2, [x3]
+    22f8:	2a0403e0 	mov	w0, w4
+    22fc:	2a0003e1 	mov	w1, w0
+    2300:	34000061 	cbz	w1, 230c <__raw_spin_lock+0x4c>
+    2304:	aa0303e0 	mov	x0, x3
+    2308:	94000000 	bl	0 <queued_spin_lock_slowpath>
+			2308: R_AARCH64_CALL26	queued_spin_lock_slowpath
+    230c:	a8c17bfd 	ldp	x29, x30, [sp], #16
+    2310:	d65f03c0 	ret
+    2314:	d2800000 	mov	x0, #0x0                   	// #0
+    2318:	52800022 	mov	w2, #0x1                   	// #1
+    231c:	f9800071 	prfm	pstl1strm, [x3]
+    2320:	885ffc61 	ldaxr	w1, [x3]
+    2324:	4a000024 	eor	w4, w1, w0
+    2328:	35000064 	cbnz	w4, 2334 <__raw_spin_lock+0x74>
+    232c:	88047c62 	stxr	w4, w2, [x3]
+    2330:	35ffff84 	cbnz	w4, 2320 <__raw_spin_lock+0x60>
+    2334:	17fffff3 	b	2300 <__raw_spin_lock+0x40>
+
+0000000000002338 <atomic_dec>:
+    2338:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+    233c:	aa0003e1 	mov	x1, x0
+    2340:	52800022 	mov	w2, #0x1                   	// #1
+    2344:	910003fd 	mov	x29, sp
+    2348:	97fffd0a 	bl	1770 <system_uses_lse_atomics>
+    234c:	360000a0 	tbz	w0, #0, 2360 <atomic_dec+0x28>
+    2350:	4b0203e2 	neg	w2, w2
+    2354:	b822003f 	stadd	w2, [x1]
+    2358:	a8c17bfd 	ldp	x29, x30, [sp], #16
+    235c:	d65f03c0 	ret
+    2360:	f9800031 	prfm	pstl1strm, [x1]
+    2364:	885f7c20 	ldxr	w0, [x1]
+    2368:	4b020000 	sub	w0, w0, w2
+    236c:	88037c20 	stxr	w3, w0, [x1]
+    2370:	35ffffa3 	cbnz	w3, 2364 <atomic_dec+0x2c>
+    2374:	17fffff9 	b	2358 <atomic_dec+0x20>
+
+0000000000002378 <ncm_do_notify>:
+    2378:	aa0003e3 	mov	x3, x0
+    237c:	b9414c00 	ldr	w0, [x0, #332]
+    2380:	35000b40 	cbnz	w0, 24e8 <ncm_do_notify+0x170>
+    2384:	f940a064 	ldr	x4, [x3, #320]
+    2388:	39452061 	ldrb	w1, [x3, #328]
+    238c:	f9400082 	ldr	x2, [x4]
+    2390:	7100043f 	cmp	w1, #0x1
+    2394:	54000440 	b.eq	241c <ncm_do_notify+0xa4>  // b.none
+    2398:	7100083f 	cmp	w1, #0x2
+    239c:	54000500 	b.eq	243c <ncm_do_notify+0xc4>  // b.none
+    23a0:	34000a41 	cbz	w1, 24e8 <ncm_do_notify+0x170>
+    23a4:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+    23a8:	12800bc0 	mov	w0, #0xffffffa1            	// #-95
+    23ac:	910003fd 	mov	x29, sp
+    23b0:	a90153f3 	stp	x19, x20, [sp, #16]
+    23b4:	91053073 	add	x19, x3, #0x14c
+    23b8:	f90013f5 	str	x21, [sp, #32]
+    23bc:	39000040 	strb	w0, [x2]
+    23c0:	3944a060 	ldrb	w0, [x3, #296]
+    23c4:	79000840 	strh	w0, [x2, #4]
+    23c8:	97fffcea 	bl	1770 <system_uses_lse_atomics>
+    23cc:	36000800 	tbz	w0, #0, 24cc <ncm_do_notify+0x154>
+    23d0:	52800020 	mov	w0, #0x1                   	// #1
+    23d4:	b820027f 	stadd	w0, [x19]
+    23d8:	9105a075 	add	x21, x3, #0x168
+    23dc:	52814402 	mov	w2, #0xa20                 	// #2592
+    23e0:	aa1503e0 	mov	x0, x21
+    23e4:	97ffffb0 	bl	22a4 <__raw_spin_unlock>
+    23e8:	f9409c60 	ldr	x0, [x3, #312]
+    23ec:	aa0403e1 	mov	x1, x4
+    23f0:	94000000 	bl	0 <usb_ep_queue>
+			23f0: R_AARCH64_CALL26	usb_ep_queue
+    23f4:	2a0003f4 	mov	w20, w0
+    23f8:	aa1503e0 	mov	x0, x21
+    23fc:	97ffffb1 	bl	22c0 <__raw_spin_lock>
+    2400:	36f80074 	tbz	w20, #31, 240c <ncm_do_notify+0x94>
+    2404:	aa1303e0 	mov	x0, x19
+    2408:	97ffffcc 	bl	2338 <atomic_dec>
+    240c:	f94013f5 	ldr	x21, [sp, #32]
+    2410:	a94153f3 	ldp	x19, x20, [sp, #16]
+    2414:	a8c37bfd 	ldp	x29, x30, [sp], #48
+    2418:	d65f03c0 	ret
+    241c:	3900045f 	strb	wzr, [x2, #1]
+    2420:	39454060 	ldrb	w0, [x3, #336]
+    2424:	79000440 	strh	w0, [x2, #2]
+    2428:	79000c5f 	strh	wzr, [x2, #6]
+    242c:	52800100 	mov	w0, #0x8                   	// #8
+    2430:	b9000880 	str	w0, [x4, #8]
+    2434:	3905207f 	strb	wzr, [x3, #328]
+    2438:	17ffffdb 	b	23a4 <ncm_do_notify+0x2c>
+    243c:	f9401861 	ldr	x1, [x3, #48]
+    2440:	52800545 	mov	w5, #0x2a                  	// #42
+    2444:	f9401821 	ldr	x1, [x1, #48]
+    2448:	39000445 	strb	w5, [x2, #1]
+    244c:	52800105 	mov	w5, #0x8                   	// #8
+    2450:	7900045f 	strh	wzr, [x2, #2]
+    2454:	79000c45 	strh	w5, [x2, #6]
+    2458:	52800205 	mov	w5, #0x10                  	// #16
+    245c:	b9000885 	str	w5, [x4, #8]
+    2460:	f9400086 	ldr	x6, [x4]
+    2464:	f9400021 	ldr	x1, [x1]
+    2468:	29491421 	ldp	w1, w5, [x1, #72]
+    246c:	710010bf 	cmp	w5, #0x4
+    2470:	540000e9 	b.ls	248c <ncm_do_notify+0x114>  // b.plast
+    2474:	7100143f 	cmp	w1, #0x5
+    2478:	54000208 	b.hi	24b8 <ncm_do_notify+0x140>  // b.pmore
+    247c:	540000c1 	b.ne	2494 <ncm_do_notify+0x11c>  // b.any
+    2480:	528eb000 	mov	w0, #0x7580                	// #30080
+    2484:	72bbf080 	movk	w0, #0xdf84, lsl #16
+    2488:	14000008 	b	24a8 <ncm_do_notify+0x130>
+    248c:	710008bf 	cmp	w5, #0x2
+    2490:	540001a9 	b.ls	24c4 <ncm_do_notify+0x14c>  // b.plast
+    2494:	71000c3f 	cmp	w1, #0x3
+    2498:	528e0001 	mov	w1, #0x7000                	// #28672
+    249c:	52a32c80 	mov	w0, #0x19640000            	// #425984000
+    24a0:	72a01281 	movk	w1, #0x94, lsl #16
+    24a4:	1a810000 	csel	w0, w0, w1, eq	// eq = none
+    24a8:	290100c0 	stp	w0, w0, [x6, #8]
+    24ac:	52800020 	mov	w0, #0x1                   	// #1
+    24b0:	39052060 	strb	w0, [x3, #328]
+    24b4:	17ffffbc 	b	23a4 <ncm_do_notify+0x2c>
+    24b8:	529b5000 	mov	w0, #0xda80                	// #55936
+    24bc:	72bfaa20 	movk	w0, #0xfd51, lsl #16
+    24c0:	17fffffa 	b	24a8 <ncm_do_notify+0x130>
+    24c4:	11651c00 	add	w0, w0, #0x947, lsl #12
+    24c8:	17fffff8 	b	24a8 <ncm_do_notify+0x130>
+    24cc:	91053062 	add	x2, x3, #0x14c
+    24d0:	f9800051 	prfm	pstl1strm, [x2]
+    24d4:	885f7c40 	ldxr	w0, [x2]
+    24d8:	11000400 	add	w0, w0, #0x1
+    24dc:	88017c40 	stxr	w1, w0, [x2]
+    24e0:	35ffffa1 	cbnz	w1, 24d4 <ncm_do_notify+0x15c>
+    24e4:	17ffffbd 	b	23d8 <ncm_do_notify+0x60>
+    24e8:	d65f03c0 	ret
+
+00000000000024ec <ncm_set_alt>:
+    24ec:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+    24f0:	910003fd 	mov	x29, sp
+    24f4:	a90153f3 	stp	x19, x20, [sp, #16]
+    24f8:	2a0203f4 	mov	w20, w2
+    24fc:	aa0003f3 	mov	x19, x0
+    2500:	f90013f5 	str	x21, [sp, #32]
+    2504:	f9401802 	ldr	x2, [x0, #48]
+    2508:	f9401855 	ldr	x21, [x2, #48]
+    250c:	3944a002 	ldrb	w2, [x0, #296]
+    2510:	6b01005f 	cmp	w2, w1
+    2514:	54000281 	b.ne	2564 <ncm_set_alt+0x78>  // b.any
+    2518:	35000234 	cbnz	w20, 255c <ncm_set_alt+0x70>
+    251c:	f9409c00 	ldr	x0, [x0, #312]
+    2520:	94000000 	bl	0 <usb_ep_disable>
+			2520: R_AARCH64_CALL26	usb_ep_disable
+    2524:	f9409e62 	ldr	x2, [x19, #312]
+    2528:	f9401c40 	ldr	x0, [x2, #56]
+    252c:	b4000100 	cbz	x0, 254c <ncm_set_alt+0x60>
+    2530:	f9409e60 	ldr	x0, [x19, #312]
+    2534:	94000000 	bl	0 <usb_ep_enable>
+			2534: R_AARCH64_CALL26	usb_ep_enable
+    2538:	52800000 	mov	w0, #0x0                   	// #0
+    253c:	f94013f5 	ldr	x21, [sp, #32]
+    2540:	a94153f3 	ldp	x19, x20, [sp, #16]
+    2544:	a8c37bfd 	ldp	x29, x30, [sp], #48
+    2548:	d65f03c0 	ret
+    254c:	f94002a0 	ldr	x0, [x21]
+    2550:	aa1303e1 	mov	x1, x19
+    2554:	94000000 	bl	0 <config_ep_by_speed>
+			2554: R_AARCH64_CALL26	config_ep_by_speed
+    2558:	34fffec0 	cbz	w0, 2530 <ncm_set_alt+0x44>
+    255c:	128002a0 	mov	w0, #0xffffffea            	// #-22
+    2560:	17fffff7 	b	253c <ncm_set_alt+0x50>
+    2564:	3944a402 	ldrb	w2, [x0, #297]
+    2568:	6b01005f 	cmp	w2, w1
+    256c:	54ffff81 	b.ne	255c <ncm_set_alt+0x70>  // b.any
+    2570:	7100069f 	cmp	w20, #0x1
+    2574:	54ffff48 	b.hi	255c <ncm_set_alt+0x70>  // b.pmore
+    2578:	f9407001 	ldr	x1, [x0, #224]
+    257c:	3940b421 	ldrb	w1, [x1, #45]
+    2580:	36000261 	tbz	w1, #0, 25cc <ncm_set_alt+0xe0>
+    2584:	52800021 	mov	w1, #0x1                   	// #1
+    2588:	f900b81f 	str	xzr, [x0, #368]
+    258c:	39074001 	strb	w1, [x0, #464]
+    2590:	94000000 	bl	1608 <t6a_gether_disconnect>
+			2590: R_AARCH64_CALL26	t6a_gether_disconnect
+    2594:	b900f67f 	str	wzr, [x19, #244]
+    2598:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			2598: R_AARCH64_ADR_PREL_PG_HI21	.rodata+0x3d0
+    259c:	91000000 	add	x0, x0, #0x0
+			259c: R_AARCH64_ADD_ABS_LO12_NC	.rodata+0x3d0
+    25a0:	f900ae60 	str	x0, [x19, #344]
+    25a4:	528869c0 	mov	w0, #0x434e                	// #17230
+    25a8:	72a609a0 	movk	w0, #0x304d, lsl #16
+    25ac:	b9016660 	str	w0, [x19, #356]
+    25b0:	528001e0 	mov	w0, #0xf                   	// #15
+    25b4:	7901e660 	strh	w0, [x19, #242]
+    25b8:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			25b8: R_AARCH64_ADR_PREL_PG_HI21	.data+0x10
+    25bc:	52880001 	mov	w1, #0x4000                	// #16384
+    25c0:	3905827f 	strb	wzr, [x19, #352]
+    25c4:	b9400000 	ldr	w0, [x0]
+			25c4: R_AARCH64_LDST32_ABS_LO12_NC	.data+0x10
+    25c8:	291f8660 	stp	w0, w1, [x19, #252]
+    25cc:	7100069f 	cmp	w20, #0x1
+    25d0:	54000441 	b.ne	2658 <ncm_set_alt+0x16c>  // b.any
+    25d4:	f9407262 	ldr	x2, [x19, #224]
+    25d8:	f9401c40 	ldr	x0, [x2, #56]
+    25dc:	b4000080 	cbz	x0, 25ec <ncm_set_alt+0x100>
+    25e0:	f9407660 	ldr	x0, [x19, #232]
+    25e4:	f9401c00 	ldr	x0, [x0, #56]
+    25e8:	b50001e0 	cbnz	x0, 2624 <ncm_set_alt+0x138>
+    25ec:	f94002a0 	ldr	x0, [x21]
+    25f0:	aa1303e1 	mov	x1, x19
+    25f4:	94000000 	bl	0 <config_ep_by_speed>
+			25f4: R_AARCH64_CALL26	config_ep_by_speed
+    25f8:	340000c0 	cbz	w0, 2610 <ncm_set_alt+0x124>
+    25fc:	f9407260 	ldr	x0, [x19, #224]
+    2600:	f9001c1f 	str	xzr, [x0, #56]
+    2604:	f9407660 	ldr	x0, [x19, #232]
+    2608:	f9001c1f 	str	xzr, [x0, #56]
+    260c:	17ffffd4 	b	255c <ncm_set_alt+0x70>
+    2610:	f94002a0 	ldr	x0, [x21]
+    2614:	aa1303e1 	mov	x1, x19
+    2618:	f9407662 	ldr	x2, [x19, #232]
+    261c:	94000000 	bl	0 <config_ep_by_speed>
+			261c: R_AARCH64_CALL26	config_ep_by_speed
+    2620:	35fffee0 	cbnz	w0, 25fc <ncm_set_alt+0x110>
+    2624:	f94002a0 	ldr	x0, [x21]
+    2628:	f941ac00 	ldr	x0, [x0, #856]
+    262c:	d34b2c00 	ubfx	x0, x0, #11, #1
+    2630:	52000000 	eor	w0, w0, #0x1
+    2634:	3903c260 	strb	w0, [x19, #240]
+    2638:	528001e0 	mov	w0, #0xf                   	// #15
+    263c:	7901e660 	strh	w0, [x19, #242]
+    2640:	aa1303e0 	mov	x0, x19
+    2644:	94000000 	bl	1470 <t6a_gether_connect>
+			2644: R_AARCH64_CALL26	t6a_gether_connect
+    2648:	b140041f 	cmn	x0, #0x1, lsl #12
+    264c:	54fff788 	b.hi	253c <ncm_set_alt+0x50>  // b.pmore
+    2650:	f900ba60 	str	x0, [x19, #368]
+    2654:	3907427f 	strb	wzr, [x19, #464]
+    2658:	9105a274 	add	x20, x19, #0x168
+    265c:	aa1403e0 	mov	x0, x20
+    2660:	97ffff18 	bl	22c0 <__raw_spin_lock>
+    2664:	52800040 	mov	w0, #0x2                   	// #2
+    2668:	39052260 	strb	w0, [x19, #328]
+    266c:	aa1303e0 	mov	x0, x19
+    2670:	97ffff42 	bl	2378 <ncm_do_notify>
+    2674:	aa1403e0 	mov	x0, x20
+    2678:	97ffff0b 	bl	22a4 <__raw_spin_unlock>
+    267c:	17ffffaf 	b	2538 <ncm_set_alt+0x4c>
+
+0000000000002680 <ncm_notify_complete>:
+    2680:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+    2684:	910003fd 	mov	x29, sp
+    2688:	a90153f3 	stp	x19, x20, [sp, #16]
+    268c:	aa0103f4 	mov	x20, x1
+    2690:	f9401c33 	ldr	x19, [x1, #56]
+    2694:	f90013f5 	str	x21, [sp, #32]
+    2698:	9105a275 	add	x21, x19, #0x168
+    269c:	aa1503e0 	mov	x0, x21
+    26a0:	97ffff08 	bl	22c0 <__raw_spin_lock>
+    26a4:	b9405680 	ldr	w0, [x20, #84]
+    26a8:	3101b01f 	cmn	w0, #0x6c
+    26ac:	54000060 	b.eq	26b8 <ncm_notify_complete+0x38>  // b.none
+    26b0:	3101a01f 	cmn	w0, #0x68
+    26b4:	54000161 	b.ne	26e0 <ncm_notify_complete+0x60>  // b.any
+    26b8:	3905227f 	strb	wzr, [x19, #328]
+    26bc:	b9014e7f 	str	wzr, [x19, #332]
+    26c0:	aa1303e0 	mov	x0, x19
+    26c4:	97ffff2d 	bl	2378 <ncm_do_notify>
+    26c8:	aa1503e0 	mov	x0, x21
+    26cc:	97fffef6 	bl	22a4 <__raw_spin_unlock>
+    26d0:	f94013f5 	ldr	x21, [sp, #32]
+    26d4:	a94153f3 	ldp	x19, x20, [sp, #16]
+    26d8:	a8c37bfd 	ldp	x29, x30, [sp], #48
+    26dc:	d65f03c0 	ret
+    26e0:	91053260 	add	x0, x19, #0x14c
+    26e4:	97ffff15 	bl	2338 <atomic_dec>
+    26e8:	17fffff6 	b	26c0 <ncm_notify_complete+0x40>
+
+00000000000026ec <skb_put_data.isra.0>:
+    26ec:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    26f0:	910003fd 	mov	x29, sp
+    26f4:	a90153f3 	stp	x19, x20, [sp, #16]
+    26f8:	aa0103f4 	mov	x20, x1
+    26fc:	2a0203f3 	mov	w19, w2
+    2700:	2a0203e1 	mov	w1, w2
+    2704:	94000000 	bl	0 <skb_put>
+			2704: R_AARCH64_CALL26	skb_put
+    2708:	2a1303e2 	mov	w2, w19
+    270c:	aa1403e1 	mov	x1, x20
+    2710:	94000000 	bl	0 <memcpy>
+			2710: R_AARCH64_CALL26	memcpy
+    2714:	a94153f3 	ldp	x19, x20, [sp, #16]
+    2718:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    271c:	d65f03c0 	ret
+
+0000000000002720 <ncm_unwrap_ntb>:
+    2720:	a9b67bfd 	stp	x29, x30, [sp, #-160]!
+    2724:	910003fd 	mov	x29, sp
+    2728:	a90573fb 	stp	x27, x28, [sp, #80]
+    272c:	aa0003fb 	mov	x27, x0
+    2730:	a90153f3 	stp	x19, x20, [sp, #16]
+    2734:	aa0103f3 	mov	x19, x1
+    2738:	a9025bf5 	stp	x21, x22, [sp, #32]
+    273c:	a90363f7 	stp	x23, x24, [sp, #48]
+    2740:	a9046bf9 	stp	x25, x26, [sp, #64]
+    2744:	f940af7a 	ldr	x26, [x27, #344]
+    2748:	f90037e2 	str	x2, [sp, #104]
+    274c:	39458005 	ldrb	w5, [x0, #352]
+    2750:	f9406420 	ldr	x0, [x1, #200]
+    2754:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			2754: R_AARCH64_ADR_PREL_PG_HI21	.data
+    2758:	91000021 	add	x1, x1, #0x0
+			2758: R_AARCH64_ADD_ABS_LO12_NC	.data
+    275c:	b9400342 	ldr	w2, [x26]
+    2760:	f9004fe0 	str	x0, [sp, #152]
+    2764:	b9401026 	ldr	w6, [x1, #16]
+    2768:	784a3021 	ldurh	w1, [x1, #163]
+    276c:	b9008be1 	str	w1, [sp, #136]
+    2770:	b9400001 	ldr	w1, [x0]
+    2774:	6b01005f 	cmp	w2, w1
+    2778:	54000360 	b.eq	27e4 <ncm_unwrap_ntb+0xc4>  // b.none
+    277c:	f9401b60 	ldr	x0, [x27, #48]
+    2780:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			2780: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x13c
+    2784:	b9407262 	ldr	w2, [x19, #112]
+    2788:	91000021 	add	x1, x1, #0x0
+			2788: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x13c
+    278c:	f9401800 	ldr	x0, [x0, #48]
+    2790:	f9400000 	ldr	x0, [x0]
+    2794:	91018000 	add	x0, x0, #0x60
+    2798:	94000000 	bl	0 <_dev_info>
+			2798: R_AARCH64_CALL26	_dev_info
+    279c:	f9406665 	ldr	x5, [x19, #200]
+    27a0:	d2800406 	mov	x6, #0x20                  	// #32
+    27a4:	52800024 	mov	w4, #0x1                   	// #1
+    27a8:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			27a8: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x157
+    27ac:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			27ac: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x15d
+    27b0:	2a0603e3 	mov	w3, w6
+    27b4:	2a0403e2 	mov	w2, w4
+    27b8:	91000021 	add	x1, x1, #0x0
+			27b8: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x157
+    27bc:	91000000 	add	x0, x0, #0x0
+			27bc: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x15d
+    27c0:	52800007 	mov	w7, #0x0                   	// #0
+    27c4:	94000000 	bl	0 <print_hex_dump>
+			27c4: R_AARCH64_CALL26	print_hex_dump
+    27c8:	f94037e0 	ldr	x0, [sp, #104]
+    27cc:	128002b4 	mov	w20, #0xffffffea            	// #-22
+    27d0:	94000000 	bl	0 <skb_queue_purge>
+			27d0: R_AARCH64_CALL26	skb_queue_purge
+    27d4:	aa1303e0 	mov	x0, x19
+    27d8:	52800021 	mov	w1, #0x1                   	// #1
+    27dc:	94000000 	bl	0 <__dev_kfree_skb_any>
+			27dc: R_AARCH64_CALL26	__dev_kfree_skb_any
+    27e0:	140000cc 	b	2b10 <ncm_unwrap_ntb+0x3f0>
+    27e4:	79400802 	ldrh	w2, [x0, #4]
+    27e8:	b9400b41 	ldr	w1, [x26, #8]
+    27ec:	6b01005f 	cmp	w2, w1
+    27f0:	54000120 	b.eq	2814 <ncm_unwrap_ntb+0xf4>  // b.none
+    27f4:	f9401b60 	ldr	x0, [x27, #48]
+    27f8:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			27f8: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x160
+    27fc:	91000021 	add	x1, x1, #0x0
+			27fc: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x160
+    2800:	f9401800 	ldr	x0, [x0, #48]
+    2804:	f9400000 	ldr	x0, [x0]
+    2808:	91018000 	add	x0, x0, #0x60
+    280c:	94000000 	bl	0 <_dev_info>
+			280c: R_AARCH64_CALL26	_dev_info
+    2810:	17ffffee 	b	27c8 <ncm_unwrap_ntb+0xa8>
+    2814:	b9401f41 	ldr	w1, [x26, #28]
+    2818:	91002000 	add	x0, x0, #0x8
+    281c:	f9004fe0 	str	x0, [sp, #152]
+    2820:	910263e0 	add	x0, sp, #0x98
+    2824:	97fffdcd 	bl	1f58 <get_ncm>
+    2828:	2a0003f5 	mov	w21, w0
+    282c:	6b0000df 	cmp	w6, w0
+    2830:	540000e2 	b.cs	284c <ncm_unwrap_ntb+0x12c>  // b.hs, b.nlast
+    2834:	f9401b60 	ldr	x0, [x27, #48]
+    2838:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			2838: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x176
+    283c:	91000021 	add	x1, x1, #0x0
+			283c: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x176
+    2840:	f9401800 	ldr	x0, [x0, #48]
+    2844:	f9400000 	ldr	x0, [x0]
+    2848:	17fffff0 	b	2808 <ncm_unwrap_ntb+0xe8>
+    284c:	b9402341 	ldr	w1, [x26, #32]
+    2850:	910263e0 	add	x0, sp, #0x98
+    2854:	531e74b9 	lsl	w25, w5, #2
+    2858:	97fffdc0 	bl	1f58 <get_ncm>
+    285c:	2a0003f4 	mov	w20, w0
+    2860:	710000bf 	cmp	w5, #0x0
+    2864:	52800241 	mov	w1, #0x12                  	// #18
+    2868:	528001c0 	mov	w0, #0xe                   	// #14
+    286c:	1a801020 	csel	w0, w1, w0, ne	// ne = any
+    2870:	b90077e0 	str	w0, [sp, #116]
+    2874:	2a1903e0 	mov	w0, w25
+    2878:	f9003fe0 	str	x0, [sp, #120]
+    287c:	f240069f 	tst	x20, #0x3
+    2880:	54000100 	b.eq	28a0 <ncm_unwrap_ntb+0x180>  // b.none
+    2884:	f9401b60 	ldr	x0, [x27, #48]
+    2888:	2a1403e2 	mov	w2, w20
+    288c:	f9401800 	ldr	x0, [x0, #48]
+    2890:	f9400000 	ldr	x0, [x0]
+    2894:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			2894: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x189
+    2898:	91000021 	add	x1, x1, #0x0
+			2898: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x189
+    289c:	14000020 	b	291c <ncm_unwrap_ntb+0x1fc>
+    28a0:	b9400b40 	ldr	w0, [x26, #8]
+    28a4:	6b14001f 	cmp	w0, w20
+    28a8:	54fffee8 	b.hi	2884 <ncm_unwrap_ntb+0x164>  // b.pmore
+    28ac:	b9400f42 	ldr	w2, [x26, #12]
+    28b0:	4b0202a0 	sub	w0, w21, w2
+    28b4:	6b00029f 	cmp	w20, w0
+    28b8:	54fffe68 	b.hi	2884 <ncm_unwrap_ntb+0x164>  // b.pmore
+    28bc:	f9406661 	ldr	x1, [x19, #200]
+    28c0:	b9416765 	ldr	w5, [x27, #356]
+    28c4:	8b34c020 	add	x0, x1, w20, sxtw
+    28c8:	b874c821 	ldr	w1, [x1, w20, sxtw]
+    28cc:	f9004fe0 	str	x0, [sp, #152]
+    28d0:	6b0100bf 	cmp	w5, w1
+    28d4:	540000e0 	b.eq	28f0 <ncm_unwrap_ntb+0x1d0>  // b.none
+    28d8:	f9401b60 	ldr	x0, [x27, #48]
+    28dc:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			28dc: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x199
+    28e0:	91000021 	add	x1, x1, #0x0
+			28e0: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x199
+    28e4:	f9401800 	ldr	x0, [x0, #48]
+    28e8:	f9400000 	ldr	x0, [x0]
+    28ec:	17ffffc7 	b	2808 <ncm_unwrap_ntb+0xe8>
+    28f0:	b9401b41 	ldr	w1, [x26, #24]
+    28f4:	79400814 	ldrh	w20, [x0, #4]
+    28f8:	0b010c41 	add	w1, w2, w1, lsl #3
+    28fc:	6b14003f 	cmp	w1, w20
+    2900:	54000149 	b.ls	2928 <ncm_unwrap_ntb+0x208>  // b.plast
+    2904:	f9401b60 	ldr	x0, [x27, #48]
+    2908:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			2908: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x1a9
+    290c:	2a1403e2 	mov	w2, w20
+    2910:	91000021 	add	x1, x1, #0x0
+			2910: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x1a9
+    2914:	f9401800 	ldr	x0, [x0, #48]
+    2918:	f9400000 	ldr	x0, [x0]
+    291c:	91018000 	add	x0, x0, #0x60
+    2920:	94000000 	bl	0 <_dev_info>
+			2920: R_AARCH64_CALL26	_dev_info
+    2924:	17ffffa9 	b	27c8 <ncm_unwrap_ntb+0xa8>
+    2928:	b9401742 	ldr	w2, [x26, #20]
+    292c:	1ac20a81 	udiv	w1, w20, w2
+    2930:	1b02d021 	msub	w1, w1, w2, w20
+    2934:	35fffe81 	cbnz	w1, 2904 <ncm_unwrap_ntb+0x1e4>
+    2938:	b9402741 	ldr	w1, [x26, #36]
+    293c:	d28000c2 	mov	x2, #0x6                   	// #6
+    2940:	8b214441 	add	x1, x2, w1, uxtw #1
+    2944:	8b010000 	add	x0, x0, x1
+    2948:	b9402f41 	ldr	w1, [x26, #44]
+    294c:	f9004fe0 	str	x0, [sp, #152]
+    2950:	910263e0 	add	x0, sp, #0x98
+    2954:	97fffd81 	bl	1f58 <get_ncm>
+    2958:	b90073e0 	str	w0, [sp, #112]
+    295c:	f9404fe1 	ldr	x1, [sp, #152]
+    2960:	b9402b40 	ldr	w0, [x26, #40]
+    2964:	8b000420 	add	x0, x1, x0, lsl #1
+    2968:	b9401b41 	ldr	w1, [x26, #24]
+    296c:	f9004fe0 	str	x0, [sp, #152]
+    2970:	b9400f40 	ldr	w0, [x26, #12]
+    2974:	4b000294 	sub	w20, w20, w0
+    2978:	910263e0 	add	x0, sp, #0x98
+    297c:	97fffd77 	bl	1f58 <get_ncm>
+    2980:	2a0003fc 	mov	w28, w0
+    2984:	b9401b41 	ldr	w1, [x26, #24]
+    2988:	910263e0 	add	x0, sp, #0x98
+    298c:	97fffd73 	bl	1f58 <get_ncm>
+    2990:	2a0003f7 	mov	w23, w0
+    2994:	b9400b40 	ldr	w0, [x26, #8]
+    2998:	6b1c001f 	cmp	w0, w28
+    299c:	54000129 	b.ls	29c0 <ncm_unwrap_ntb+0x2a0>  // b.plast
+    29a0:	f9401b60 	ldr	x0, [x27, #48]
+    29a4:	2a1c03e2 	mov	w2, w28
+    29a8:	f9401800 	ldr	x0, [x0, #48]
+    29ac:	f9400000 	ldr	x0, [x0]
+    29b0:	17ffffb9 	b	2894 <ncm_unwrap_ntb+0x174>
+    29b4:	2a1803f7 	mov	w23, w24
+    29b8:	2a1603fc 	mov	w28, w22
+    29bc:	17fffff6 	b	2994 <ncm_unwrap_ntb+0x274>
+    29c0:	b9401340 	ldr	w0, [x26, #16]
+    29c4:	4b0002a0 	sub	w0, w21, w0
+    29c8:	6b1c001f 	cmp	w0, w28
+    29cc:	54fffea3 	b.cc	29a0 <ncm_unwrap_ntb+0x280>  // b.lo, b.ul, b.last
+    29d0:	b94077e0 	ldr	w0, [sp, #116]
+    29d4:	6b17001f 	cmp	w0, w23
+    29d8:	54000109 	b.ls	29f8 <ncm_unwrap_ntb+0x2d8>  // b.plast
+    29dc:	f9401b60 	ldr	x0, [x27, #48]
+    29e0:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			29e0: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x1be
+    29e4:	2a1703e2 	mov	w2, w23
+    29e8:	91000021 	add	x1, x1, #0x0
+			29e8: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x1be
+    29ec:	f9401800 	ldr	x0, [x0, #48]
+    29f0:	f9400000 	ldr	x0, [x0]
+    29f4:	17ffffca 	b	291c <ncm_unwrap_ntb+0x1fc>
+    29f8:	b9408be0 	ldr	w0, [sp, #136]
+    29fc:	6b0002ff 	cmp	w23, w0
+    2a00:	54fffee8 	b.hi	29dc <ncm_unwrap_ntb+0x2bc>  // b.pmore
+    2a04:	39458360 	ldrb	w0, [x27, #352]
+    2a08:	36000280 	tbz	w0, #0, 2a58 <ncm_unwrap_ntb+0x338>
+    2a0c:	f9403fe2 	ldr	x2, [sp, #120]
+    2a10:	2a1703e0 	mov	w0, w23
+    2a14:	f9406661 	ldr	x1, [x19, #200]
+    2a18:	8b3c4000 	add	x0, x0, w28, uxtw
+    2a1c:	cb020000 	sub	x0, x0, x2
+    2a20:	4b1902e2 	sub	w2, w23, w25
+    2a24:	b8606836 	ldr	w22, [x1, x0]
+    2a28:	8b3c4021 	add	x1, x1, w28, uxtw
+    2a2c:	12800000 	mov	w0, #0xffffffff            	// #-1
+    2a30:	94000000 	bl	0 <crc32_le>
+			2a30: R_AARCH64_CALL26	crc32_le
+    2a34:	2a2003e0 	mvn	w0, w0
+    2a38:	6b0002df 	cmp	w22, w0
+    2a3c:	540000e0 	b.eq	2a58 <ncm_unwrap_ntb+0x338>  // b.none
+    2a40:	f9401b60 	ldr	x0, [x27, #48]
+    2a44:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			2a44: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x1d5
+    2a48:	91000021 	add	x1, x1, #0x0
+			2a48: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x1d5
+    2a4c:	f9401800 	ldr	x0, [x0, #48]
+    2a50:	f9400000 	ldr	x0, [x0]
+    2a54:	17ffff6d 	b	2808 <ncm_unwrap_ntb+0xe8>
+    2a58:	b9401b41 	ldr	w1, [x26, #24]
+    2a5c:	910263e0 	add	x0, sp, #0x98
+    2a60:	97fffd3e 	bl	1f58 <get_ncm>
+    2a64:	2a0003f6 	mov	w22, w0
+    2a68:	b9401b41 	ldr	w1, [x26, #24]
+    2a6c:	910263e0 	add	x0, sp, #0x98
+    2a70:	97fffd3a 	bl	1f58 <get_ncm>
+    2a74:	2a0003f8 	mov	w24, w0
+    2a78:	b9401340 	ldr	w0, [x26, #16]
+    2a7c:	4b0002a0 	sub	w0, w21, w0
+    2a80:	6b16001f 	cmp	w0, w22
+    2a84:	540000c2 	b.cs	2a9c <ncm_unwrap_ntb+0x37c>  // b.hs, b.nlast
+    2a88:	f9401b60 	ldr	x0, [x27, #48]
+    2a8c:	2a1603e2 	mov	w2, w22
+    2a90:	f9401800 	ldr	x0, [x0, #48]
+    2a94:	f9400000 	ldr	x0, [x0]
+    2a98:	17ffff7f 	b	2894 <ncm_unwrap_ntb+0x174>
+    2a9c:	f940bb60 	ldr	x0, [x27, #368]
+    2aa0:	4b1902e1 	sub	w1, w23, w25
+    2aa4:	52814402 	mov	w2, #0xa20                 	// #2592
+    2aa8:	b9008fe1 	str	w1, [sp, #140]
+    2aac:	94000000 	bl	0 <__netdev_alloc_skb>
+			2aac: R_AARCH64_CALL26	__netdev_alloc_skb
+    2ab0:	f90043e0 	str	x0, [sp, #128]
+    2ab4:	b4ffe8a0 	cbz	x0, 27c8 <ncm_unwrap_ntb+0xa8>
+    2ab8:	f9406667 	ldr	x7, [x19, #200]
+    2abc:	b9408fe1 	ldr	w1, [sp, #140]
+    2ac0:	2a0103e2 	mov	w2, w1
+    2ac4:	8b3c40e1 	add	x1, x7, w28, uxtw
+    2ac8:	97ffff09 	bl	26ec <skb_put_data.isra.0>
+    2acc:	f94037e0 	ldr	x0, [sp, #104]
+    2ad0:	f94043e5 	ldr	x5, [sp, #128]
+    2ad4:	aa0503e1 	mov	x1, x5
+    2ad8:	94000000 	bl	0 <skb_queue_tail>
+			2ad8: R_AARCH64_CALL26	skb_queue_tail
+    2adc:	b9401b40 	ldr	w0, [x26, #24]
+    2ae0:	710002df 	cmp	w22, #0x0
+    2ae4:	7a401b04 	ccmp	w24, #0x0, #0x4, ne	// ne = any
+    2ae8:	531e7401 	lsl	w1, w0, #2
+    2aec:	4b000a94 	sub	w20, w20, w0, lsl #2
+    2af0:	54000060 	b.eq	2afc <ncm_unwrap_ntb+0x3dc>  // b.none
+    2af4:	6b14003f 	cmp	w1, w20
+    2af8:	54fff5e3 	b.cc	29b4 <ncm_unwrap_ntb+0x294>  // b.lo, b.ul, b.last
+    2afc:	b94073f4 	ldr	w20, [sp, #112]
+    2b00:	35ffebf4 	cbnz	w20, 287c <ncm_unwrap_ntb+0x15c>
+    2b04:	aa1303e0 	mov	x0, x19
+    2b08:	52800001 	mov	w1, #0x0                   	// #0
+    2b0c:	94000000 	bl	0 <__dev_kfree_skb_any>
+			2b0c: R_AARCH64_CALL26	__dev_kfree_skb_any
+    2b10:	a9425bf5 	ldp	x21, x22, [sp, #32]
+    2b14:	2a1403e0 	mov	w0, w20
+    2b18:	a94153f3 	ldp	x19, x20, [sp, #16]
+    2b1c:	a94363f7 	ldp	x23, x24, [sp, #48]
+    2b20:	a9446bf9 	ldp	x25, x26, [sp, #64]
+    2b24:	a94573fb 	ldp	x27, x28, [sp, #80]
+    2b28:	a8ca7bfd 	ldp	x29, x30, [sp], #160
+    2b2c:	d65f03c0 	ret
+
+0000000000002b30 <ncm_alloc_inst>:
+    2b30:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+    2b34:	90000000 	adrp	x0, 0 <kmalloc_caches>
+			2b34: R_AARCH64_ADR_PREL_PG_HI21	kmalloc_caches+0x48
+    2b38:	d2803902 	mov	x2, #0x1c8                 	// #456
+    2b3c:	910003fd 	mov	x29, sp
+    2b40:	5281b801 	mov	w1, #0xdc0                 	// #3520
+    2b44:	f9400000 	ldr	x0, [x0]
+			2b44: R_AARCH64_LDST64_ABS_LO12_NC	kmalloc_caches+0x48
+    2b48:	a90153f3 	stp	x19, x20, [sp, #16]
+    2b4c:	94000000 	bl	0 <kmem_cache_alloc_trace>
+			2b4c: R_AARCH64_CALL26	kmem_cache_alloc_trace
+    2b50:	b4000720 	cbz	x0, 2c34 <ncm_alloc_inst+0x104>
+    2b54:	aa0003f3 	mov	x19, x0
+    2b58:	91064000 	add	x0, x0, #0x190
+    2b5c:	90000002 	adrp	x2, 0 <system_uses_lse_atomics>
+			2b5c: R_AARCH64_ADR_PREL_PG_HI21	.bss
+    2b60:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			2b60: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x1de
+    2b64:	91000042 	add	x2, x2, #0x0
+			2b64: R_AARCH64_ADD_ABS_LO12_NC	.bss
+    2b68:	91000021 	add	x1, x1, #0x0
+			2b68: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x1de
+    2b6c:	f9006e60 	str	x0, [x19, #216]
+    2b70:	91068260 	add	x0, x19, #0x1a0
+    2b74:	94000000 	bl	0 <__mutex_init>
+			2b74: R_AARCH64_CALL26	__mutex_init
+    2b78:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			2b78: R_AARCH64_ADR_PREL_PG_HI21	.text+0x1ec0
+    2b7c:	91000000 	add	x0, x0, #0x0
+			2b7c: R_AARCH64_ADD_ABS_LO12_NC	.text+0x1ec0
+    2b80:	a90b4e60 	stp	x0, x19, [x19, #176]
+    2b84:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			2b84: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x1ea
+    2b88:	91000000 	add	x0, x0, #0x0
+			2b88: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x1ea
+    2b8c:	94000000 	bl	fcc <t6a_gether_setup_name_default>
+			2b8c: R_AARCH64_CALL26	t6a_gether_setup_name_default
+    2b90:	f9006260 	str	x0, [x19, #192]
+    2b94:	aa0003f4 	mov	x20, x0
+    2b98:	b140041f 	cmn	x0, #0x1, lsl #12
+    2b9c:	540000e9 	b.ls	2bb8 <ncm_alloc_inst+0x88>  // b.plast
+    2ba0:	aa1303e0 	mov	x0, x19
+    2ba4:	94000000 	bl	0 <kfree>
+			2ba4: R_AARCH64_CALL26	kfree
+    2ba8:	aa1403e0 	mov	x0, x20
+    2bac:	a94153f3 	ldp	x19, x20, [sp, #16]
+    2bb0:	a8c37bfd 	ldp	x29, x30, [sp], #48
+    2bb4:	d65f03c0 	ret
+    2bb8:	91038260 	add	x0, x19, #0xe0
+    2bbc:	f9007260 	str	x0, [x19, #224]
+    2bc0:	f9007660 	str	x0, [x19, #232]
+    2bc4:	91036260 	add	x0, x19, #0xd8
+    2bc8:	f90013e0 	str	x0, [sp, #32]
+    2bcc:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			2bcc: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x1ee
+    2bd0:	91000000 	add	x0, x0, #0x0
+			2bd0: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x1ee
+    2bd4:	f90017e0 	str	x0, [sp, #40]
+    2bd8:	f9405e60 	ldr	x0, [x19, #184]
+    2bdc:	90000002 	adrp	x2, 0 <system_uses_lse_atomics>
+			2bdc: R_AARCH64_ADR_PREL_PG_HI21	.rodata+0x3d0
+    2be0:	91000042 	add	x2, x2, #0x0
+			2be0: R_AARCH64_ADD_ABS_LO12_NC	.rodata+0x3d0
+    2be4:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			2be4: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x1f2
+    2be8:	91018042 	add	x2, x2, #0x60
+    2bec:	91000021 	add	x1, x1, #0x0
+			2bec: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x1f2
+    2bf0:	94000000 	bl	0 <config_group_init_type_name>
+			2bf0: R_AARCH64_CALL26	config_group_init_type_name
+    2bf4:	9100a3e3 	add	x3, sp, #0x28
+    2bf8:	f9405e60 	ldr	x0, [x19, #184]
+    2bfc:	910083e2 	add	x2, sp, #0x20
+    2c00:	90000004 	adrp	x4, 0 <system_uses_lse_atomics>
+			2c00: R_AARCH64_ADR_PREL_PG_HI21	__this_module
+    2c04:	52800021 	mov	w1, #0x1                   	// #1
+    2c08:	91000084 	add	x4, x4, #0x0
+			2c08: R_AARCH64_ADD_ABS_LO12_NC	__this_module
+    2c0c:	94000000 	bl	0 <usb_os_desc_prepare_interf_dir>
+			2c0c: R_AARCH64_CALL26	usb_os_desc_prepare_interf_dir
+    2c10:	aa0003f4 	mov	x20, x0
+    2c14:	f9405e60 	ldr	x0, [x19, #184]
+    2c18:	b140069f 	cmn	x20, #0x1, lsl #12
+    2c1c:	54000069 	b.ls	2c28 <ncm_alloc_inst+0xf8>  // b.plast
+    2c20:	97fffca8 	bl	1ec0 <ncm_free_inst>
+    2c24:	17ffffe1 	b	2ba8 <ncm_alloc_inst+0x78>
+    2c28:	f9006a74 	str	x20, [x19, #208]
+    2c2c:	aa0003f4 	mov	x20, x0
+    2c30:	17ffffde 	b	2ba8 <ncm_alloc_inst+0x78>
+    2c34:	92800174 	mov	x20, #0xfffffffffffffff4    	// #-12
+    2c38:	17ffffdc 	b	2ba8 <ncm_alloc_inst+0x78>
+
+0000000000002c3c <ncm_alloc>:
+    2c3c:	a9bd7bfd 	stp	x29, x30, [sp, #-48]!
+    2c40:	d2803b02 	mov	x2, #0x1d8                 	// #472
+    2c44:	5281b801 	mov	w1, #0xdc0                 	// #3520
+    2c48:	910003fd 	mov	x29, sp
+    2c4c:	a90153f3 	stp	x19, x20, [sp, #16]
+    2c50:	aa0003f4 	mov	x20, x0
+    2c54:	90000000 	adrp	x0, 0 <kmalloc_caches>
+			2c54: R_AARCH64_ADR_PREL_PG_HI21	kmalloc_caches+0x48
+    2c58:	a9025bf5 	stp	x21, x22, [sp, #32]
+    2c5c:	f9400000 	ldr	x0, [x0]
+			2c5c: R_AARCH64_LDST64_ABS_LO12_NC	kmalloc_caches+0x48
+    2c60:	94000000 	bl	0 <kmem_cache_alloc_trace>
+			2c60: R_AARCH64_CALL26	kmem_cache_alloc_trace
+    2c64:	b40009a0 	cbz	x0, 2d98 <ncm_alloc+0x15c>
+    2c68:	91068295 	add	x21, x20, #0x1a0
+    2c6c:	aa0003f3 	mov	x19, x0
+    2c70:	aa1503e0 	mov	x0, x21
+    2c74:	94000000 	bl	0 <mutex_lock>
+			2c74: R_AARCH64_CALL26	mutex_lock
+    2c78:	b941c280 	ldr	w0, [x20, #448]
+    2c7c:	9104aa76 	add	x22, x19, #0x12a
+    2c80:	aa1603e1 	mov	x1, x22
+    2c84:	528001c2 	mov	w2, #0xe                   	// #14
+    2c88:	11000400 	add	w0, w0, #0x1
+    2c8c:	b901c280 	str	w0, [x20, #448]
+    2c90:	f9406280 	ldr	x0, [x20, #192]
+    2c94:	94000000 	bl	1348 <t6a_gether_get_host_addr_cdc>
+			2c94: R_AARCH64_CALL26	t6a_gether_get_host_addr_cdc
+    2c98:	71002c1f 	cmp	w0, #0xb
+    2c9c:	5400014c 	b.gt	2cc4 <ncm_alloc+0x88>
+    2ca0:	aa1303e0 	mov	x0, x19
+    2ca4:	94000000 	bl	0 <kfree>
+			2ca4: R_AARCH64_CALL26	kfree
+    2ca8:	aa1503e0 	mov	x0, x21
+    2cac:	94000000 	bl	0 <mutex_unlock>
+			2cac: R_AARCH64_CALL26	mutex_unlock
+    2cb0:	928002a0 	mov	x0, #0xffffffffffffffea    	// #-22
+    2cb4:	a94153f3 	ldp	x19, x20, [sp, #16]
+    2cb8:	a9425bf5 	ldp	x21, x22, [sp, #32]
+    2cbc:	a8c37bfd 	ldp	x29, x30, [sp], #48
+    2cc0:	d65f03c0 	ret
+    2cc4:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			2cc4: R_AARCH64_ADR_PREL_PG_HI21	.rodata+0x3d0
+    2cc8:	91000021 	add	x1, x1, #0x0
+			2cc8: R_AARCH64_ADD_ABS_LO12_NC	.rodata+0x3d0
+    2ccc:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			2ccc: R_AARCH64_ADR_PREL_PG_HI21	.data
+    2cd0:	91000000 	add	x0, x0, #0x0
+			2cd0: R_AARCH64_ADD_ABS_LO12_NC	.data
+    2cd4:	f900ae61 	str	x1, [x19, #344]
+    2cd8:	91080261 	add	x1, x19, #0x200
+    2cdc:	d28869c2 	mov	x2, #0x434e                	// #17230
+    2ce0:	3905827f 	strb	wzr, [x19, #352]
+    2ce4:	f2a609a2 	movk	x2, #0x304d, lsl #16
+    2ce8:	f9001c16 	str	x22, [x0, #56]
+    2cec:	b9401000 	ldr	w0, [x0, #16]
+    2cf0:	f8164022 	stur	x2, [x1, #-156]
+    2cf4:	528001e1 	mov	w1, #0xf                   	// #15
+    2cf8:	7901e661 	strh	w1, [x19, #242]
+    2cfc:	52880001 	mov	w1, #0x4000                	// #16384
+    2d00:	291f8660 	stp	w0, w1, [x19, #252]
+    2d04:	b900f67f 	str	wzr, [x19, #244]
+    2d08:	f9406280 	ldr	x0, [x20, #192]
+    2d0c:	91230000 	add	x0, x0, #0x8c0
+    2d10:	f9006e60 	str	x0, [x19, #216]
+    2d14:	aa1503e0 	mov	x0, x21
+    2d18:	94000000 	bl	0 <mutex_unlock>
+			2d18: R_AARCH64_CALL26	mutex_unlock
+    2d1c:	52800020 	mov	w0, #0x1                   	// #1
+    2d20:	3903e260 	strb	w0, [x19, #248]
+    2d24:	39041260 	strb	w0, [x19, #260]
+    2d28:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			2d28: R_AARCH64_ADR_PREL_PG_HI21	.rodata.str1.1+0x1f3
+    2d2c:	91000000 	add	x0, x0, #0x0
+			2d2c: R_AARCH64_ADD_ABS_LO12_NC	.rodata.str1.1+0x1f3
+    2d30:	f9000260 	str	x0, [x19]
+    2d34:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			2d34: R_AARCH64_ADR_PREL_PG_HI21	.text+0x1fc8
+    2d38:	91000000 	add	x0, x0, #0x0
+			2d38: R_AARCH64_ADD_ABS_LO12_NC	.text+0x1fc8
+    2d3c:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			2d3c: R_AARCH64_ADR_PREL_PG_HI21	.text+0x1b80
+    2d40:	91000021 	add	x1, x1, #0x0
+			2d40: R_AARCH64_ADD_ABS_LO12_NC	.text+0x1b80
+    2d44:	a9048660 	stp	x0, x1, [x19, #72]
+    2d48:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			2d48: R_AARCH64_ADR_PREL_PG_HI21	.text+0x24ec
+    2d4c:	91000000 	add	x0, x0, #0x0
+			2d4c: R_AARCH64_ADD_ABS_LO12_NC	.text+0x24ec
+    2d50:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			2d50: R_AARCH64_ADR_PREL_PG_HI21	.text+0x1788
+    2d54:	91000021 	add	x1, x1, #0x0
+			2d54: R_AARCH64_ADD_ABS_LO12_NC	.text+0x1788
+    2d58:	a9068660 	stp	x0, x1, [x19, #104]
+    2d5c:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			2d5c: R_AARCH64_ADR_PREL_PG_HI21	.text+0x181c
+    2d60:	91000000 	add	x0, x0, #0x0
+			2d60: R_AARCH64_ADD_ABS_LO12_NC	.text+0x181c
+    2d64:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			2d64: R_AARCH64_ADR_PREL_PG_HI21	.text+0x186c
+    2d68:	91000021 	add	x1, x1, #0x0
+			2d68: R_AARCH64_ADD_ABS_LO12_NC	.text+0x186c
+    2d6c:	a9078660 	stp	x0, x1, [x19, #120]
+    2d70:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			2d70: R_AARCH64_ADR_PREL_PG_HI21	.text+0x17a8
+    2d74:	91000000 	add	x0, x0, #0x0
+			2d74: R_AARCH64_ADD_ABS_LO12_NC	.text+0x17a8
+    2d78:	f9002e60 	str	x0, [x19, #88]
+    2d7c:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			2d7c: R_AARCH64_ADR_PREL_PG_HI21	.text+0x2f1c
+    2d80:	91000000 	add	x0, x0, #0x0
+			2d80: R_AARCH64_ADD_ABS_LO12_NC	.text+0x2f1c
+    2d84:	90000001 	adrp	x1, 0 <system_uses_lse_atomics>
+			2d84: R_AARCH64_ADR_PREL_PG_HI21	.text+0x2720
+    2d88:	91000021 	add	x1, x1, #0x0
+			2d88: R_AARCH64_ADD_ABS_LO12_NC	.text+0x2720
+    2d8c:	a9108660 	stp	x0, x1, [x19, #264]
+    2d90:	aa1303e0 	mov	x0, x19
+    2d94:	17ffffc8 	b	2cb4 <ncm_alloc+0x78>
+    2d98:	92800160 	mov	x0, #0xfffffffffffffff4    	// #-12
+    2d9c:	17ffffc6 	b	2cb4 <ncm_alloc+0x78>
+
+0000000000002da0 <ncm_open>:
+    2da0:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    2da4:	910003fd 	mov	x29, sp
+    2da8:	a90153f3 	stp	x19, x20, [sp, #16]
+    2dac:	aa0003f3 	mov	x19, x0
+    2db0:	9105a014 	add	x20, x0, #0x168
+    2db4:	aa1403e0 	mov	x0, x20
+    2db8:	97fffd42 	bl	22c0 <__raw_spin_lock>
+    2dbc:	52800020 	mov	w0, #0x1                   	// #1
+    2dc0:	39054260 	strb	w0, [x19, #336]
+    2dc4:	52800040 	mov	w0, #0x2                   	// #2
+    2dc8:	39052260 	strb	w0, [x19, #328]
+    2dcc:	aa1303e0 	mov	x0, x19
+    2dd0:	97fffd6a 	bl	2378 <ncm_do_notify>
+    2dd4:	aa1403e0 	mov	x0, x20
+    2dd8:	97fffd33 	bl	22a4 <__raw_spin_unlock>
+    2ddc:	a94153f3 	ldp	x19, x20, [sp, #16]
+    2de0:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    2de4:	d65f03c0 	ret
+
+0000000000002de8 <ncm_close>:
+    2de8:	a9be7bfd 	stp	x29, x30, [sp, #-32]!
+    2dec:	910003fd 	mov	x29, sp
+    2df0:	a90153f3 	stp	x19, x20, [sp, #16]
+    2df4:	aa0003f3 	mov	x19, x0
+    2df8:	9105a014 	add	x20, x0, #0x168
+    2dfc:	aa1403e0 	mov	x0, x20
+    2e00:	97fffd30 	bl	22c0 <__raw_spin_lock>
+    2e04:	52800040 	mov	w0, #0x2                   	// #2
+    2e08:	39052260 	strb	w0, [x19, #328]
+    2e0c:	3905427f 	strb	wzr, [x19, #336]
+    2e10:	aa1303e0 	mov	x0, x19
+    2e14:	97fffd59 	bl	2378 <ncm_do_notify>
+    2e18:	aa1403e0 	mov	x0, x20
+    2e1c:	97fffd22 	bl	22a4 <__raw_spin_unlock>
+    2e20:	a94153f3 	ldp	x19, x20, [sp, #16]
+    2e24:	a8c27bfd 	ldp	x29, x30, [sp], #32
+    2e28:	d65f03c0 	ret
+
+0000000000002e2c <package_for_tx>:
+    2e2c:	a9bc7bfd 	stp	x29, x30, [sp, #-64]!
+    2e30:	910003fd 	mov	x29, sp
+    2e34:	a90153f3 	stp	x19, x20, [sp, #16]
+    2e38:	aa0003f3 	mov	x19, x0
+    2e3c:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			2e3c: R_AARCH64_ADR_PREL_PG_HI21	.data+0xc
+    2e40:	a9025bf5 	stp	x21, x22, [sp, #32]
+    2e44:	79400016 	ldrh	w22, [x0]
+			2e44: R_AARCH64_LDST16_ABS_LO12_NC	.data+0xc
+    2e48:	f940ae75 	ldr	x21, [x19, #344]
+    2e4c:	91064260 	add	x0, x19, #0x190
+    2e50:	b9401ab4 	ldr	w20, [x21, #24]
+    2e54:	94000000 	bl	0 <hrtimer_try_to_cancel>
+			2e54: R_AARCH64_CALL26	hrtimer_try_to_cancel
+    2e58:	a9578a60 	ldp	x0, x2, [x19, #376]
+    2e5c:	510006c4 	sub	w4, w22, #0x1
+    2e60:	4b1603f6 	neg	w22, w22
+    2e64:	531e7694 	lsl	w20, w20, #2
+    2e68:	b9407001 	ldr	w1, [x0, #112]
+    2e6c:	f9406400 	ldr	x0, [x0, #200]
+    2e70:	0b010084 	add	w4, w4, w1
+    2e74:	0a160084 	and	w4, w4, w22
+    2e78:	b9407042 	ldr	w2, [x2, #112]
+    2e7c:	4b010085 	sub	w5, w4, w1
+    2e80:	b9401ea1 	ldr	w1, [x21, #28]
+    2e84:	0b020282 	add	w2, w20, w2
+    2e88:	91002000 	add	x0, x0, #0x8
+    2e8c:	0b040042 	add	w2, w2, w4
+    2e90:	f9001fe0 	str	x0, [sp, #56]
+    2e94:	9100e3e0 	add	x0, sp, #0x38
+    2e98:	97fffc3e 	bl	1f90 <put_ncm>
+    2e9c:	b94022a1 	ldr	w1, [x21, #32]
+    2ea0:	2a0403e2 	mov	w2, w4
+    2ea4:	97fffc3b 	bl	1f90 <put_ncm>
+    2ea8:	79431260 	ldrh	w0, [x19, #392]
+    2eac:	b9400ea1 	ldr	w1, [x21, #12]
+    2eb0:	7903127f 	strh	wzr, [x19, #392]
+    2eb4:	1b140400 	madd	w0, w0, w20, w1
+    2eb8:	f940c261 	ldr	x1, [x19, #384]
+    2ebc:	f9406421 	ldr	x1, [x1, #200]
+    2ec0:	79000820 	strh	w0, [x1, #4]
+    2ec4:	2a0503e1 	mov	w1, w5
+    2ec8:	f940be75 	ldr	x21, [x19, #376]
+    2ecc:	f900be7f 	str	xzr, [x19, #376]
+    2ed0:	aa1503e0 	mov	x0, x21
+    2ed4:	97fffa45 	bl	17e8 <skb_put_zero>
+    2ed8:	f940c260 	ldr	x0, [x19, #384]
+    2edc:	f9406401 	ldr	x1, [x0, #200]
+    2ee0:	b9407002 	ldr	w2, [x0, #112]
+    2ee4:	aa1503e0 	mov	x0, x21
+    2ee8:	97fffe01 	bl	26ec <skb_put_data.isra.0>
+    2eec:	f940c260 	ldr	x0, [x19, #384]
+    2ef0:	52800001 	mov	w1, #0x0                   	// #0
+    2ef4:	94000000 	bl	0 <__dev_kfree_skb_any>
+			2ef4: R_AARCH64_CALL26	__dev_kfree_skb_any
+    2ef8:	f900c27f 	str	xzr, [x19, #384]
+    2efc:	2a1403e1 	mov	w1, w20
+    2f00:	aa1503e0 	mov	x0, x21
+    2f04:	97fffa39 	bl	17e8 <skb_put_zero>
+    2f08:	aa1503e0 	mov	x0, x21
+    2f0c:	a94153f3 	ldp	x19, x20, [sp, #16]
+    2f10:	a9425bf5 	ldp	x21, x22, [sp, #32]
+    2f14:	a8c47bfd 	ldp	x29, x30, [sp], #64
+    2f18:	d65f03c0 	ret
+
+0000000000002f1c <ncm_wrap_ntb>:
+    2f1c:	a9b97bfd 	stp	x29, x30, [sp, #-112]!
+    2f20:	910003fd 	mov	x29, sp
+    2f24:	a90153f3 	stp	x19, x20, [sp, #16]
+    2f28:	aa0003f3 	mov	x19, x0
+    2f2c:	a9025bf5 	stp	x21, x22, [sp, #32]
+    2f30:	aa0103f5 	mov	x21, x1
+    2f34:	a90363f7 	stp	x23, x24, [sp, #48]
+    2f38:	a9046bf9 	stp	x25, x26, [sp, #64]
+    2f3c:	a90573fb 	stp	x27, x28, [sp, #80]
+    2f40:	b50000a1 	cbnz	x1, 2f54 <ncm_wrap_ntb+0x38>
+    2f44:	f940bc01 	ldr	x1, [x0, #376]
+    2f48:	b5001321 	cbnz	x1, 31ac <ncm_wrap_ntb+0x290>
+    2f4c:	d2800014 	mov	x20, #0x0                   	// #0
+    2f50:	1400008f 	b	318c <ncm_wrap_ntb+0x270>
+    2f54:	90000000 	adrp	x0, 0 <system_uses_lse_atomics>
+			2f54: R_AARCH64_ADR_PREL_PG_HI21	.data
+    2f58:	91000000 	add	x0, x0, #0x0
+			2f58: R_AARCH64_ADD_ABS_LO12_NC	.data
+    2f5c:	f940ae77 	ldr	x23, [x19, #344]
+    2f60:	79401818 	ldrh	w24, [x0, #12]
+    2f64:	79401016 	ldrh	w22, [x0, #8]
+    2f68:	79401419 	ldrh	w25, [x0, #10]
+    2f6c:	39458260 	ldrb	w0, [x19, #352]
+    2f70:	b941027b 	ldr	w27, [x19, #256]
+    2f74:	b9401afa 	ldr	w26, [x23, #24]
+    2f78:	36000160 	tbz	w0, #0, 2fa4 <ncm_wrap_ntb+0x88>
+    2f7c:	b9407022 	ldr	w2, [x1, #112]
+    2f80:	12800000 	mov	w0, #0xffffffff            	// #-1
+    2f84:	f9406421 	ldr	x1, [x1, #200]
+    2f88:	94000000 	bl	0 <crc32_le>
+			2f88: R_AARCH64_CALL26	crc32_le
+    2f8c:	2a0003f4 	mov	w20, w0
+    2f90:	2a3403f4 	mvn	w20, w20
+    2f94:	aa1503e0 	mov	x0, x21
+    2f98:	52800081 	mov	w1, #0x4                   	// #4
+    2f9c:	94000000 	bl	0 <skb_put>
+			2f9c: R_AARCH64_CALL26	skb_put
+    2fa0:	b9000014 	str	w20, [x0]
+    2fa4:	f940be74 	ldr	x20, [x19, #376]
+    2fa8:	531e775c 	lsl	w28, w26, #2
+    2fac:	b4000494 	cbz	x20, 303c <ncm_wrap_ntb+0x120>
+    2fb0:	79431260 	ldrh	w0, [x19, #392]
+    2fb4:	71007c1f 	cmp	w0, #0x1f
+    2fb8:	540001a8 	b.hi	2fec <ncm_wrap_ntb+0xd0>  // b.pmore
+    2fbc:	b94072a0 	ldr	w0, [x21, #112]
+    2fc0:	b9407281 	ldr	w1, [x20, #112]
+    2fc4:	0b000318 	add	w24, w24, w0
+    2fc8:	f940c260 	ldr	x0, [x19, #384]
+    2fcc:	b9407000 	ldr	w0, [x0, #112]
+    2fd0:	0b000318 	add	w24, w24, w0
+    2fd4:	0b1902c0 	add	w0, w22, w25
+    2fd8:	0b010000 	add	w0, w0, w1
+    2fdc:	0b1a0c1a 	add	w26, w0, w26, lsl #3
+    2fe0:	0b1a0318 	add	w24, w24, w26
+    2fe4:	6b1b031f 	cmp	w24, w27
+    2fe8:	54000289 	b.ls	3038 <ncm_wrap_ntb+0x11c>  // b.plast
+    2fec:	aa1303e0 	mov	x0, x19
+    2ff0:	97ffff8f 	bl	2e2c <package_for_tx>
+    2ff4:	aa0003f4 	mov	x20, x0
+    2ff8:	b5000220 	cbnz	x0, 303c <ncm_wrap_ntb+0x120>
+    2ffc:	f940ba60 	ldr	x0, [x19, #368]
+    3000:	94000000 	bl	df8 <t6a_stats>
+			3000: R_AARCH64_CALL26	t6a_stats
+    3004:	f9401c01 	ldr	x1, [x0, #56]
+    3008:	91000421 	add	x1, x1, #0x1
+    300c:	f9001c01 	str	x1, [x0, #56]
+    3010:	b5000db5 	cbnz	x21, 31c4 <ncm_wrap_ntb+0x2a8>
+    3014:	f940be60 	ldr	x0, [x19, #376]
+    3018:	b4000060 	cbz	x0, 3024 <ncm_wrap_ntb+0x108>
+    301c:	52800021 	mov	w1, #0x1                   	// #1
+    3020:	94000000 	bl	0 <__dev_kfree_skb_any>
+			3020: R_AARCH64_CALL26	__dev_kfree_skb_any
+    3024:	f940c260 	ldr	x0, [x19, #384]
+    3028:	b4fff920 	cbz	x0, 2f4c <ncm_wrap_ntb+0x30>
+    302c:	52800021 	mov	w1, #0x1                   	// #1
+    3030:	94000000 	bl	0 <__dev_kfree_skb_any>
+			3030: R_AARCH64_CALL26	__dev_kfree_skb_any
+    3034:	17ffffc6 	b	2f4c <ncm_wrap_ntb+0x30>
+    3038:	d2800014 	mov	x20, #0x0                   	// #0
+    303c:	f940be60 	ldr	x0, [x19, #376]
+    3040:	4b1603fa 	neg	w26, w22
+    3044:	510006d6 	sub	w22, w22, #0x1
+    3048:	b5000680 	cbnz	x0, 3118 <ncm_wrap_ntb+0x1fc>
+    304c:	b9400af8 	ldr	w24, [x23, #8]
+    3050:	52814401 	mov	w1, #0xa20                 	// #2592
+    3054:	2a1b03e0 	mov	w0, w27
+    3058:	12800003 	mov	w3, #0xffffffff            	// #-1
+    305c:	0b1802d8 	add	w24, w22, w24
+    3060:	52800002 	mov	w2, #0x0                   	// #0
+    3064:	94000000 	bl	0 <__alloc_skb>
+			3064: R_AARCH64_CALL26	__alloc_skb
+    3068:	f900be60 	str	x0, [x19, #376]
+    306c:	0a1a0318 	and	w24, w24, w26
+    3070:	f940ba61 	ldr	x1, [x19, #368]
+    3074:	0b190318 	add	w24, w24, w25
+    3078:	b4fffc20 	cbz	x0, 2ffc <ncm_wrap_ntb+0xe0>
+    307c:	f9000801 	str	x1, [x0, #16]
+    3080:	2a1803e1 	mov	w1, w24
+    3084:	f940be60 	ldr	x0, [x19, #376]
+    3088:	97fff9d8 	bl	17e8 <skb_put_zero>
+    308c:	b94002e1 	ldr	w1, [x23]
+    3090:	12800003 	mov	w3, #0xffffffff            	// #-1
+    3094:	b9000001 	str	w1, [x0]
+    3098:	52800002 	mov	w2, #0x0                   	// #0
+    309c:	b9400ae1 	ldr	w1, [x23, #8]
+    30a0:	79000801 	strh	w1, [x0, #4]
+    30a4:	52814401 	mov	w1, #0xa20                 	// #2592
+    30a8:	294192e0 	ldp	w0, w4, [x23, #12]
+    30ac:	0b041400 	add	w0, w0, w4, lsl #5
+    30b0:	94000000 	bl	0 <__alloc_skb>
+			30b0: R_AARCH64_CALL26	__alloc_skb
+    30b4:	f900c260 	str	x0, [x19, #384]
+    30b8:	f940ba61 	ldr	x1, [x19, #368]
+    30bc:	b4fffa00 	cbz	x0, 2ffc <ncm_wrap_ntb+0xe0>
+    30c0:	f9000801 	str	x1, [x0, #16]
+    30c4:	f940c260 	ldr	x0, [x19, #384]
+    30c8:	b9400ee1 	ldr	w1, [x23, #12]
+    30cc:	94000000 	bl	0 <skb_put>
+			30cc: R_AARCH64_CALL26	skb_put
+    30d0:	f90037e0 	str	x0, [sp, #104]
+    30d4:	93407f02 	sxtw	x2, w24
+    30d8:	52800001 	mov	w1, #0x0                   	// #0
+    30dc:	94000000 	bl	0 <memset>
+			30dc: R_AARCH64_CALL26	memset
+    30e0:	f94037e0 	ldr	x0, [sp, #104]
+    30e4:	528000a3 	mov	w3, #0x5                   	// #5
+    30e8:	b9416661 	ldr	w1, [x19, #356]
+    30ec:	d2800002 	mov	x2, #0x0                   	// #0
+    30f0:	b9000001 	str	w1, [x0]
+    30f4:	d2927c01 	mov	x1, #0x93e0                	// #37856
+    30f8:	f2a00081 	movk	x1, #0x4, lsl #16
+    30fc:	f94037e0 	ldr	x0, [sp, #104]
+    3100:	91001000 	add	x0, x0, #0x4
+    3104:	f90037e0 	str	x0, [sp, #104]
+    3108:	52800020 	mov	w0, #0x1                   	// #1
+    310c:	79031260 	strh	w0, [x19, #392]
+    3110:	91064260 	add	x0, x19, #0x190
+    3114:	94000000 	bl	0 <hrtimer_start_range_ns>
+			3114: R_AARCH64_CALL26	hrtimer_start_range_ns
+    3118:	f940c260 	ldr	x0, [x19, #384]
+    311c:	2a1c03e1 	mov	w1, w28
+    3120:	97fff9b2 	bl	17e8 <skb_put_zero>
+    3124:	f90037e0 	str	x0, [sp, #104]
+    3128:	f940be60 	ldr	x0, [x19, #376]
+    312c:	b9407001 	ldr	w1, [x0, #112]
+    3130:	9101a3e0 	add	x0, sp, #0x68
+    3134:	0b0102c2 	add	w2, w22, w1
+    3138:	0a1a0042 	and	w2, w2, w26
+    313c:	0b190042 	add	w2, w2, w25
+    3140:	4b010044 	sub	w4, w2, w1
+    3144:	b9401ae1 	ldr	w1, [x23, #24]
+    3148:	97fffb92 	bl	1f90 <put_ncm>
+    314c:	b94072a2 	ldr	w2, [x21, #112]
+    3150:	b9401ae1 	ldr	w1, [x23, #24]
+    3154:	97fffb8f 	bl	1f90 <put_ncm>
+    3158:	79431260 	ldrh	w0, [x19, #392]
+    315c:	2a0403e1 	mov	w1, w4
+    3160:	11000400 	add	w0, w0, #0x1
+    3164:	79031260 	strh	w0, [x19, #392]
+    3168:	f940be60 	ldr	x0, [x19, #376]
+    316c:	97fff99f 	bl	17e8 <skb_put_zero>
+    3170:	f94066a1 	ldr	x1, [x21, #200]
+    3174:	f940be60 	ldr	x0, [x19, #376]
+    3178:	b94072a2 	ldr	w2, [x21, #112]
+    317c:	97fffd5c 	bl	26ec <skb_put_data.isra.0>
+    3180:	aa1503e0 	mov	x0, x21
+    3184:	52800001 	mov	w1, #0x0                   	// #0
+    3188:	94000000 	bl	0 <__dev_kfree_skb_any>
+			3188: R_AARCH64_CALL26	__dev_kfree_skb_any
+    318c:	a9425bf5 	ldp	x21, x22, [sp, #32]
+    3190:	aa1403e0 	mov	x0, x20
+    3194:	a94153f3 	ldp	x19, x20, [sp, #16]
+    3198:	a94363f7 	ldp	x23, x24, [sp, #48]
+    319c:	a9446bf9 	ldp	x25, x26, [sp, #64]
+    31a0:	a94573fb 	ldp	x27, x28, [sp, #80]
+    31a4:	a8c77bfd 	ldp	x29, x30, [sp], #112
+    31a8:	d65f03c0 	ret
+    31ac:	39462801 	ldrb	w1, [x0, #394]
+    31b0:	3607ece1 	tbz	w1, #0, 2f4c <ncm_wrap_ntb+0x30>
+    31b4:	97ffff1e 	bl	2e2c <package_for_tx>
+    31b8:	aa0003f4 	mov	x20, x0
+    31bc:	b5fffe80 	cbnz	x0, 318c <ncm_wrap_ntb+0x270>
+    31c0:	17ffff8f 	b	2ffc <ncm_wrap_ntb+0xe0>
+    31c4:	aa1503e0 	mov	x0, x21
+    31c8:	52800021 	mov	w1, #0x1                   	// #1
+    31cc:	94000000 	bl	0 <__dev_kfree_skb_any>
+			31cc: R_AARCH64_CALL26	__dev_kfree_skb_any
+    31d0:	17ffff91 	b	3014 <ncm_wrap_ntb+0xf8>
+
+Disassembly of section .init.text:
+
+0000000000000000 <init_module>:
+   0:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+   4:	90000000 	adrp	x0, 0 <init_module>
+			4: R_AARCH64_ADR_PREL_PG_HI21	.data
+   8:	91000000 	add	x0, x0, #0x0
+			8: R_AARCH64_ADD_ABS_LO12_NC	.data
+   c:	910003fd 	mov	x29, sp
+  10:	91090000 	add	x0, x0, #0x240
+  14:	94000000 	bl	0 <usb_function_register>
+			14: R_AARCH64_CALL26	usb_function_register
+  18:	a8c17bfd 	ldp	x29, x30, [sp], #16
+  1c:	d65f03c0 	ret
+
+Disassembly of section .exit.text:
+
+0000000000000000 <cleanup_module>:
+   0:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+   4:	90000000 	adrp	x0, 0 <cleanup_module>
+			4: R_AARCH64_ADR_PREL_PG_HI21	.data
+   8:	91000000 	add	x0, x0, #0x0
+			8: R_AARCH64_ADD_ABS_LO12_NC	.data
+   c:	910003fd 	mov	x29, sp
+  10:	91090000 	add	x0, x0, #0x240
+  14:	94000000 	bl	0 <usb_function_unregister>
+			14: R_AARCH64_CALL26	usb_function_unregister
+  18:	a8c17bfd 	ldp	x29, x30, [sp], #16
+  1c:	d65f03c0 	ret
+
+Disassembly of section .plt:
+
+0000000000000000 <.plt>:
+	...
+
+Disassembly of section .text.ftrace_trampoline:
+
+0000000000000000 <.text.ftrace_trampoline>:
+	...
