@@ -1,0 +1,1 @@
+cmd_/home/masataka/projects/butlerx/candidate/t6a-usb-ncm-canonical-v6/t6a_usb_ncm_canonical_v6.mod := { echo  /home/masataka/projects/butlerx/candidate/t6a-usb-ncm-canonical-v6/u_ether.o /home/masataka/projects/butlerx/candidate/t6a-usb-ncm-canonical-v6/f_ncm.o;  echo; } > /home/masataka/projects/butlerx/candidate/t6a-usb-ncm-canonical-v6/t6a_usb_ncm_canonical_v6.mod
