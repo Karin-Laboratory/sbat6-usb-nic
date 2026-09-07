@@ -39,6 +39,12 @@ sha256sum /path/to/t6a_usb_ncm_65532_candidate_v1.ko
 V=/config/usb_gadget/g1
 test ! -e "$V/UDC" || test -z "$(cat "$V/UDC")" || exit 2
 test ! -e /config/usb_gadget/t6a_ncm_test || exit 2
+# Every pre-existing gadget, including the vendor gadget, must be unbound.
+# This is a read-only gate; it does not unbind anything for the operator.
+for gadget in "$G"/*; do
+    test -d "$gadget" || continue
+    test ! -e "$gadget/UDC" || test -z "$(cat "$gadget/UDC")" || exit 2
+done
 ```
 
 The hash must match `artifacts/SHA256SUMS`, and the target must be the
