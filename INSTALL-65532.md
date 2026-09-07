@@ -1,73 +1,165 @@
 # 65532 v1 custom NCM installation
 
-This procedure is for the published custom module
-t6a_usb_ncm_65532_candidate_v1.ko. It is not the vendor procedure in
-docs/USB-GADGET-NCM.md. Do not use vendor ncm.gs8, function name ncm, or
-the vendor link configs/b.1/f5 for this candidate.
+This is the installation procedure for the published custom module
+`t6a_usb_ncm_65532_candidate_v1.ko`. It is separate from the vendor procedure
+in `docs/USB-GADGET-NCM.md`. Do not substitute the vendor `ncm.gs8`, `ncm`,
+`g1`, `b.1`, or `f5` names in this procedure.
 
-## Preconditions and manual gate
+The names below are the only custom topology names covered by the recorded
+T6A live validation:
 
-Keep an independent management path through raspi2 and disconnect the USB
-host before changing ConfigFS. Confirm the matching T6A Linux 5.4.238 ARM64
-kernel, module vermagic 5.4.238 SMP mod_unload modversions aarch64, and the
-artifact hash in artifacts/SHA256SUMS. Save a read-only snapshot of the
-current module list, ConfigFS tree, UDC state, and ncm0 state. Stop if any
-expected path is missing, the vendor gadget is not in its known state, or
-management continuity cannot be independently verified.
+```text
+gadget   = t6a_ncm_test
+function = t6a_ncm.test0
+config   = c.1
+UDC      = 11201000.usb
+network  = usb0
+```
 
-The operator must explicitly approve the next step after that preflight.
-This document intentionally provides no automatic stock-to-custom switching
-script.
+## Read-only preflight and manual gate
 
-## Custom identity and topology
+Use the independent `raspi2` management path and disconnect the USB host
+before changing ConfigFS. Do not begin activation if any check fails. Save
+the output as the rollback snapshot; do not publish device-specific values.
 
-The module registers the dedicated USB function-driver name t6a_ncm, not
-the vendor ncm. The tested custom topology is:
+```sh
+G=/config/usb_gadget
+UDC=11201000.usb
+test -d "$G" && test -d "/sys/class/udc/$UDC" || exit 2
+uname -a
+cat /sys/class/udc/$UDC/state
+cat /sys/class/udc/$UDC/current_speed
+cat /sys/class/udc/$UDC/uevent
+cat /proc/modules
+find "$G" -maxdepth 4 -type l -o -type f | sort
+ip -brief link show usb0
+ip -brief addr show usb0
+cat /sys/class/net/usb0/carrier 2>/dev/null || true
+sha256sum /path/to/t6a_usb_ncm_65532_candidate_v1.ko
+V=/config/usb_gadget/g1
+test ! -e "$V/UDC" || test -z "$(cat "$V/UDC")" || exit 2
+test ! -e /config/usb_gadget/t6a_ncm_test || exit 2
+```
 
-    /config/usb_gadget/t6a_65532/
-      functions/t6a_ncm.65532
-      configs/c.1/t6a_ncm.65532 -> ../../../../usb_gadget/t6a_65532/functions/t6a_ncm.65532
-      UDC = 11201000.usb
+The hash must match `artifacts/SHA256SUMS`, and the target must be the
+matching T6A Linux 5.4.238 ARM64 kernel with vermagic
+`5.4.238 SMP mod_unload modversions aarch64`. Save the current module list,
+the complete ConfigFS tree, UDC state, and `usb0` state. Confirm that the
+existing vendor gadget is safely unbound and that management continuity is
+independent of the USB data path. Stop if the vendor gadget is still bound,
+if the UDC is not in the expected baseline state, or if any required path is
+missing.
 
-Use the target's reviewed VID/PID, strings, MAC addresses, and network
-addresses from the saved baseline; do not copy vendor values blindly. The
-custom function must be the only function in c.1. Never link it into vendor
-g1/configs/b.1 and never bind a second gadget to the UDC.
+The operator must explicitly approve the activation after this read-only
+preflight. There is intentionally no stock-to-custom automation script.
 
-## Manual activation and verification
+VID/PID, serial/manufacturer/product strings, and both NCM MAC addresses are
+not included here. Restore those values from the saved, reviewed baseline
+snapshot using local manual commands. Do not invent, copy blindly, or publish
+device-specific values.
 
-After the manual gate, create or validate the custom gadget and function,
-link only the topology above, and bind the UDC with a newline-terminated
-write:
+## Manual activation
 
-    echo 11201000.usb > /config/usb_gadget/t6a_65532/UDC
-    cat /config/usb_gadget/t6a_65532/UDC
-    cat /sys/class/udc/11201000.usb/state
-    cat /sys/class/udc/11201000.usb/current_speed
-    ip -brief link show ncm0
-    ip -brief addr show ncm0
-    cat /sys/class/net/ncm0/carrier
+Run these commands only after the gate above. The `mkdir` and `ln` operations
+must be performed against an unbound custom gadget; they must not modify the
+vendor gadget.
 
-Success requires the custom function, configured UDC, host NCM enumeration,
-ncm0 carrier up, and bidirectional IPv4 connectivity. Record every result.
-A speed other than the tested SuperSpeed state is not a success claim.
+```sh
+G=/config/usb_gadget/t6a_ncm_test
+UDC=11201000.usb
+MOD=/path/to/t6a_usb_ncm_65532_candidate_v1.ko
+
+# Load the published custom module, then verify that init really succeeded.
+insmod "$MOD"
+test -d /sys/module/t6a_usb_ncm_65532_candidate_v1 || exit 2
+grep -w '^t6a_usb_ncm_65532_candidate_v1' /proc/modules || exit 2
+test -d /sys/kernel/config/usb_gadget || exit 2
+
+# Create the dedicated gadget and its only configuration.
+mkdir -p "$G" "$G/strings/0x409" "$G/configs/c.1/strings/0x409"
+mkdir "$G/functions/t6a_ncm.test0"
+
+# Restore reviewed local snapshot values; these placeholders are deliberate.
+: "${VID_HEX:?restore VID_HEX from the reviewed local snapshot}"
+: "${PID_HEX:?restore PID_HEX from the reviewed local snapshot}"
+: "${SERIAL:?restore SERIAL from the reviewed local snapshot}"
+: "${MANUFACTURER:?restore MANUFACTURER from the reviewed local snapshot}"
+: "${PRODUCT:?restore PRODUCT from the reviewed local snapshot}"
+: "${CONFIGURATION:?restore CONFIGURATION from the reviewed local snapshot}"
+: "${DEV_MAC:?restore DEV_MAC from the reviewed local snapshot}"
+: "${HOST_MAC:?restore HOST_MAC from the reviewed local snapshot}"
+: "${USB0_ADDR:?restore USB0_ADDR from the reviewed local snapshot}"
+: "${PEER_IPV4:?restore PEER_IPV4 from the reviewed local snapshot}"
+printf '%s\n' "$VID_HEX" > "$G/idVendor"
+printf '%s\n' "$PID_HEX" > "$G/idProduct"
+printf '%s\n' "$SERIAL" > "$G/strings/0x409/serialnumber"
+printf '%s\n' "$MANUFACTURER" > "$G/strings/0x409/manufacturer"
+printf '%s\n' "$PRODUCT" > "$G/strings/0x409/product"
+printf '%s\n' "$CONFIGURATION" > "$G/configs/c.1/strings/0x409/configuration"
+printf '%s\n' "$DEV_MAC" > "$G/functions/t6a_ncm.test0/dev_addr"
+printf '%s\n' "$HOST_MAC" > "$G/functions/t6a_ncm.test0/host_addr"
+
+# The relative link is from configs/c.1 to this gadget's functions directory.
+ln -s ../../functions/t6a_ncm.test0 "$G/configs/c.1/t6a_ncm.test0"
+test "$(readlink "$G/configs/c.1/t6a_ncm.test0")" = ../../functions/t6a_ncm.test0 || exit 2
+
+# Bind only the dedicated gadget, with a newline-terminated write.
+printf '%s\n' "$UDC" > "$G/UDC"
+test "$(cat "$G/UDC")" = "$UDC" || exit 2
+cat "/sys/class/udc/$UDC/state"
+cat "/sys/class/udc/$UDC/current_speed"
+
+# Configure the already-enumerated custom interface from the reviewed local
+# snapshot. Do not reuse vendor addresses.
+ip link set usb0 up
+ip addr add "$USB0_ADDR" dev usb0
+ip -brief link show usb0
+ip -brief addr show usb0
+cat /sys/class/net/usb0/carrier
+```
+
+The custom function must be the only link in `c.1`. Success requires the
+module to appear in `/sys/module`, the function and link to resolve exactly as
+above, the UDC to be bound, host NCM enumeration, `usb0` carrier up, and
+bidirectional IPv4 connectivity using the reviewed peer address from the
+snapshot. Record both directions explicitly, for example:
+
+```sh
+ping -I usb0 -c 3 "$PEER_IPV4"
+# From the USB host, ping the reviewed T6A USB address as well.
+```
+
+The recorded successful validation used SuperSpeed. A different
+`current_speed`, missing carrier, one-way ping, or failed host enumeration is
+not a success claim. Stop and preserve the evidence.
 
 ## Failure stop and rollback
 
-On any failed check, stop. Do not retry with force-unload, UDC-driver
-manipulation, reboot, or role/GPIO/VBUS changes. Keep management available,
-capture read-only state, and unbind only the custom gadget if safe:
+On any failed check, stop. Do not retry with `rmmod -f`, UDC-driver
+manipulation, reboot, role/GPIO/VBUS changes, or an automatic fallback. Keep
+the independent management path available and capture read-only state first.
 
-    echo > /config/usb_gadget/t6a_65532/UDC
+If it is safe to remove only the custom gadget, use the following bounded
+cleanup. Do not run it while the custom UDC field is non-empty or while an
+unexpected link is present:
 
-Remove only the custom c.1 link and function instance, restore the saved
-vendor topology manually, and rebind the original UDC only after checking
-it. The authoritative vendor recovery is docs/RECOVERY.md; its
-g1/functions/ncm.gs8 and f5 topology is a rollback target, not the custom
-v1 installation topology. If the baseline cannot be reconstructed exactly,
-leave the UDC unbound and use the independent management path.
+```sh
+G=/config/usb_gadget/t6a_ncm_test
+test "$(cat "$G/UDC")" = 11201000.usb && printf '\n' > "$G/UDC"
+test -z "$(cat "$G/UDC")" || exit 2
+rm -f "$G/configs/c.1/t6a_ncm.test0"
+rmdir "$G/functions/t6a_ncm.test0"
+```
 
-Live validation for this release covers custom module loading, function
+The rollback target is the saved vendor configuration, not this custom
+topology: `g1/functions/ncm.gs8` linked at `g1/configs/b.1/f5`, with the
+saved vendor VID/PID, strings, MACs, and network values. Restore those values
+manually from the snapshot and bind `11201000.usb` only after verifying the
+target path and link. The authoritative vendor procedure is
+`docs/RECOVERY.md`. If the original baseline cannot be reconstructed exactly,
+leave the UDC unbound and retain the independent management path.
+
+This release's live validation covers custom module loading, function-driver
 identity, UDC bind, Windows enumeration, bidirectional IPv4, and SuperSpeed
 on the matching T6A. It does not establish compatibility with another
 kernel, UDC, host, or gadget layout.
