@@ -13,7 +13,7 @@ Updated 2026-09-06.
 - UDC_SUPER_SPEED_PLUS_CAPABLE: unproven
 - CURRENT_PERFORMANCE_CANDIDATE_LABEL: `t6a-ncm-65532-ntb-candidate-v1`
 - CURRENT_PERFORMANCE_CANDIDATE_SHA256: `7f0e5f3ec197a5f80f23195a3945a2d700bca9d97b8c04eadbacb02c247523c1`
-- CURRENT_PERFORMANCE_CANDIDATE_PROMOTED_IN_REPO: no
+- CURRENT_PERFORMANCE_CANDIDATE_PROMOTED_IN_REPO: yes
 
 ## Proven
 
@@ -41,9 +41,11 @@ Updated 2026-09-06.
 Canonical v6 is the immutable reproducibility baseline. It is not the latest
 performance candidate.
 
-The current 65532-byte performance candidate has a recorded artifact SHA above,
-but its complete source/build/Gate-0 provenance has not yet been promoted into
-this clean repository. Do not silently promote it to canonical.
+The current 65532-byte performance candidate's source bundle, build recipe,
+recorded symbol input, and Gate-0 provenance are promoted into this clean
+repository. This does not make the published artifact clean-build
+reproducible: the exact published SHA remains reproducibility status B.
+Do not silently promote it to canonical.
 
 Current performance work is measurement-first.
 

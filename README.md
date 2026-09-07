@@ -5,7 +5,7 @@
 ## まず読む場所
 
 - [安全方針](docs/SAFETY.md)
-- [導入・ConfigFS・疎通](docs/USB-GADGET-NCM.md)
+- [65532 v1導入・ConfigFS・疎通](INSTALL-65532.md)
 - [復旧とrollback](docs/RECOVERY.md)
 - [性能と測定方向](docs/PERFORMANCE.md)
 - [65532 v1 release notes](RELEASE-NOTES-65532.md)
@@ -29,7 +29,7 @@ canonical v6 は再現 baseline として保持しています。v6 は 16 KiB N
 1. 現在のmodule、ConfigFS、ネットワーク設定をバックアップする。
 2. 物理または別経路の管理接続が維持できることを確認する。
 3. 対応 kernel、vermagic、SHA256 を [release notes](RELEASE-NOTES-65532.md) と照合する。
-4. [導入手順](docs/USB-GADGET-NCM.md)に従い、ConfigFSで一つの gadget/function だけを構成する。
+4. [65532 v1導入手順](INSTALL-65532.md)に従い、read-only preflight後に手動gateを通してConfigFSを構成する。
 5. UDCがconfiguredになり、対象インターフェースの疎通を確認する。
 
 危険な force-unload、UDC driver操作、無条件の再起動、eFuse・Secure Boot・Flash Encryption操作は既定手順に含めません。
@@ -48,8 +48,9 @@ canonical v6 は再現 baseline として保持しています。v6 は 16 KiB N
 ## 成果物検証とライセンス
 
 ```sh
-sha256sum -c artifacts/SHA256SUMS
-modinfo artifacts/t6a_usb_ncm_65532_candidate_v1.ko
+(cd artifacts && sha256sum -c SHA256SUMS)
+(cd driver/t6a-ncm-65532-ntb-candidate-v1/source && sha256sum -c SHA256SUMS)
+modinfo ./artifacts/t6a_usb_ncm_65532_candidate_v1.ko
 ```
 
 source/ と module は GPL-2.0-only。文書と実験記録は明記がない限り CC BY 4.0。詳細は [LICENSE](LICENSE) と [LICENSE-DOCS](LICENSE-DOCS) を参照。
