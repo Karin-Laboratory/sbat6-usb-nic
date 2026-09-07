@@ -44,6 +44,8 @@ the fallback for experiments, not the recommended performance artifact.
 Back up the current module and confirm an independent management path before
 changing a live gadget. Do not use force-unload, UDC-driver manipulation,
 reboot, or security/eFuse operations as part of installation. Follow the
-existing recovery procedure for the target platform. No vendor binary,
+custom v1 installation is documented in [INSTALL-65532.md](INSTALL-65532.md);
+the vendor rollback procedure remains in [docs/RECOVERY.md](docs/RECOVERY.md).
+No vendor binary,
 private runtime capture, device identifier, credential, or chat transcript
 is included in this release.
