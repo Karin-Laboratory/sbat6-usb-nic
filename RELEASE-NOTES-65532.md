@@ -4,7 +4,8 @@
 
 The published `t6a-ncm-65532-candidate-v1` binary is retained as an asset
 because it was loaded on the physical T6A and passed USB configuration, link,
-ICMP, and bounded iperf3 tests. It is not recommended for new use: clean-build
+ICMP, and bounded iperf3 tests. The recommended wording is: 「実機検証済みbinary、source pairingはprovenance-based」.
+It is not recommended for new use: clean-build
 comparison found an executable `.text` mismatch (B2). The public source is a
 provenance record only; this release does not assert that it corresponds to
 the published binary. `instrumented-v5` is not runtime-validated and is

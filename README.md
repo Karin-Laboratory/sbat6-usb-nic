@@ -16,7 +16,7 @@
 
 v1 binary は実機で稼働・疎通・性能確認済みの asset として保持します。対応バイナリは [`artifacts/t6a_usb_ncm_65532_candidate_v1.ko`](artifacts/t6a_usb_ncm_65532_candidate_v1.ko)、SHA256 は `7f0e5f3ec197a5f80f23195a3945a2d700bca9d97b8c04eadbacb02c247523c1` です。ただし clean build ELF の実行 code に差があるため、v1 は推奨版ではありません。
 
-公開 source は provenance record として保持しますが、公開 binary との対応 source を断定しません。比較の根拠は [再現性ステータス](REPRODUCIBILITY-STATUS-65532.md) と [ELF比較証跡](evidence/reproducibility/v1-elf-comparison-20260907.md)を参照してください。
+公開 source は provenance record として保持しますが、公開 binary との対応 source を断定しません。推奨表現は「実機検証済みbinary、source pairingはprovenance-based」です。比較の根拠は [再現性ステータス](REPRODUCIBILITY-STATUS-65532.md) と [ELF比較証跡](evidence/reproducibility/v1-elf-comparison-20260907.md)を参照してください。
 
 canonical v6 は再現 baseline として保持しています。v6 は 16 KiB NTB / 32 datagrams / 300 us、v1 は 65532-byte NTB / 64 datagrams / 80 us です。instrumented v5 は runtime 未検証の experimental であり、推奨インストール対象ではありません。
 

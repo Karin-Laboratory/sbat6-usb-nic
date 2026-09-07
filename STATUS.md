@@ -16,7 +16,7 @@ Updated 2026-09-07.
 - CURRENT_PERFORMANCE_CANDIDATE_PROMOTED_IN_REPO: no
 - V1_REPRODUCIBILITY_CLASS: B2
 - V1_RECOMMENDED: no
-- V1_ASSET_STATUS: live-validated asset retained; source pairing not asserted
+- V1_ASSET_STATUS: 実機検証済みbinary、source pairingはprovenance-based（公開sourceとのpairingは非断定）
 
 ## Proven
 
