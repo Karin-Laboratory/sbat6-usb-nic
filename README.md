@@ -50,7 +50,7 @@ canonical v6 は再現 baseline として保持しています。v6 は 16 KiB N
 ```sh
 (cd artifacts && sha256sum -c SHA256SUMS)
 (cd driver/t6a-ncm-65532-ntb-candidate-v1/source && sha256sum -c SHA256SUMS)
-modinfo ./artifacts/t6a_usb_ncm_65532_candidate_v1.ko
+(cd driver/t6a-ncm-canonical-v6/source && sha256sum -c SHA256SUMS)
 ```
 
 source/ と module は GPL-2.0-only。文書と実験記録は明記がない限り CC BY 4.0。詳細は [LICENSE](LICENSE) と [LICENSE-DOCS](LICENSE-DOCS) を参照。
