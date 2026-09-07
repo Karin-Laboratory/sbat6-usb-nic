@@ -1,11 +1,14 @@
 # 65532-byte NTB candidate v1
 
-## Recommendation
+## Release status
 
-`t6a-ncm-65532-ntb-candidate-v1` is the recommended artifact for the tested
-T6A configuration. It has been loaded on the physical T6A and passed USB
-configuration, link, ICMP, and bounded iperf3 tests. `instrumented-v5` is not
-runtime-validated and is experimental only; it is not an installation target.
+The published `t6a-ncm-65532-candidate-v1` binary is retained as an asset
+because it was loaded on the physical T6A and passed USB configuration, link,
+ICMP, and bounded iperf3 tests. It is not recommended for new use: clean-build
+comparison found an executable `.text` mismatch (B2). The public source is a
+provenance record only; this release does not assert that it corresponds to
+the published binary. `instrumented-v5` is not runtime-validated and is
+experimental only; it is not an installation target.
 
 ## Tested result
 
@@ -25,11 +28,10 @@ for other hosts or kernels.
 | license | GPL-2.0-only |
 
 The source bundle is complete and its file hashes are in the source
-directories. The module name, source constants, build inputs, and final ELF
-hash were cross-checked against the recorded build and runtime provenance.
-The corresponding source is available, but a clean build producing this exact
-published SHA has not yet been reproduced; this is reproducibility status B,
-not status A. See [the reproducibility record](REPRODUCIBILITY-STATUS-65532.md).
+directories. The module name, vermagic, modversions, and several non-code
+sections match the clean build, but executable code does not. This is
+reproducibility status B2, not B1 or status A. See [the reproducibility
+record](REPRODUCIBILITY-STATUS-65532.md) and the [ELF comparison evidence](evidence/reproducibility/v1-elf-comparison-20260907.md).
 
 ## v6 baseline comparison
 

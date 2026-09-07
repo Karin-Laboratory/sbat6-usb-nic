@@ -12,11 +12,11 @@
 - [65532 v1 reproducibility status](REPRODUCIBILITY-STATUS-65532.md)
 - [ビルドと検証](driver/t6a-ncm-65532-ntb-candidate-v1/BUILD.md)
 
-## 推奨版と状態
+## v1の状態
 
-推奨版は、実機で稼働・疎通・性能確認済みの `t6a-ncm-65532-ntb-candidate-v1` です。対応バイナリは [`artifacts/t6a_usb_ncm_65532_candidate_v1.ko`](artifacts/t6a_usb_ncm_65532_candidate_v1.ko)、SHA256 は `7f0e5f3ec197a5f80f23195a3945a2d700bca9d97b8c04eadbacb02c247523c1`。
+v1 binary は実機で稼働・疎通・性能確認済みの asset として保持します。対応バイナリは [`artifacts/t6a_usb_ncm_65532_candidate_v1.ko`](artifacts/t6a_usb_ncm_65532_candidate_v1.ko)、SHA256 は `7f0e5f3ec197a5f80f23195a3945a2d700bca9d97b8c04eadbacb02c247523c1` です。ただし clean build ELF の実行 code に差があるため、v1 は推奨版ではありません。
 
-対応ソースは公開済みですが、公開SHAをclean buildから再現する検証は未了です（判定B）。詳細は [再現性ステータス](REPRODUCIBILITY-STATUS-65532.md)を参照してください。
+公開 source は provenance record として保持しますが、公開 binary との対応 source を断定しません。比較の根拠は [再現性ステータス](REPRODUCIBILITY-STATUS-65532.md) と [ELF比較証跡](evidence/reproducibility/v1-elf-comparison-20260907.md)を参照してください。
 
 canonical v6 は再現 baseline として保持しています。v6 は 16 KiB NTB / 32 datagrams / 300 us、v1 は 65532-byte NTB / 64 datagrams / 80 us です。instrumented v5 は runtime 未検証の experimental であり、推奨インストール対象ではありません。
 
@@ -43,7 +43,7 @@ canonical v6 は再現 baseline として保持しています。v6 は 16 KiB N
 - vendor kernel 5.4.238 の内部ABIに依存し、generic Linuxでは動きません。
 - moduleのABI、UDC、ConfigFS topology、USB speedが一致しない場合は導入しないでください。
 - v1のP1 reverseは安定しておらず、性能差の原因を断定していません。
-- v6は再現baseline、v1は tested performance candidate、v5は未検証実験版です。
+- v6は再現baseline、v1は実機検証済みだが source pairing 非断定の asset、v5は未検証実験版です。
 
 ## 成果物検証とライセンス
 

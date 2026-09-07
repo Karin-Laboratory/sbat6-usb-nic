@@ -1,6 +1,6 @@
 # T6A current truth
 
-Updated 2026-09-06.
+Updated 2026-09-07.
 
 - CURRENT_PHASE: CUSTOM_NCM_FUNCTIONAL_PERFORMANCE_TUNING
 - CURRENT_CANONICAL_CANDIDATE: `candidate/t6a-usb-ncm-canonical-v6`
@@ -13,7 +13,10 @@ Updated 2026-09-06.
 - UDC_SUPER_SPEED_PLUS_CAPABLE: unproven
 - CURRENT_PERFORMANCE_CANDIDATE_LABEL: `t6a-ncm-65532-ntb-candidate-v1`
 - CURRENT_PERFORMANCE_CANDIDATE_SHA256: `7f0e5f3ec197a5f80f23195a3945a2d700bca9d97b8c04eadbacb02c247523c1`
-- CURRENT_PERFORMANCE_CANDIDATE_PROMOTED_IN_REPO: yes
+- CURRENT_PERFORMANCE_CANDIDATE_PROMOTED_IN_REPO: no
+- V1_REPRODUCIBILITY_CLASS: B2
+- V1_RECOMMENDED: no
+- V1_ASSET_STATUS: live-validated asset retained; source pairing not asserted
 
 ## Proven
 
@@ -41,11 +44,11 @@ Updated 2026-09-06.
 Canonical v6 is the immutable reproducibility baseline. It is not the latest
 performance candidate.
 
-The current 65532-byte performance candidate's source bundle, build recipe,
-recorded symbol input, and Gate-0 provenance are promoted into this clean
-repository. This does not make the published artifact clean-build
-reproducible: the exact published SHA remains reproducibility status B.
-Do not silently promote it to canonical.
+The published 65532-byte asset remains available because it was live validated,
+but a clean build from the published source bundle differs in executable
+`.text` and normalized disassembly. This is B2, not a metadata-only mismatch.
+The source bundle is retained as a provenance record; it is not asserted to be
+the source corresponding to the published binary. Do not recommend v1.
 
 Current performance work is measurement-first.
 

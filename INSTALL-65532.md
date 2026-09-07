@@ -53,9 +53,12 @@ missing.
 The operator must explicitly approve the activation after this read-only
 preflight. There is intentionally no stock-to-custom automation script.
 
-VID/PID, serial/manufacturer/product strings, and both NCM MAC addresses are
-not included here. Restore those values from the saved, reviewed baseline
-snapshot using local manual commands. Do not invent, copy blindly, or publish
+VID/PID, both NCM MAC addresses, and any existing strings are not included
+here. Restore only values that exist in the saved, reviewed baseline
+snapshot. The recorded snapshot had no root/config strings; do not create
+`strings/0x409` or string files merely because this document contains
+placeholders. If a reviewed snapshot contains those directories, restore
+their saved values conditionally. Do not invent, copy blindly, or publish
 device-specific values.
 
 ## Manual activation
@@ -72,32 +75,40 @@ MOD=/path/to/t6a_usb_ncm_65532_candidate_v1.ko
 # Load the published custom module, then verify that init really succeeded.
 insmod "$MOD"
 test -d /sys/module/t6a_usb_ncm_65532_candidate_v1 || exit 2
-grep -w '^t6a_usb_ncm_65532_candidate_v1' /proc/modules || exit 2
-test -d /sys/kernel/config/usb_gadget || exit 2
+awk '$1 == "t6a_usb_ncm_65532_candidate_v1" { found=1 } END { exit(found ? 0 : 1) }' /proc/modules || exit 2
+test -d /config/usb_gadget || exit 2
 
-# Create the dedicated gadget and its only configuration.
-mkdir -p "$G" "$G/strings/0x409" "$G/configs/c.1/strings/0x409"
+# Create the dedicated gadget and its only configuration. The recorded
+# snapshot has no root/config strings, so create those directories only when
+# the reviewed local snapshot proves that they already existed.
+mkdir -p "$G" "$G/configs/c.1"
 mkdir "$G/functions/t6a_ncm.test0"
 
 # Restore reviewed local snapshot values; these placeholders are deliberate.
 : "${VID_HEX:?restore VID_HEX from the reviewed local snapshot}"
 : "${PID_HEX:?restore PID_HEX from the reviewed local snapshot}"
-: "${SERIAL:?restore SERIAL from the reviewed local snapshot}"
-: "${MANUFACTURER:?restore MANUFACTURER from the reviewed local snapshot}"
-: "${PRODUCT:?restore PRODUCT from the reviewed local snapshot}"
-: "${CONFIGURATION:?restore CONFIGURATION from the reviewed local snapshot}"
 : "${DEV_MAC:?restore DEV_MAC from the reviewed local snapshot}"
 : "${HOST_MAC:?restore HOST_MAC from the reviewed local snapshot}"
 : "${USB0_ADDR:?restore USB0_ADDR from the reviewed local snapshot}"
 : "${PEER_IPV4:?restore PEER_IPV4 from the reviewed local snapshot}"
 printf '%s\n' "$VID_HEX" > "$G/idVendor"
 printf '%s\n' "$PID_HEX" > "$G/idProduct"
-printf '%s\n' "$SERIAL" > "$G/strings/0x409/serialnumber"
-printf '%s\n' "$MANUFACTURER" > "$G/strings/0x409/manufacturer"
-printf '%s\n' "$PRODUCT" > "$G/strings/0x409/product"
-printf '%s\n' "$CONFIGURATION" > "$G/configs/c.1/strings/0x409/configuration"
 printf '%s\n' "$DEV_MAC" > "$G/functions/t6a_ncm.test0/dev_addr"
 printf '%s\n' "$HOST_MAC" > "$G/functions/t6a_ncm.test0/host_addr"
+
+# Only if the saved snapshot contains these exact string files, restore them
+# from local values. With the recorded snapshot this block is skipped.
+if [ "${SNAPSHOT_HAS_STRINGS:-0}" = 1 ]; then
+    : "${SERIAL:?restore SERIAL from the reviewed local snapshot}"
+    : "${MANUFACTURER:?restore MANUFACTURER from the reviewed local snapshot}"
+    : "${PRODUCT:?restore PRODUCT from the reviewed local snapshot}"
+    : "${CONFIGURATION:?restore CONFIGURATION from the reviewed local snapshot}"
+    mkdir -p "$G/strings/0x409" "$G/configs/c.1/strings/0x409"
+    printf '%s\n' "$SERIAL" > "$G/strings/0x409/serialnumber"
+    printf '%s\n' "$MANUFACTURER" > "$G/strings/0x409/manufacturer"
+    printf '%s\n' "$PRODUCT" > "$G/strings/0x409/product"
+    printf '%s\n' "$CONFIGURATION" > "$G/configs/c.1/strings/0x409/configuration"
+fi
 
 # The relative link is from configs/c.1 to this gadget's functions directory.
 ln -s ../../functions/t6a_ncm.test0 "$G/configs/c.1/t6a_ncm.test0"
