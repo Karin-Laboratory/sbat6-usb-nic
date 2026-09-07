@@ -24,6 +24,11 @@ canonical v6 は再現 baseline として保持しています。v6 は 16 KiB N
 
 同一の T6A–Windows 構成での receiver throughput 平均です。T6A→Windows は P1 1.490、P4 1.580、P10 1.656 Gbit/s。Windows→T6A は P4 1.923、P10 1.982 Gbit/s。逆方向P1は不安定で0.893 Gbit/s平均でした。環境依存の測定値であり、他のkernel・hostでの保証値ではありません。
 
+## Tested hardware/cable
+
+- COMON 3AA-10、USB 3.0 Type-A male–male、1 m。SBA6D / Windows 11 構成で、USB SuperSpeed 列挙、IP疎通、iperf3 P1 転送を確認しました。確認時は 1.42 Gbit/s、TCP Retr 0、errors/drops 0 でした。これは単発のケーブル基本確認値であり、既存 benchmark や最大性能値を置き換えるものではありません。
+- USB Type-A male–male ケーブルは、対象機器の host/device role と給電仕様を確認したうえで使用してください。
+
 ## Quick Start
 
 1. 現在のmodule、ConfigFS、ネットワーク設定をバックアップする。
