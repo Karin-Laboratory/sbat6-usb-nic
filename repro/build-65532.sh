@@ -23,4 +23,5 @@ for name in configfs.h f_ncm.c t6a_opaque_abi.h u_ether.c u_ether.h u_ether_conf
     cp "$SOURCE/$name" "$REPRO/$name"
 done
 export KBUILD_EXTRA_SYMBOLS="$REPRO/t6a-vendor-Module.symvers"
+make -C "$KERNEL_SRC" O="$KERNEL_BUILD" M="$REPRO" ARCH=arm64 CROSS_COMPILE="$CROSS_COMPILE" clean
 exec make -C "$KERNEL_SRC" O="$KERNEL_BUILD" M="$REPRO" ARCH=arm64 CROSS_COMPILE="$CROSS_COMPILE" modules
