@@ -1,6 +1,9 @@
 {
   "ai_url": "http://127.0.0.1:18080/v1/chat/completions",
-  "ai_model": "Qwen3-1.7B-Q4_K_M",
+  "ai_model": "",
+  "ai_models_url": "http://127.0.0.1:18080/v1/models",
+  "article_fetch": true,
+  "feed_limit": 12,
   "database": "data/karin_daily.sqlite3",
   "port": 8088,
   "feeds": [
