@@ -1,0 +1,17 @@
+{
+  "ai_url": "http://127.0.0.1:18080/v1/chat/completions",
+  "ai_model": "Qwen3-1.7B-Q4_K_M",
+  "database": "data/karin_daily.sqlite3",
+  "port": 8088,
+  "feeds": [
+    ["NHK 科学・文化", "https://www.nhk.or.jp/rss/news/cat4.xml"],
+    ["NHK 経済", "https://www.nhk.or.jp/rss/news/cat5.xml"],
+    ["ITmedia", "https://rss.itmedia.co.jp/rss/2.0/itmedia_all.xml"],
+    ["Publickey", "https://www.publickey1.jp/atom.xml"],
+    ["Qiita", "https://qiita.com/popular-items/feed"],
+    ["Zenn", "https://zenn.dev/feed"],
+    ["はてな", "https://b.hatena.ne.jp/hotentry/it.rss"],
+    ["防災科研", "https://www.j-shis.bosai.go.jp/feed"],
+    ["NHK 防災", "https://www.nhk.or.jp/rss/news/cat6.xml"]
+  ]
+}

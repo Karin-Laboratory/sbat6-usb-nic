@@ -1,0 +1,14 @@
+[Unit]
+Description=Karin Daily personal news portal
+After=network-online.target karin-ai-tunnel.service
+
+[Service]
+User=ubuntu
+WorkingDirectory=/opt/karin-daily
+ExecStart=/usr/bin/python3 /opt/karin-daily/karin_daily.py --serve --host 127.0.0.1 --port 8088
+Restart=on-failure
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

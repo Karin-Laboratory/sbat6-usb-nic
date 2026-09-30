@@ -1,0 +1,9 @@
+[Unit]
+Description=Refresh Karin Daily news
+After=network-online.target karin-ai-tunnel.service
+
+[Service]
+Type=oneshot
+User=ubuntu
+WorkingDirectory=/opt/karin-daily
+ExecStart=/usr/bin/python3 /opt/karin-daily/karin_daily.py --once
