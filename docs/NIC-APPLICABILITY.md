@@ -1,7 +1,8 @@
 # Can a new agent build another NIC quickly from public information?
 
-Assessment date: 2026-10-01. The recipe is published on PR #9's branch;
-main at 97f55791dd0de4161cb2a9bd06ab9799ff580a8d does not contain it.
+Assessment date: 2026-10-01. The recipe is introduced by PR #9.
+The earlier main commit 97f55791dd0de4161cb2a9bd06ab9799ff580a8d does not contain it;
+use a main revision containing `driver/t6b-ax88179/`.
 
 | Scope | Supported statement |
 |---|---|

@@ -43,9 +43,8 @@ but has not yet completed clean-repository Gate-0 promotion.
 
 Do not replace canonical v6 with it merely because it is faster.
 
-The canonical v6 `.ko` binary is not committed in this repository. Its
-authoritative SHA256 is recorded in
-`candidate/t6a-usb-ncm-canonical-v6/SHA256SUMS`.
+The canonical v6 binary is published as
+`artifacts/t6a_usb_ncm_canonical_v6.ko`; verify it with `artifacts/SHA256SUMS`.
 
 ## Critical corrections
 
