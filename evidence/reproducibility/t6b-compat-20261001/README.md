@@ -1,5 +1,9 @@
 # T6B AX88179 compatibility rebuild — 2026-10-01
 
+Follow-up: [Ethernet cable testing](ethernet-test.md) confirmed 1 Gbps,
+the reserved DHCP lease, and target-initiated ICMP. The initial-stage record
+below retains its original test boundary.
+
 **Result: fresh source rebuild, normal module removal/reload, and USB NIC
 recognition succeeded. Ethernet traffic is not yet tested.**
 

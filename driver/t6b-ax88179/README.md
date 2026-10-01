@@ -4,7 +4,7 @@
 exact modules were loaded on the test T6B. AX88179 (0b95:1790) registered as
 `eth2` at USB 5000 Mbps. Normal removal of the preceding compatibility build
 and reloading the fresh recipe outputs both succeeded. No Oops was seen in
-the captured interval. **Ethernet link/traffic testing is still pending.**
+the captured interval. **Subsequent Ethernet testing passed: 1 Gbps link, reserved DHCP lease, and ICMP reachability. Throughput and long-term stability remain untested.**
 
 This is a tested compatibility recipe for this target and this driver chain,
 not a guarantee for arbitrary drivers or other firmware. It does not require
@@ -81,7 +81,7 @@ unintended `-dirty` vermagic suffix.
 The opaque region is a compatibility model, not recovered vendor field
 names. This does not reconstruct every USB/network/SKB ABI field. Passing
 the assertions establishes the listed anchors; actual recognition supplies
-the bounded runtime result. Ethernet datapath testing remains necessary.
+the bounded runtime result. Basic DHCP/ICMP datapath testing has subsequently passed; sustained traffic testing remains necessary.
 
 ## Reference provenance
 
@@ -138,8 +138,9 @@ blindly. No boot-time persistence or network-route configuration is installed.
 
 Check the actual USB interface's `net/` directory, driver symlink, device
 speed, and new netdev. The interface name and USB topology are not fixed.
-In this experiment they were `2-1.4:1.0`, `eth2`, and 5000 Mbps. The netdev
-was left administratively down with no Ethernet traffic test yet.
+In this experiment they were `2-1.4:1.0`, `eth2`, and 5000 Mbps. The initial recognition test left the netdev down. A subsequent cable test
+enabled it, obtained the reserved DHCP address, and verified ICMP reachability.
+See [the cable-test report](../../evidence/reproducibility/t6b-compat-20261001/ethernet-test.md).
 
 Source/patch/script licensing follows the repository GPL-2.0-only policy.
 The upstream kernel sources are obtainable at the fixed commit above.
