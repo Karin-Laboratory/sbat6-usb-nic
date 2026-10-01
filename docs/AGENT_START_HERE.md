@@ -1,6 +1,22 @@
 # Agent start here
 
-This file is the shortest authoritative route into the T6A USB NCM project.
+This file routes new agents to the appropriate device-side or host-side task.
+
+## T6B USB host NIC: start here
+
+For AX88179 host NIC builds, go directly to
+[the tested build recipe](../driver/t6b-ax88179/README.md), then
+[its hardware results](../evidence/reproducibility/t6b-compat-20261001/README.md).
+The bundled config, patch, reference symbols, assertions, and build script
+are the current starting point. Do not repeat CRC-only ELF rewriting or
+reconstruct the known ABI from early failed NCM reports.
+
+For a different NIC, read [the applicability assessment](NIC-APPLICABILITY.md).
+The current script is fixed to MII + usbnet + AX88179; successful compilation
+of another driver is not evidence of compatibility. The common corrections
+are reusable, but driver-specific dependency/access checks remain necessary.
+
+The following section concerns the **T6A USB device-side NCM** project.
 
 ## Read in this order
 
@@ -27,9 +43,8 @@ but has not yet completed clean-repository Gate-0 promotion.
 
 Do not replace canonical v6 with it merely because it is faster.
 
-The canonical v6 `.ko` binary is not committed in this repository. Its
-authoritative SHA256 is recorded in
-`candidate/t6a-usb-ncm-canonical-v6/SHA256SUMS`.
+The canonical v6 binary is published as
+`artifacts/t6a_usb_ncm_canonical_v6.ko`; verify it with `artifacts/SHA256SUMS`.
 
 ## Critical corrections
 

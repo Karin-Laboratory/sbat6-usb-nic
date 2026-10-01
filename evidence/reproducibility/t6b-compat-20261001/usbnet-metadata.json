@@ -1,0 +1,576 @@
+{
+  "module": "usbnet.ko",
+  "sha256": "2b7ba50d411b9007bde4b87df71f2ade05d6e8b1f1f9959ed72ad8c48842c764",
+  "references": [
+    {
+      "file": "vendor-image.symvers",
+      "sha256": "01cc48e1e4d136abf24df489955bc81b8dc94d39977f9dbef6ea1348a5717006"
+    },
+    {
+      "file": "Module.symvers",
+      "sha256": "7aba305e5960183afa01704a4d5f32601228689bd261b23d364cbe6ade0f891b"
+    }
+  ],
+  "metadata_result": "MATCH",
+  "load_authorization": "NOT_ESTABLISHED",
+  "limitation": "Does not prove target identity, reference provenance, structural ABI, behavior, or source/binary correspondence.",
+  "vermagic": [
+    "vermagic=5.4.238 SMP mod_unload modversions aarch64"
+  ],
+  "vermagic_match": true,
+  "undefined_without_version": [],
+  "symbols": [
+    {
+      "symbol": "__alloc_percpu_gfp",
+      "module_crc": "0xaf793668",
+      "reference_crc": "0xaf793668",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "__cpu_possible_mask",
+      "module_crc": "0x1e96f43d",
+      "reference_crc": "0x1e96f43d",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "__dev_kfree_skb_any",
+      "module_crc": "0x87b9dba2",
+      "reference_crc": "0x87b9dba2",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "__init_waitqueue_head",
+      "module_crc": "0xd9a5ea54",
+      "reference_crc": "0xd9a5ea54",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "__kmalloc",
+      "module_crc": "0xeb233a45",
+      "reference_crc": "0xeb233a45",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "__mutex_init",
+      "module_crc": "0x977f511b",
+      "reference_crc": "0x977f511b",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "__netdev_alloc_skb",
+      "module_crc": "0x0aea365c",
+      "reference_crc": "0x0aea365c",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "__per_cpu_offset",
+      "module_crc": "0x341dbfa3",
+      "reference_crc": "0x341dbfa3",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "__stack_chk_fail",
+      "module_crc": "0xdecd0b29",
+      "reference_crc": "0xdecd0b29",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "__tasklet_schedule",
+      "module_crc": "0x0faef0ed",
+      "reference_crc": "0x0faef0ed",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "__wake_up",
+      "module_crc": "0x3eeb2322",
+      "reference_crc": "0x3eeb2322",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "add_wait_queue",
+      "module_crc": "0x4afb2238",
+      "reference_crc": "0x4afb2238",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "alloc_etherdev_mqs",
+      "module_crc": "0x224a0869",
+      "reference_crc": "0x224a0869",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "arm64_const_caps_ready",
+      "module_crc": "0x14b89635",
+      "reference_crc": "0x14b89635",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "cancel_work_sync",
+      "module_crc": "0x03c12dfe",
+      "reference_crc": "0x03c12dfe",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "consume_skb",
+      "module_crc": "0x8ca34b48",
+      "reference_crc": "0x8ca34b48",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "cpu_hwcap_keys",
+      "module_crc": "0xb384ca2e",
+      "reference_crc": "0xb384ca2e",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "cpumask_next",
+      "module_crc": "0xcf3fac84",
+      "reference_crc": "0xcf3fac84",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "default_wake_function",
+      "module_crc": "0xaad8c7d6",
+      "reference_crc": "0xaad8c7d6",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "del_timer_sync",
+      "module_crc": "0x97934ecf",
+      "reference_crc": "0x97934ecf",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "eth_mac_addr",
+      "module_crc": "0xe4cef668",
+      "reference_crc": "0xe4cef668",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "eth_type_trans",
+      "module_crc": "0x82df7be2",
+      "reference_crc": "0x82df7be2",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "eth_validate_addr",
+      "module_crc": "0x5fce6074",
+      "reference_crc": "0x5fce6074",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "ethtool_op_get_link",
+      "module_crc": "0xd13083a5",
+      "reference_crc": "0xd13083a5",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "ethtool_op_get_ts_info",
+      "module_crc": "0x2ffecc9e",
+      "reference_crc": "0x2ffecc9e",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "free_netdev",
+      "module_crc": "0x216fb39a",
+      "reference_crc": "0x216fb39a",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "free_percpu",
+      "module_crc": "0xc9ec4e21",
+      "reference_crc": "0xc9ec4e21",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "get_random_bytes",
+      "module_crc": "0x41ed3709",
+      "reference_crc": "0x41ed3709",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "hex2bin",
+      "module_crc": "0x50cf7585",
+      "reference_crc": "0x50cf7585",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "init_timer_key",
+      "module_crc": "0xc6f46339",
+      "reference_crc": "0xc6f46339",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "jiffies",
+      "module_crc": "0x15ba50a6",
+      "reference_crc": "0x15ba50a6",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "kfree",
+      "module_crc": "0x037a0cba",
+      "reference_crc": "0x037a0cba",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "kmalloc_caches",
+      "module_crc": "0xc853d0c1",
+      "reference_crc": "0xc853d0c1",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "kmem_cache_alloc_trace",
+      "module_crc": "0x65df82a0",
+      "reference_crc": "0x65df82a0",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "kmemdup",
+      "module_crc": "0x66b4cc41",
+      "reference_crc": "0x66b4cc41",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "ktime_get_mono_fast_ns",
+      "module_crc": "0x6ebe366f",
+      "reference_crc": "0x6ebe366f",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "memcpy",
+      "module_crc": "0x4829a47e",
+      "reference_crc": "0x4829a47e",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "memset",
+      "module_crc": "0xdcb764ad",
+      "reference_crc": "0xdcb764ad",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "mii_ethtool_get_link_ksettings",
+      "module_crc": "0xb83cd81d",
+      "reference_crc": "0xb83cd81d",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "mii_ethtool_set_link_ksettings",
+      "module_crc": "0x3482ffe2",
+      "reference_crc": "0x3482ffe2",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "mii_link_ok",
+      "module_crc": "0xfab618f9",
+      "reference_crc": "0xfab618f9",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "mii_nway_restart",
+      "module_crc": "0x67da494d",
+      "reference_crc": "0x67da494d",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "mod_timer",
+      "module_crc": "0xc38c83b8",
+      "reference_crc": "0xc38c83b8",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "module_layout",
+      "module_crc": "0x3a3eb6e9",
+      "reference_crc": "0x3a3eb6e9",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "mutex_lock",
+      "module_crc": "0x2ab7989d",
+      "reference_crc": "0x2ab7989d",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "mutex_unlock",
+      "module_crc": "0x409bcb62",
+      "reference_crc": "0x409bcb62",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "netdev_err",
+      "module_crc": "0xb314108d",
+      "reference_crc": "0xb314108d",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "netdev_info",
+      "module_crc": "0x40e2a08e",
+      "reference_crc": "0x40e2a08e",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "netdev_stats_to_stats64",
+      "module_crc": "0x229484cd",
+      "reference_crc": "0x229484cd",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "netif_carrier_off",
+      "module_crc": "0x850b4108",
+      "reference_crc": "0x850b4108",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "netif_carrier_on",
+      "module_crc": "0xa7168f9a",
+      "reference_crc": "0xa7168f9a",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "netif_device_attach",
+      "module_crc": "0x29c0a858",
+      "reference_crc": "0x29c0a858",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "netif_device_detach",
+      "module_crc": "0x798f653a",
+      "reference_crc": "0x798f653a",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "netif_rx",
+      "module_crc": "0xca336344",
+      "reference_crc": "0xca336344",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "netif_tx_wake_queue",
+      "module_crc": "0xf6c100b0",
+      "reference_crc": "0xf6c100b0",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "nr_cpu_ids",
+      "module_crc": "0x017de3d5",
+      "reference_crc": "0x017de3d5",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "param_ops_int",
+      "module_crc": "0xebd90aa6",
+      "reference_crc": "0xebd90aa6",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "pm_runtime_enable",
+      "module_crc": "0xfeba4f7b",
+      "reference_crc": "0xfeba4f7b",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "queue_work_on",
+      "module_crc": "0xc5b6f236",
+      "reference_crc": "0xc5b6f236",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "queued_spin_lock_slowpath",
+      "module_crc": "0x9c1e5bf5",
+      "reference_crc": "0x9c1e5bf5",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "register_netdev",
+      "module_crc": "0xe17e26a0",
+      "reference_crc": "0xe17e26a0",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "remove_wait_queue",
+      "module_crc": "0x37110088",
+      "reference_crc": "0x37110088",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "schedule_timeout",
+      "module_crc": "0x8ddd8aad",
+      "reference_crc": "0x8ddd8aad",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "sg_init_table",
+      "module_crc": "0xf888ca21",
+      "reference_crc": "0xf888ca21",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "skb_dequeue",
+      "module_crc": "0x2f5b913b",
+      "reference_crc": "0x2f5b913b",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "skb_put",
+      "module_crc": "0x0e0fc520",
+      "reference_crc": "0x0e0fc520",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "skb_queue_purge",
+      "module_crc": "0xeef4be27",
+      "reference_crc": "0xeef4be27",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "skb_queue_tail",
+      "module_crc": "0x02b33cc1",
+      "reference_crc": "0x02b33cc1",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "skb_tstamp_tx",
+      "module_crc": "0x326653af",
+      "reference_crc": "0x326653af",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "snprintf",
+      "module_crc": "0x656e4a6e",
+      "reference_crc": "0x656e4a6e",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "strcpy",
+      "module_crc": "0xe914e41e",
+      "reference_crc": "0xe914e41e",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "strlcpy",
+      "module_crc": "0x5792f848",
+      "reference_crc": "0x5792f848",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "system_wq",
+      "module_crc": "0x2d3385d3",
+      "reference_crc": "0x2d3385d3",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "tasklet_kill",
+      "module_crc": "0x82072614",
+      "reference_crc": "0x82072614",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "unregister_netdev",
+      "module_crc": "0x2594d818",
+      "reference_crc": "0x2594d818",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "usb_alloc_urb",
+      "module_crc": "0x25509aba",
+      "reference_crc": "0x25509aba",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "usb_anchor_urb",
+      "module_crc": "0x8f52994f",
+      "reference_crc": "0x8f52994f",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "usb_autopm_get_interface",
+      "module_crc": "0x48dd03e5",
+      "reference_crc": "0x48dd03e5",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "usb_autopm_get_interface_async",
+      "module_crc": "0x993e145d",
+      "reference_crc": "0x993e145d",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "usb_autopm_get_interface_no_resume",
+      "module_crc": "0x6f4da2d1",
+      "reference_crc": "0x6f4da2d1",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "usb_autopm_put_interface",
+      "module_crc": "0x0f19e072",
+      "reference_crc": "0x0f19e072",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "usb_autopm_put_interface_async",
+      "module_crc": "0x7ad36dbd",
+      "reference_crc": "0x7ad36dbd",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "usb_clear_halt",
+      "module_crc": "0xdfaadefb",
+      "reference_crc": "0xdfaadefb",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "usb_control_msg",
+      "module_crc": "0xd67e13ff",
+      "reference_crc": "0xd67e13ff",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "usb_free_urb",
+      "module_crc": "0xdc10e86d",
+      "reference_crc": "0xdc10e86d",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "usb_get_from_anchor",
+      "module_crc": "0xee10a215",
+      "reference_crc": "0xee10a215",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "usb_get_urb",
+      "module_crc": "0x1b8a0a6e",
+      "reference_crc": "0x1b8a0a6e",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "usb_kill_urb",
+      "module_crc": "0x729f3de8",
+      "reference_crc": "0x729f3de8",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "usb_set_interface",
+      "module_crc": "0xe566f11c",
+      "reference_crc": "0xe566f11c",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "usb_string",
+      "module_crc": "0xc80c83f1",
+      "reference_crc": "0xc80c83f1",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "usb_submit_urb",
+      "module_crc": "0x321b1009",
+      "reference_crc": "0x321b1009",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "usb_unlink_urb",
+      "module_crc": "0x2a8ef130",
+      "reference_crc": "0x2a8ef130",
+      "status": "MATCH"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+7,82106,1107073442,-; (3)[15013:insmod]calling  usbnet_init+0x0/0x1000 [usbnet] @ 15013
+7,82107,1107073463,-; (3)[15013:insmod]initcall usbnet_init+0x0/0x1000 [usbnet] returned 0 after 6 usecs
+5,83758,1128272954,-; (2)[17009:insmod]GDL-1[W:2] [gps_dl_hist_rec_rw_do_dump:46]: wr: dp=0, pid=20816, i=2160, n=8(1), l=154 320 154 320; 154 320 155 320
+7,83759,1128391400,-; (2)[17009:insmod]calling  ax88179_178a_driver_init+0x0/0x1000 [ax88179_178a] @ 17009
+1,83760,1128391611,-; (2)[17009:insmod]Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
+1,83761,1128402132,-; (2)[17009:insmod]Mem abort info:
+1,83762,1128406541,-; (2)[17009:insmod]  ESR = 0x96000046
+1,83763,1128411154,-; (2)[17009:insmod]  EC = 0x25: DABT (current EL), IL = 32 bits
+1,83764,1128418056,-; (2)[17009:insmod]  SET = 0, FnV = 0
+1,83765,1128422667,-; (2)[17009:insmod]  EA = 0, S1PTW = 0
+1,83766,1128427391,-; (2)[17009:insmod]Data abort info:
+1,83767,1128431829,-; (2)[17009:insmod]  ISV = 0, ISS = 0x00000046
+1,83768,1128437243,-; (2)[17009:insmod]  CM = 0, WnR = 1
+1,83769,1128441770,-; (2)[17009:insmod]user pgtable: 4k pages, 39-bit VAs, pgdp=00000000d3a5b000
+1,83770,1128449787,-; (2)[17009:insmod][0000000000000000] pgd=00000000d4ad9003, pud=00000000d4ad9003, pmd=0000000000000000
+0,83771,1128460080,-;-(2)[17009:insmod]Internal error: Oops: 96000046 [#1] SMP
+6,83772,1128466512,-;-(2)[17009:insmod]mtk_aee_exception_notifier_call_chain: val=1
+1,83773,1128466598,-;-(2)[17009:insmod]Unable to handle kernel paging request at virtual address ffff5994d63ac4af
+1,83774,1128482928,-;-(2)[17009:insmod]Mem abort info:
+1,83775,1128487273,-;-(2)[17009:insmod]  ESR = 0x96000004
+1,83776,1128491880,-;-(2)[17009:insmod]  EC = 0x25: DABT (current EL), IL = 32 bits
+1,83777,1128498742,-;-(2)[17009:insmod]  SET = 0, FnV = 0
+1,83778,1128503349,-;-(2)[17009:insmod]  EA = 0, S1PTW = 0
+1,83779,1128508042,-;-(2)[17009:insmod]Data abort info:
+1,83780,1128512476,-;-(2)[17009:insmod]  ISV = 0, ISS = 0x00000004
+1,83781,1128517864,-;-(2)[17009:insmod]  CM = 0, WnR = 0
+1,83782,1128522384,-;-(2)[17009:insmod][ffff5994d63ac4af] address between user and kernel address ranges

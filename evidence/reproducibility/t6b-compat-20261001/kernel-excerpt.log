@@ -1,0 +1,15 @@
+7,60583,796732914,-; (0)[20833:insmod]calling  usbnet_init+0x0/0x1000 [usbnet] @ 20833
+7,60584,796732936,-; (0)[20833:insmod]initcall usbnet_init+0x0/0x1000 [usbnet] returned 0 after 7 usecs
+7,62084,814623280,-; (0)[22420:insmod]calling  ax88179_178a_driver_init+0x0/0x1000 [ax88179_178a] @ 22420
+6,62085,814623422,-; (0)[22420:insmod]usbcore: registered new interface driver ax88179_178a
+7,62086,814623434,-; (0)[22420:insmod]initcall ax88179_178a_driver_init+0x0/0x1000 [ax88179_178a] returned 0 after 137 usecs
+6,67182,878659296,-; (0)[3728:kworker/0:2]ax88179_178a 2-1.4:1.0 eth2: register 'ax88179_178a' at usb-11200000.xhci0-1.4, ASIX AX88179 USB 3.0 Gigabit Ethernet, <MAC-redacted>
+6,81162,1031894152,-; (0)[10751:rmmod]usbcore: deregistering interface driver ax88179_178a
+6,81163,1031894215,-; (0)[10751:rmmod]ax88179_178a 2-1.4:1.0 eth2: unregister 'ax88179_178a' usb-11200000.xhci0-1.4, ASIX AX88179 USB 3.0 Gigabit Ethernet
+7,83295,1054204231,-; (0)[12786:insmod]calling  usbnet_init+0x0/0x1000 [usbnet] @ 12786
+7,83296,1054204252,-; (0)[12786:insmod]initcall usbnet_init+0x0/0x1000 [usbnet] returned 0 after 6 usecs
+7,83329,1054961145,-; (3)[12816:insmod]calling  ax88179_178a_driver_init+0x0/0x1000 [ax88179_178a] @ 12816
+6,83336,1055309987,-; (1)[12816:insmod]ax88179_178a 2-1.4:1.0 eth2: register 'ax88179_178a' at usb-11200000.xhci0-1.4, ASIX AX88179 USB 3.0 Gigabit Ethernet, <MAC-redacted>
+6,83338,1055310098,-; (1)[12816:insmod]usbcore: registered new interface driver ax88179_178a
+7,83339,1055310115,-; (1)[12816:insmod]initcall ax88179_178a_driver_init+0x0/0x1000 [ax88179_178a] returned 0 after 340771 usecs
+6,83340,1055310128,-; (1)[12816:insmod]BOOTPROF:   1055310.125207:initcall: ax88179_178a_driver_init [ax88179_178a]   348.964078ms

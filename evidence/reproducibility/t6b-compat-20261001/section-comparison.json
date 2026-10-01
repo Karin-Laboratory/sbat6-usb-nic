@@ -1,0 +1,80 @@
+{
+  "mii": {
+    ".text": {
+      "equal": true,
+      "sha256": "ad1359b1be608645305596a0f8ec1173efa911bb42c616f0fe2b260d43ce6106"
+    },
+    ".data": {
+      "equal": true,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "__versions": {
+      "equal": true,
+      "sha256": "bacd3ea98659af3744db6a7292d90b7781c0c7f18a94c16629e312982e8ab3df"
+    },
+    ".gnu.linkonce.this_module": {
+      "equal": true,
+      "sha256": "62042cb548928465d38951a454807903c417086120d3b38e42b468ed9f21ad2a"
+    }
+  },
+  "usbnet": {
+    ".text": {
+      "equal": true,
+      "sha256": "d8cd941e39c6a2dc28ceb4dd3581e58e471effbe46d7481e509c94adc6cf1e93"
+    },
+    ".init.text": {
+      "equal": true,
+      "sha256": "6792d238059bb53a88a4acc2daf37cafdef5223c715487d31fcbf5854688fb95"
+    },
+    ".exit.text": {
+      "equal": true,
+      "sha256": "110f46b5b35c069160560c6ad6786f647dd44e8760a52a46fc22dbbcd7630b91"
+    },
+    ".data": {
+      "equal": true,
+      "sha256": "c084814eb5a0112d1b22bd723c31b6e092aba5f45746ae022d43663fae1220d9"
+    },
+    ".rodata": {
+      "equal": true,
+      "sha256": "22cdf016ffe0f870f516d51f3dfdbea59a357d15b4155ffaf3b622b9f7389d25"
+    },
+    "__versions": {
+      "equal": true,
+      "sha256": "30f6df3dbab110e8c0dcc06a6c70bdcad6552a208a9a7813a4d03f1565f51617"
+    },
+    ".gnu.linkonce.this_module": {
+      "equal": true,
+      "sha256": "8f9fc6fcfce13a4b189306a7c19dc404fcf9521625c356a45639a7b98d661efa"
+    }
+  },
+  "ax88179_178a": {
+    ".text": {
+      "equal": true,
+      "sha256": "4639d1f436bdff844a09f0d7c5b6e9ef51294fe4986419dce052fe052e765697"
+    },
+    ".init.text": {
+      "equal": true,
+      "sha256": "0935b92f20522ca97d03e6dd03a15250506d1cca5fb639310d46e0613ca20f52"
+    },
+    ".exit.text": {
+      "equal": true,
+      "sha256": "f3b7744ce73bcee6aa250cb45d303f551cd6341a79650f9a8c5240a9b99d09f6"
+    },
+    ".data": {
+      "equal": true,
+      "sha256": "f89a90a3272039288cbb6dd812b176d4cab4b6924ba59c535f6bf355c78ed158"
+    },
+    ".rodata": {
+      "equal": true,
+      "sha256": "d510abf3d650e5a0d9ea85777c9730795e23efca5d612e1d320f58cebbef2fde"
+    },
+    "__versions": {
+      "equal": true,
+      "sha256": "89c001bdeec4c7c2c843ae0179e02bf0685bc8ac1a86580efc0ae8fccdbe6cad"
+    },
+    ".gnu.linkonce.this_module": {
+      "equal": true,
+      "sha256": "1108fe487608c5aa25ab750b7cb485e2ea0820e68cd4c855053af865a2244ec5"
+    }
+  }
+}
