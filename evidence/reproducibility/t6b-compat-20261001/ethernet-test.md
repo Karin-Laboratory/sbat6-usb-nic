@@ -18,7 +18,12 @@ address returned 0/3. A second attempt during a six-second target eth2 ICMP
 capture produced zero captured packets. This does not identify the exact
 filtering/routing boundary, but it does not demonstrate an ICMP request
 reaching the driver and being dropped by the target. No firewall restrictions
-were changed or bypassed. Reverse initiation remains unverified.
+were changed or bypassed. The owner subsequently confirmed that raspi2's
+codex account is intentionally restricted by a firewall from connecting to
+arbitrary LAN addresses. The reverse test therefore is not a valid negative
+NIC test; it is subject to the management host's access boundary. The exact
+rule/counter was not independently inspected, and inbound NIC reachability
+cannot be assessed with this restricted test origin.
 
 This establishes DHCP and a bidirectional exchange of basic packets initiated
 by the target. It does not establish unrestricted inbound reachability,
