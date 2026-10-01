@@ -1,0 +1,60 @@
+{
+  "module": "mii.ko",
+  "sha256": "5b3e1b5a6c75b6c31d4cdbbf4417927835f77f71c14326fe4f27427cfbdf75dd",
+  "references": [
+    {
+      "file": "vendor-image.symvers",
+      "sha256": "01cc48e1e4d136abf24df489955bc81b8dc94d39977f9dbef6ea1348a5717006"
+    },
+    {
+      "file": "Module.symvers",
+      "sha256": "7aba305e5960183afa01704a4d5f32601228689bd261b23d364cbe6ade0f891b"
+    }
+  ],
+  "metadata_result": "MATCH",
+  "load_authorization": "NOT_ESTABLISHED",
+  "limitation": "Does not prove target identity, reference provenance, structural ABI, behavior, or source/binary correspondence.",
+  "vermagic": [
+    "vermagic=5.4.238 SMP mod_unload modversions aarch64"
+  ],
+  "vermagic_match": true,
+  "undefined_without_version": [],
+  "symbols": [
+    {
+      "symbol": "ethtool_convert_legacy_u32_to_link_mode",
+      "module_crc": "0x8f996a30",
+      "reference_crc": "0x8f996a30",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "ethtool_convert_link_mode_to_legacy_u32",
+      "module_crc": "0x55e31703",
+      "reference_crc": "0x55e31703",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "module_layout",
+      "module_crc": "0x3a3eb6e9",
+      "reference_crc": "0x3a3eb6e9",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "netdev_info",
+      "module_crc": "0x40e2a08e",
+      "reference_crc": "0x40e2a08e",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "netif_carrier_off",
+      "module_crc": "0x850b4108",
+      "reference_crc": "0x850b4108",
+      "status": "MATCH"
+    },
+    {
+      "symbol": "netif_carrier_on",
+      "module_crc": "0xa7168f9a",
+      "reference_crc": "0xa7168f9a",
+      "status": "MATCH"
+    }
+  ]
+}

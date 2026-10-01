@@ -4,6 +4,7 @@
 
 ## まず読む場所
 
+- [T6B AX88179：再ビルドから実機認識まで確認した手順](driver/t6b-ax88179/README.md)
 - [新規ドライバの公開情報からの再現・ABI検証と不足事項](docs/DRIVER-REPRODUCTION.md)
 - [安全方針](docs/SAFETY.md)
 - [65532 v1導入・ConfigFS・疎通](INSTALL-65532.md)

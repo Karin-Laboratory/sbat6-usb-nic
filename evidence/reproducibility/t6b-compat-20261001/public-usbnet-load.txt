@@ -1,0 +1,4 @@
+BEFORE_usbnet
+INSMOD_RC=0
+usbnet 36864 0 - Live 0xffffffc009c45000
+mii 16384 1 usbnet, Live 0xffffffc0097cc000

@@ -1,0 +1,5 @@
+BEFORE_ax88179_178a
+INSMOD_RC=0
+ax88179_178a 28672 0 - Live 0xffffffc0097d6000
+usbnet 36864 1 ax88179_178a, Live 0xffffffc009c45000
+mii 16384 2 ax88179_178a,usbnet, Live 0xffffffc0097cc000

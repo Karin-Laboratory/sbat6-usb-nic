@@ -1,0 +1,3 @@
+# Preserve unified-diff context prefixes and kbuild's trailing namespace column.
+driver/t6b-ax88179/netdevice.patch -whitespace
+driver/t6b-ax88179/vendor-image.symvers -whitespace
