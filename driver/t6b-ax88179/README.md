@@ -21,9 +21,12 @@ versions have not been validated with this recipe.
 1. Clone this repository and upstream stable Linux:
 
    ```sh
-   git clone https://github.com/Karin-Laboratory/sbat6-usb-nic.git
+   git clone --branch docs/driver-reproduction-audit https://github.com/Karin-Laboratory/sbat6-usb-nic.git
    git clone --depth 1 --branch v5.4.238 https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git linux-5.4.238
    ```
+
+   This recipe is currently published in PR #9's branch. Once merged, use
+   main at a commit containing this directory instead.
 
 2. Build from the fixed upstream commit and bundled inputs:
 
