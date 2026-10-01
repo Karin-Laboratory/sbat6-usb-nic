@@ -1,0 +1,56 @@
+{
+  "module": "mii.ko",
+  "sha256": "699776ea526a695c36cf83f3cfc0b4c3a02f84cda5188e940dbd62078fe732a7",
+  "references": [
+    {
+      "file": "t6a-vendor-Module.symvers",
+      "sha256": "42c2b83c42a19497a388e57544820309207ac2bcd4c63d8b61afb73fb9688bb7"
+    }
+  ],
+  "metadata_result": "FAIL",
+  "load_authorization": "NOT_ESTABLISHED",
+  "limitation": "Does not prove target identity, reference provenance, structural ABI, behavior, or source/binary correspondence.",
+  "vermagic": [
+    "vermagic=5.4.238 SMP mod_unload modversions aarch64"
+  ],
+  "vermagic_match": true,
+  "undefined_without_version": [],
+  "symbols": [
+    {
+      "symbol": "ethtool_convert_legacy_u32_to_link_mode",
+      "module_crc": "0x8f996a30",
+      "reference_crc": null,
+      "status": "UNKNOWN"
+    },
+    {
+      "symbol": "ethtool_convert_link_mode_to_legacy_u32",
+      "module_crc": "0x55e31703",
+      "reference_crc": null,
+      "status": "UNKNOWN"
+    },
+    {
+      "symbol": "module_layout",
+      "module_crc": "0x6006b85e",
+      "reference_crc": "0x3a3eb6e9",
+      "status": "MISMATCH"
+    },
+    {
+      "symbol": "netdev_info",
+      "module_crc": "0x459e48a3",
+      "reference_crc": null,
+      "status": "UNKNOWN"
+    },
+    {
+      "symbol": "netif_carrier_off",
+      "module_crc": "0x7dbd69c1",
+      "reference_crc": "0x850b4108",
+      "status": "MISMATCH"
+    },
+    {
+      "symbol": "netif_carrier_on",
+      "module_crc": "0xdc79e7ca",
+      "reference_crc": "0xa7168f9a",
+      "status": "MISMATCH"
+    }
+  ]
+}

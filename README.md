@@ -4,6 +4,7 @@
 
 ## まず読む場所
 
+- [新規ドライバの公開情報からの再現・ABI検証と不足事項](docs/DRIVER-REPRODUCTION.md)
 - [安全方針](docs/SAFETY.md)
 - [65532 v1導入・ConfigFS・疎通](INSTALL-65532.md)
 - [復旧とrollback](docs/RECOVERY.md)
