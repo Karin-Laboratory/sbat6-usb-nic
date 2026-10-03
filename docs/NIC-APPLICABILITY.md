@@ -7,7 +7,7 @@ use a main revision containing `driver/t6b-ax88179/`.
 | Scope | Supported statement |
 |---|---|
 | AX88179 on the tested T6B firmware/config | Public inputs suffice for a short, scripted build. An isolated rebuild and hardware recognition/DHCP/ICMP were verified. |
-| RTL8156 / r8152 on the tested T6B firmware/config | The AX88179 compatibility environment was reused for a structurally different driver. Module load, RTL8156 bind, MAC retrieval, netdev creation and interface UP all passed without r8152-related Oops/panic. Physical-link datapath remains untested. |
+| RTL8156 / r8152 on the tested T6B firmware/config | The AX88179 compatibility environment was reused for a structurally different driver. Module load, bind, MAC retrieval, netdev creation, interface UP, 2500 Mb/s Full Duplex link, 60-second ping at 0% loss, and short iperf3 throughput (P1 2.27 Gbit/s, P4 2.15 Gbit/s, retransmissions 0) all passed without r8152-related Oops/panic. |
 | Another Linux 5.4 driver | Reuse is now demonstrated beyond usbnet, but every new driver still needs its own API/dependency/firmware/direct-structure-access audit and final-ELF verification. |
 | Any source-available Linux NIC driver | Not established. Source availability does not ensure 5.4 API compatibility, target exports, firmware dependencies, or matching struct/callback semantics. |
 | Another SBAT6 firmware or hardware variant | Not established from the kernel release string alone. Revalidate target identity and applicable ABI anchors. |
@@ -37,4 +37,4 @@ end-to-end time bound, including downloads/dependency installation, is claimed.
 4. A blind public-only test with no inherited chat/private files, recording
    prerequisites, elapsed time and any necessary interventions.
 
-The appropriate present claim is: **the tested compatibility environment has now brought up both AX88179 and RTL8156/r8152 on the tested T6B firmware/config, including a structurally different driver that directly touches more networking internals.** This is strong evidence for a reusable SBA6D external-driver starting environment, but it is still not a promise that any publicly sourced NIC can quickly become a working SBAT6 module. The RTL8156 physical-link datapath and sustained traffic also remain to be verified.
+The appropriate present claim is: **the tested compatibility environment has now brought up both AX88179 and RTL8156/r8152 on the tested T6B firmware/config, including a structurally different driver that directly touches more networking internals.** This is strong evidence for a reusable SBA6D external-driver starting environment, but it is still not a promise that any publicly sourced NIC can quickly become a working SBAT6 module. The RTL8156 physical-link datapath and short throughput are now verified; long-duration stability, reverse-direction throughput and repeated hotplug/reload endurance remain to be characterized.
