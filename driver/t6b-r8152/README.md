@@ -1,4 +1,4 @@
-# T6B / SBA6D RTL8156 (r8152): canonical compatibility build and Stage C success
+# T6B / SBA6D RTL8156 (r8152): canonical compatibility build, 2.5GbE datapath and iperf3
 
 Status date: 2026-10-04.
 
@@ -14,19 +14,23 @@ Target hardware and driver:
 - source commit: `9ff8b9d961f3927a211a25b187c749daf0769318`
 - driver version: v2.21.4
 
-The current verified result is **Stage C PASS**:
+The current verified result is **Stage D PASS with 2.5GbE datapath and iperf3 validation**:
 
 - r8152 loads,
 - RTL8156 enumerates and automatically binds,
 - a netdev is created,
 - the MAC address is read correctly,
 - `ip link set dev eth2 up` succeeds,
-- the interface remains stable in UP/NO-CARRIER state,
-- no r8152-related WARN/Oops/panic occurred in the captured interval,
+- 2.5 Gb/s Full Duplex physical link is negotiated,
+- bidirectional IPv4 ping succeeds with 0% loss,
+- iperf3 reaches 2.27 Gbit/s with P1 and 2.15 Gbit/s with P4,
+- retransmissions are 0 in both iperf3 runs,
+- RX/TX errors and drops remain 0,
+- no r8152-related WARN/Oops/panic occurred,
 - the previously reproducible `__rtl8152_set_mac_address` crash no longer occurs.
 
-The physical Ethernet link was not connected during Stage C, so carrier, negotiated
-speed, packet transfer, DHCP, ICMP and throughput are still untested for this exact build.
+The remaining untested area is long-duration stability and broader traffic characterization,
+not basic driver functionality or 2.5GbE datapath.
 
 ## Successful runtime evidence
 
@@ -61,7 +65,75 @@ Observed result:
 - no IP address, route, bridge membership or persistent network setting was added
 
 This demonstrates successful module load, USB probe/bind, MAC setup, netdev creation and
-interface-open execution. It does not yet demonstrate the data path.
+interface-open execution. Stage D and the later iperf3 run then demonstrated the actual
+2.5GbE data path.
+
+## Stage D: physical link and IP datapath
+
+The RTL8156 port was connected directly to a Pavilion 5GbE port. The RTL8156 side
+negotiated at its expected maximum:
+
+- carrier: `1`
+- speed: `2500Mb/s`
+- duplex: `Full`
+- temporary SBA6D address: `192.168.50.2/24`
+- peer: `192.168.50.1`
+
+Basic connectivity:
+
+- initial ping: 3/3, 0% loss
+- 60-second ping: 60 transmitted / 60 received / 0% loss
+- RTT min/avg/max: `1.815/2.799/3.951 ms`
+- RX packets before/after: `102 / 176`
+- TX packets before/after: `9 / 74`
+- RX errors/drops: `0 / 0`
+- TX errors/drops: `0 / 0`
+- boot_id unchanged
+- no USB reset/disconnect
+- no r8152 WARN
+- no Oops/panic
+
+The temporary IP was removed after the test.
+
+Verdict: **Stage D PASS**.
+
+## iperf3 throughput
+
+A later iperf3 server was started on the Pavilion at `192.168.50.1:5201`.
+SBA6D transmitted over `eth2`.
+
+Observed:
+
+- P1, 10 seconds: **2.27 Gbit/s**, retransmissions 0
+- P4, 10 seconds: **2.15 Gbit/s**, retransmissions 0
+- ping after the throughput test: 3/3, 0% loss
+- link remained 2500 Mb/s Full Duplex
+- RX/TX errors and drops remained 0
+- boot_id unchanged
+- management path remained available
+- temporary `192.168.50.2/24` address removed after the test
+
+The peer was running iperf3, so an iperf2 client attempt was not protocol-compatible and
+was discarded as a test-method mismatch rather than a driver failure.
+
+This result validates practical near-line-rate-class 2.5GbE transmission on the tested
+path. It is not yet a long-duration soak test.
+
+## Tested binary identity
+
+The exact r8152 ELF used for the successful Stage D and iperf3 work is:
+
+`build-d/artifact-a/r8152.ko`
+
+SHA256:
+
+`6890208bc3375d6d71b5d1a661a1dc3b70fe5825675d75c6e5391c7cbfa79d78`
+
+Canonical local workspace:
+
+`/home/masataka/projects/butlerx/work/r8152-rtl8156-sbat6b-canonical-20261004`
+
+The repository artifact, when added, must be these exact tested bytes.
 
 ## Why the first r8152 build crashed
 
@@ -223,18 +295,17 @@ Stage C completed successfully.
 
 ## Remaining validation
 
-The next test requires a physical Ethernet link.
+Basic 2.5GbE datapath and short iperf3 throughput are now validated.
 
-Recommended progression:
+Remaining work is optional characterization rather than basic bring-up:
 
-1. establish physical carrier,
-2. confirm negotiated speed and duplex,
-3. inspect RX/TX counters before IP configuration,
-4. use an isolated temporary subnet,
-5. test ARP and ICMP,
-6. then measure throughput and CPU/IRQ/softirq behavior.
+1. reverse-direction iperf3,
+2. longer soak tests,
+3. mixed P1/P4/P10 runs,
+4. CPU/IRQ/softirq observation,
+5. repeated unplug/replug and module reload testing.
 
-Do not claim 2.5 Gb/s operation from Stage C alone.
+Do not generalize the measured 2.27 Gbit/s result to other firmware, hosts, cables or NIC revisions.
 
 ## Project significance
 
@@ -263,13 +334,15 @@ Do not restart from pristine Linux 5.4.238 and assume the release string defines
 
 ## Binary publication rule
 
-The repository binary must be the **exact ELF that passed Stage B and Stage C**, identified
-by its SHA256. A new rebuild that merely appears equivalent is not a substitute for the
+The repository binary must be the **exact ELF that passed Stage B, Stage C, Stage D and
+the iperf3 test**, identified by its SHA256. A new rebuild that merely appears equivalent is not a substitute for the
 runtime-tested bytes.
 
 The tested workspace is:
 
 `/home/masataka/projects/butlerx/work/r8152-rtl8156-sbat6b-canonical-20261004`
 
-The exact tested ELF and SHA256 are intentionally not invented here. They must be copied
-from that workspace before the artifact manifest is updated.
+Exact tested SHA256: `6890208bc3375d6d71b5d1a661a1dc3b70fe5825675d75c6e5391c7cbfa79d78`.
+
+The binary itself still must be copied from the canonical workspace before the artifact
+manifest is updated.
