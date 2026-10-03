@@ -48,7 +48,7 @@ canonical v6 は再現 baseline として保持しています。v6 は 16 KiB N
 
 ## T6B USBホストNICの進展
 
-AX88179に続き、Realtek RTL8156 (`0bda:8156`) でも外部 `r8152` の実機bring-upに成功しました。2026-10-04時点で、module load、USB bind、MAC取得、`eth2`生成、interface UP、**2.5GbE Full Duplex link、60秒ping 0% loss、iperf3 P1 2.27 Gbit/s / P4 2.15 Gbit/s、再送0、errors/drops 0** まで確認済みです。旧buildでは `struct net_device` の `dev_addr` を `0x2e8` としてcodegenしたため `__rtl8152_set_mac_address` でOopsしましたが、AX88179で確立したSBAT6B互換build環境をそのまま再利用し、vendor ABI側の `dev_addr=0x318` ほかのlayoutを反映することで解消しました。長時間soakと逆方向throughputは未評価です。詳細は [r8152記録](driver/t6b-r8152/README.md) を参照してください。
+AX88179に続き、Realtek RTL8156 (`0bda:8156`) でも外部 `r8152` の実機bring-upに成功しました。2026-10-04時点で、module load、USB bind、MAC取得、`eth2`生成、interface UP、**2.5GbE Full Duplex link、60秒ping 0% loss、iperf3 P1 2.27 Gbit/s / P4 2.15 Gbit/s、再送0、errors/drops 0** まで確認済みです。完成版binaryは公開済みです（SHA256: `6890208bc3375d6d71b5d1a661a1dc3b70fe5825675d75c6e5391c7cbfa79d78`、[`artifacts/t6b_r8152_rtl8156_canonical.ko`](artifacts/t6b_r8152_rtl8156_canonical.ko)）。旧buildでは `struct net_device` の `dev_addr` を `0x2e8` としてcodegenしたため `__rtl8152_set_mac_address` でOopsしましたが、AX88179で確立したSBAT6B互換build環境をそのまま再利用し、vendor ABI側の `dev_addr=0x318` ほかのlayoutを反映することで解消しました。長時間soakと逆方向throughputは未評価です。詳細は [r8152記録](driver/t6b-r8152/README.md) を参照してください。
 
 ## 既知の制約と研究状況
 

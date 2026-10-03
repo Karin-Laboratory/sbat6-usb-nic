@@ -119,11 +119,12 @@ was discarded as a test-method mismatch rather than a driver failure.
 This result validates practical near-line-rate-class 2.5GbE transmission on the tested
 path. It is not yet a long-duration soak test.
 
-## Tested binary identity
+## Published tested binary
 
-The exact r8152 ELF used for the successful Stage D and iperf3 work is:
+The published binary is the exact r8152 ELF used for the successful Stage B, Stage C,
+Stage D and iperf3 work:
 
-`build-d/artifact-a/r8152.ko`
+[`../../artifacts/t6b_r8152_rtl8156_canonical.ko`](../../artifacts/t6b_r8152_rtl8156_canonical.ko)
 
 SHA256:
 
@@ -133,7 +134,10 @@ Canonical local workspace:
 
 `/home/masataka/projects/butlerx/work/r8152-rtl8156-sbat6b-canonical-20261004`
 
-The repository artifact, when added, must be these exact tested bytes.
+This is the exact tested artifact, not a rebuild or a transformed substitute. The
+canonical local source used for publication was:
+
+`/home/masataka/projects/butlerx/work/r8152-rtl8156-sbat6b-canonical-20261004/build-d/artifact-a/r8152.ko`
 
 ## Why the first r8152 build crashed
 

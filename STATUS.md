@@ -100,7 +100,10 @@ Updated 2026-10-04.
 - canonical record: `driver/t6b-r8152/README.md`
 - runtime evidence: `evidence/reproducibility/t6b-r8152-stage-c-20261004.md`
 - exact tested binary SHA256: `6890208bc3375d6d71b5d1a661a1dc3b70fe5825675d75c6e5391c7cbfa79d78`
-- exact tested binary publication: pending import of the exact ELF bytes from the local canonical workspace
+- exact tested binary publication: published
+- repository artifact: `artifacts/t6b_r8152_rtl8156_canonical.ko`
+- exact SHA256: `6890208bc3375d6d71b5d1a661a1dc3b70fe5825675d75c6e5391c7cbfa79d78`
+- published binary validated by Stage D and iperf3; it is the exact tested ELF
 
 The earlier r8152 failure was caused by a `struct net_device` layout mismatch:
 the old module compiled `dev_addr` at `0x2e8`, while the target ABI evidence
