@@ -5,7 +5,7 @@
 ## まず読む場所
 
 - [T6B AX88179：再ビルドから実機認識まで確認した手順](driver/t6b-ax88179/README.md)
-- [T6B RTL8156 / r8152：Oops解析からStage C成功まで](driver/t6b-r8152/README.md)
+- [T6B RTL8156 / r8152：Oops解析から2.5GbE・iperf3成功まで](driver/t6b-r8152/README.md)
 - [新規ドライバの公開情報からの再現・ABI検証と不足事項](docs/DRIVER-REPRODUCTION.md)
 - [安全方針](docs/SAFETY.md)
 - [65532 v1導入・ConfigFS・疎通](INSTALL-65532.md)
@@ -48,7 +48,7 @@ canonical v6 は再現 baseline として保持しています。v6 は 16 KiB N
 
 ## T6B USBホストNICの進展
 
-AX88179に続き、Realtek RTL8156 (`0bda:8156`) でも外部 `r8152` の実機bring-upに成功しました。2026-10-04時点で、module load、USB bind、MAC取得、`eth2`生成、`ip link set eth2 up` までStage C PASSです。旧buildでは `struct net_device` の `dev_addr` を `0x2e8` としてcodegenしたため `__rtl8152_set_mac_address` でOopsしましたが、AX88179で確立したSBAT6B互換build環境をそのまま再利用し、vendor ABI側の `dev_addr=0x318` ほかのlayoutを反映することで旧クラッシュ地点を通過しました。物理リンク・実通信・2.5Gbps性能は未確認です。詳細は [r8152記録](driver/t6b-r8152/README.md) を参照してください。
+AX88179に続き、Realtek RTL8156 (`0bda:8156`) でも外部 `r8152` の実機bring-upに成功しました。2026-10-04時点で、module load、USB bind、MAC取得、`eth2`生成、interface UP、**2.5GbE Full Duplex link、60秒ping 0% loss、iperf3 P1 2.27 Gbit/s / P4 2.15 Gbit/s、再送0、errors/drops 0** まで確認済みです。旧buildでは `struct net_device` の `dev_addr` を `0x2e8` としてcodegenしたため `__rtl8152_set_mac_address` でOopsしましたが、AX88179で確立したSBAT6B互換build環境をそのまま再利用し、vendor ABI側の `dev_addr=0x318` ほかのlayoutを反映することで解消しました。長時間soakと逆方向throughputは未評価です。詳細は [r8152記録](driver/t6b-r8152/README.md) を参照してください。
 
 ## 既知の制約と研究状況
 
