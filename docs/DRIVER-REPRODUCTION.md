@@ -17,7 +17,7 @@ T6Aでの結果を、kernel release文字列だけでT6Bへ適用することも
 ## 2026-10-04: RTL8156 / r8152で再利用性を実証
 
 AX88179で確立したT6B/SBA6D互換build環境を、Realtek RTL8156 (`0bda:8156`) 用の
-vendor r8152 v2.21.4へ横展開し、[Stage Cまで実機成功](../driver/t6b-r8152/README.md)
+vendor r8152 v2.21.4へ横展開し、[Stage Dおよびiperf3まで実機成功](../driver/t6b-r8152/README.md)
 しました。これはAX88179と異なり、r8152自身が `net_device`、NAPI、TX queue等を
 より直接触るため、互換環境の再利用性を確認する上で重要な2例目です。
 
@@ -52,10 +52,13 @@ r8152で確認した主要runtime progressionは以下です。
 5. bind後約25秒安定
 6. `ip link set eth2 up` 成功
 7. UP/NO-CARRIERで約42秒安定、boot_id不変、r8152関連Oops/panicなし
+8. Pavilion 5GbE port直結で2500Mb/s Full Duplex link成立
+9. 60秒ping 60/60、0% loss、errors/drops 0
+10. iperf3 P1 2.27 Gbit/s、P4 2.15 Gbit/s、再送0
 
-物理Ethernet linkが無いためcarrier、実通信、2.5Gbps negotiation、throughputは
-まだ未検証です。したがって現時点の主張は「RTL8156をLinux NICとしてprobe/bindし、
-interface openまで正常に進めた」であり、2.5GbE datapath完成ではありません。
+したがって現時点では「RTL8156をLinux NICとしてprobe/bindし、interface open、
+2.5GbE physical link、基本IPv4 datapath、短時間iperf3 throughputまで正常に確認」
+と主張できます。長時間soak、逆方向throughput、反復hotplug/reloadは未評価です。
 
 この結果から、新規driver再現時の優先順位を更新します。
 
