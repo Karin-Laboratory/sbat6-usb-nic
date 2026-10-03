@@ -72,3 +72,37 @@ The authoritative provenance process is
 `docs/T6A_AUTONOMOUS_LOOP_V1.md`.
 
 New humans and agents should start at `docs/AGENT_START_HERE.md`.
+
+
+# T6B USB host NIC current truth
+
+Updated 2026-10-04.
+
+- AX88179: hardware recognition, 1 Gbps link, DHCP and ICMP validated.
+- RTL8156 / r8152: **Stage C PASS** on the test SBA6D.
+- RTL8156 USB ID: `0bda:8156`
+- observed interface: `eth2`
+- observed MAC: `80:3f:5d:f6:8f:20`
+- r8152 module load: PASS
+- RTL8156 bind: PASS
+- previous `__rtl8152_set_mac_address` Oops point: passed
+- netdev creation: PASS
+- `ip link set dev eth2 up`: PASS
+- post-UP observation: about 42 seconds, boot_id unchanged
+- r8152-related WARN/Oops/panic in Stage C: none
+- physical carrier: not tested / absent during Stage C
+- 2.5 Gb/s negotiation: not tested
+- packet datapath: not tested
+- canonical record: `driver/t6b-r8152/README.md`
+- runtime evidence: `evidence/reproducibility/t6b-r8152-stage-c-20261004.md`
+- exact Stage C-tested binary publication: pending import of the exact tested ELF and SHA256 from the local canonical workspace
+
+The earlier r8152 failure was caused by a `struct net_device` layout mismatch:
+the old module compiled `dev_addr` at `0x2e8`, while the target ABI evidence
+places it at `0x318`. Matching MODVERSIONS CRCs did not prevent that inline
+field-access failure.
+
+The working r8152 path reuses the AX88179 canonical compatibility environment,
+including the net_device model and global KCFLAGS required to reproduce the
+vendor module-management layout. This is now the second structurally different
+USB NIC demonstrated with the same T6B compatibility environment.
