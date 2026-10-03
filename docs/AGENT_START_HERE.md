@@ -7,14 +7,20 @@ This file routes new agents to the appropriate device-side or host-side task.
 For AX88179 host NIC builds, go directly to
 [the tested build recipe](../driver/t6b-ax88179/README.md), then
 [its hardware results](../evidence/reproducibility/t6b-compat-20261001/README.md).
+
+For RTL8156 / r8152, start with
+[the Stage C success record and ABI analysis](../driver/t6b-r8152/README.md).
+This is the second structurally different USB NIC brought up with the same
+compatibility environment and is now the preferred example for extending the
+AX88179 recipe to a driver that directly touches more net_device/NAPI/queue state.
 The bundled config, patch, reference symbols, assertions, and build script
 are the current starting point. Do not repeat CRC-only ELF rewriting or
 reconstruct the known ABI from early failed NCM reports.
 
 For a different NIC, read [the applicability assessment](NIC-APPLICABILITY.md).
-The current script is fixed to MII + usbnet + AX88179; successful compilation
-of another driver is not evidence of compatibility. The common corrections
-are reusable, but driver-specific dependency/access checks remain necessary.
+AX88179 and RTL8156/r8152 now show that the common compatibility environment is
+reusable, but successful compilation is still not evidence of compatibility.
+Driver-specific dependency/access/firmware checks remain necessary.
 
 The following section concerns the **T6A USB device-side NCM** project.
 
