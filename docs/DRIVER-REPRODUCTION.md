@@ -14,6 +14,61 @@ T6Aでの結果を、kernel release文字列だけでT6Bへ適用することも
 このページは不足を再発見する作業を減らすための入口です。
 既存バイナリのハッシュ確認、ビルド再現、構造ABIの確認、実機検証は別の結果です。
 
+## 2026-10-04: RTL8156 / r8152で再利用性を実証
+
+AX88179で確立したT6B/SBA6D互換build環境を、Realtek RTL8156 (`0bda:8156`) 用の
+vendor r8152 v2.21.4へ横展開し、[Stage Cまで実機成功](../driver/t6b-r8152/README.md)
+しました。これはAX88179と異なり、r8152自身が `net_device`、NAPI、TX queue等を
+より直接触るため、互換環境の再利用性を確認する上で重要な2例目です。
+
+旧r8152 buildはvermagic一致、`module_layout` CRC一致、imported CRC 127/127一致、
+RTL8156 aliasあり、`insmod`成功まで到達しましたが、bind中の
+`__rtl8152_set_mac_address+0x9c` でOopsしました。最終ELFは
+`netdev->dev_addr` を `0x2e8` としてcodegenしていた一方、vendor ABI evidenceでは
+`dev_addr=0x318` でした。つまりCRC一致ではinline/direct field accessの構造ABI差を
+検出できませんでした。
+
+成功の決め手は、vendor ABIを再びゼロから推測するのではなく、AX88179で実機成功済みの
+以下をcanonical build environmentとして固定したことです。
+
+- `CONFIG_WIRELESS_EXT` を含むnet_device互換model
+- `dev_addr` 直前の32-byte opaque compatibility region
+- vendor Image由来のsymbol CRC参照
+- `TRACEPOINTS` / `TRACING` / `EVENT_TRACING` / `MODULES_TREE_LOOKUP` を
+  generated `.mod.c` まで含めて適用するglobal KCFLAGS
+- `.gnu.linkonce.this_module=0x340`, init `0x150`, cleanup `0x328`
+- final ELFのload/storeを直接見る検証方法
+
+pristine 5.4.238へ保存configを適用し、upstream Kconfigで正規化するだけでは
+このcompile-time ABIは再現されません。途中ではAndroid common KABIやHW_NATも
+比較対象になりましたが、T6Bの解法として採用したのは既存AX88179環境の再利用です。
+
+r8152で確認した主要runtime progressionは以下です。
+
+1. module load
+2. RTL8156自動bind
+3. 旧 `__rtl8152_set_mac_address` crash地点通過
+4. `eth2`生成、MAC取得
+5. bind後約25秒安定
+6. `ip link set eth2 up` 成功
+7. UP/NO-CARRIERで約42秒安定、boot_id不変、r8152関連Oops/panicなし
+
+物理Ethernet linkが無いためcarrier、実通信、2.5Gbps negotiation、throughputは
+まだ未検証です。したがって現時点の主張は「RTL8156をLinux NICとしてprobe/bindし、
+interface openまで正常に進めた」であり、2.5GbE datapath完成ではありません。
+
+この結果から、新規driver再現時の優先順位を更新します。
+
+1. まずAX88179 canonical environmentをそのまま再利用する。
+2. 新driver固有のdirect struct access / inline helper / dependency / firmwareだけを追加監査する。
+3. CRC一致を構造ABIの証明として扱わない。
+4. final ELFで実際のoffset/codegenを確認する。
+5. 専用テスト機では短いruntime iterationをABI oracleとして利用し、Oopsのfault siteを次の1変更へ結び付ける。
+
+これにより「任意driverが自動的に安全に動く」とはまだ言えませんが、AX88179だけの
+一回限りの成果ではなく、T6B向け外部driver SDKの土台として再利用できることが
+r8152で実証されました。
+
 ## 公開チェックアウトで実行できる最短手順
 
 必要なものは Git、Python 3、GNU binutilsの `readelf`、`sha256sum` です。
