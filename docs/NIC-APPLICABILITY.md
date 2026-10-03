@@ -1,13 +1,14 @@
 # Can a new agent build another NIC quickly from public information?
 
-Assessment date: 2026-10-01. The recipe is introduced by PR #9.
+Assessment date: 2026-10-04. The recipe is introduced by PR #9.
 The earlier main commit 97f55791dd0de4161cb2a9bd06ab9799ff580a8d does not contain it;
 use a main revision containing `driver/t6b-ax88179/`.
 
 | Scope | Supported statement |
 |---|---|
 | AX88179 on the tested T6B firmware/config | Public inputs suffice for a short, scripted build. An isolated rebuild and hardware recognition/DHCP/ICMP were verified. |
-| Another Linux 5.4 driver using the same usbnet framework | Shared module/netdev fixes and references are reusable; quick adaptation is plausible, but not demonstrated. |
+| RTL8156 / r8152 on the tested T6B firmware/config | The AX88179 compatibility environment was reused for a structurally different driver. Module load, RTL8156 bind, MAC retrieval, netdev creation and interface UP all passed without r8152-related Oops/panic. Physical-link datapath remains untested. |
+| Another Linux 5.4 driver | Reuse is now demonstrated beyond usbnet, but every new driver still needs its own API/dependency/firmware/direct-structure-access audit and final-ELF verification. |
 | Any source-available Linux NIC driver | Not established. Source availability does not ensure 5.4 API compatibility, target exports, firmware dependencies, or matching struct/callback semantics. |
 | Another SBAT6 firmware or hardware variant | Not established from the kernel release string alone. Revalidate target identity and applicable ABI anchors. |
 
@@ -33,11 +34,7 @@ end-to-end time bound, including downloads/dependency installation, is claimed.
 3. An inventory of new direct struct accesses, inline helpers and callbacks,
    with evidence for fields outside the existing assertions. The current
    checks do not cover all USB, SKB, ethtool, PHY or networking ABI details.
-4. A second structurally different NIC demonstrated through this procedure.
-5. A blind public-only test with no inherited chat/private files, recording
+4. A blind public-only test with no inherited chat/private files, recording
    prerequisites, elapsed time and any necessary interventions.
 
-The appropriate present claim is: **the tested AX88179 can be rebuilt from
-public inputs without rediscovering the known ABI work; a reusable starting
-environment now exists for other NICs.** A promise that any publicly sourced
-NIC can quickly become a working SBAT6 module would exceed the evidence.
+The appropriate present claim is: **the tested compatibility environment has now brought up both AX88179 and RTL8156/r8152 on the tested T6B firmware/config, including a structurally different driver that directly touches more networking internals.** This is strong evidence for a reusable SBA6D external-driver starting environment, but it is still not a promise that any publicly sourced NIC can quickly become a working SBAT6 module. The RTL8156 physical-link datapath and sustained traffic also remain to be verified.
