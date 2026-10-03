@@ -79,7 +79,7 @@ New humans and agents should start at `docs/AGENT_START_HERE.md`.
 Updated 2026-10-04.
 
 - AX88179: hardware recognition, 1 Gbps link, DHCP and ICMP validated.
-- RTL8156 / r8152: **Stage C PASS** on the test SBA6D.
+- RTL8156 / r8152: **Stage D PASS + iperf3 validated** on the test SBA6D.
 - RTL8156 USB ID: `0bda:8156`
 - observed interface: `eth2`
 - observed MAC: `80:3f:5d:f6:8f:20`
@@ -90,12 +90,17 @@ Updated 2026-10-04.
 - `ip link set dev eth2 up`: PASS
 - post-UP observation: about 42 seconds, boot_id unchanged
 - r8152-related WARN/Oops/panic in Stage C: none
-- physical carrier: not tested / absent during Stage C
-- 2.5 Gb/s negotiation: not tested
-- packet datapath: not tested
+- physical carrier: PASS
+- 2.5 Gb/s negotiation: PASS, 2500 Mb/s Full Duplex
+- 60-second ping: 60/60, 0% loss
+- iperf3 P1 10 s: 2.27 Gbit/s, retransmissions 0
+- iperf3 P4 10 s: 2.15 Gbit/s, retransmissions 0
+- RX/TX errors/drops during validation: 0
+- packet datapath: PASS
 - canonical record: `driver/t6b-r8152/README.md`
 - runtime evidence: `evidence/reproducibility/t6b-r8152-stage-c-20261004.md`
-- exact Stage C-tested binary publication: pending import of the exact tested ELF and SHA256 from the local canonical workspace
+- exact tested binary SHA256: `6890208bc3375d6d71b5d1a661a1dc3b70fe5825675d75c6e5391c7cbfa79d78`
+- exact tested binary publication: pending import of the exact ELF bytes from the local canonical workspace
 
 The earlier r8152 failure was caused by a `struct net_device` layout mismatch:
 the old module compiled `dev_addr` at `0x2e8`, while the target ABI evidence
@@ -104,5 +109,4 @@ field-access failure.
 
 The working r8152 path reuses the AX88179 canonical compatibility environment,
 including the net_device model and global KCFLAGS required to reproduce the
-vendor module-management layout. This is now the second structurally different
-USB NIC demonstrated with the same T6B compatibility environment.
+vendor module-management layout. This is now the second structurally different USB NIC demonstrated with the same T6B compatibility environment, and its 2.5GbE basic datapath and short iperf3 throughput are validated.
