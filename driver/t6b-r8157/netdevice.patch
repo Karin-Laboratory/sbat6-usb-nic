@@ -1,0 +1,13 @@
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 14183cbf0..f703294a5 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -1955,6 +1955,8 @@ struct net_device {
+  * Cache lines mostly used on receive path (including eth_type_trans())
+  */
+ 	/* Interface address info used in eth_type_trans() */
++	/* T6 vendor ABI: opaque region, established by the NCM layout oracle. */
++	unsigned char t6_vendor_private[32];
+ 	unsigned char		*dev_addr;
+ 
+ 	struct netdev_rx_queue	*_rx;

@@ -1,5 +1,21 @@
 # T6A current truth
 
+## T6B external-module status (2026-10-04)
+
+### Fully validated
+
+- AX88179
+- RTL8156 / r8152
+- UltraSemi UVC `345f:2130`: hardware probe, stream, JPEG decode, and visual color-bar validation
+
+### Build/live-load validated, hardware pending
+
+- RTL8157-capable r8152: exact live-tested artifact published; RTL8157 5GbE hardware unavailable
+- AQC111U / AQC112U: one shared exact live-tested `aqc111.ko`; AQC hardware unavailable
+
+The exact artifact hashes and all published modules are verified in
+`artifacts/SHA256SUMS`. The detailed records are linked from the root README.
+
 Updated 2026-09-07.
 
 - CURRENT_PHASE: CUSTOM_NCM_FUNCTIONAL_PERFORMANCE_TUNING

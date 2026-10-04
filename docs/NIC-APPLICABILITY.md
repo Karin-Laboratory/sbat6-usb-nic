@@ -1,5 +1,17 @@
 # Can a new agent build another NIC quickly from public information?
 
+## AQC111U / AQC112U and RTL8157 update
+
+`aqc111` is an independent in-tree USB NIC driver family that reuses `usbnet`
+and `mii`. Its dependency load and live `insmod` sequence passed on SBA6D, but
+neither AQC hardware target was available for probe, link, or traffic testing.
+AQC111U (5GbE class) and AQC112U (2.5GbE class) are represented by one shared
+published binary, not two copies.
+
+RTL8157 is an additional chip target in the existing Realtek `r8152` family.
+The source has RTL8157 support and its exact module passed SBA6D load plus
+RTL8156 regression, while RTL8157 hardware/link/traffic remains pending.
+
 Assessment date: 2026-10-04. The recipe is introduced by PR #9.
 The earlier main commit 97f55791dd0de4161cb2a9bd06ab9799ff580a8d does not contain it;
 use a main revision containing `driver/t6b-ax88179/`.

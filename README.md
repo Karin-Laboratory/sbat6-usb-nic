@@ -14,6 +14,17 @@
 - [65532 v1 release notes](RELEASE-NOTES-65532.md)
 - [65532 v1 reproducibility status](REPRODUCIBILITY-STATUS-65532.md)
 - [ビルドと検証](driver/t6a-ncm-65532-ntb-candidate-v1/BUILD.md)
+- [RTL8157-capable r8152](driver/t6b-r8157/README.md)
+- [AQC111U / AQC112U aqc111](driver/t6b-aqc111/README.md)
+- [UVC / V4L2 / videobuf2](driver/t6b-uvcvideo/README.md)
+- [外部kernel moduleの適用範囲](docs/EXTERNAL-MODULE-APPLICABILITY.md)
+
+## T6B external-module results
+
+Fully validated: AX88179, RTL8156/r8152, and UVC. Build/live-load validated
+with hardware pending: RTL8157-capable r8152, AQC111U, and AQC112U. AQC111U
+and AQC112U intentionally share one published `aqc111.ko`. UVC evidence is
+`UltraSemi 345f:2130 -> MJPEG 640x480 -> color bars captured`.
 
 ## v1の状態
 

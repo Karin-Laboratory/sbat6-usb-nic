@@ -1,5 +1,20 @@
 # 公開情報からの新規ドライバ再現（2026-10-01）
 
+## T6B proven family matrix (2026-10-04)
+
+| Family | Subsystem | Build | Live load | Hardware probe | Data path |
+|---|---|---:|---:|---:|---:|
+| AX88179 | net/usb | PASS | PASS | PASS | PASS |
+| r8152 RTL8156 | net/usb | PASS | PASS | PASS | 2.5GbE / iperf3 PASS |
+| r8152 RTL8157 | net/usb | PASS | PASS | PENDING | PENDING |
+| aqc111 AQC111U/AQC112U | net/usb | PASS | PASS | PENDING | PENDING |
+| uvcvideo | media/usb | PASS | PASS | PASS | MJPEG frame PASS |
+
+The UVC result demonstrates reuse of the canonical SBAT6B compatibility
+environment outside the networking subsystem. It does not generalize the ABI
+to arbitrary drivers; each family still needs its own direct-access and final
+ELF audit.
+
 ## 現在の結論
 
 更新：後続作業で既存記録の互換設定を統合し、[T6B AX88179の再現ビルドと実機認識](../driver/t6b-ax88179/README.md)
